@@ -1,0 +1,4 @@
+/data
+/.vscode
+**/*.pyc
+/.ipynb_checkpoints
