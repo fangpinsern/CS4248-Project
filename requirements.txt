@@ -8,3 +8,4 @@ matplotlib # plotting graphs, works ipynb
 seaborn # allows for different visualizations
 argparse # parse arguments from commandline
 transformers
+sklearn

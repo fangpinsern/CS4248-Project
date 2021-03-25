@@ -4,11 +4,7 @@ import pandas as pd
 from multiprocessing import Pool
 from torch.utils.data import Dataset
 import emoji
-
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
-DATA_DIR = os.path.join(ROOT_DIR, "..", "data", "data")
-JSON_FILES = os.listdir(DATA_DIR)
-
+from ..constants import DATA_DIR, JSON_FILES
 
 
 def readJson(j):
