@@ -60,8 +60,8 @@ class Trainer:
         self.model_name = hp["model_name"]
         self.hp = hp
         # TODO split df into train and val
-        self.train_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=4)
-        self.val_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=4)
+        self.train_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=8)
+        self.val_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=8)
 
     def decodeToText(self, embedding):
         gen_text = self.tokenizer.batch_decode(
