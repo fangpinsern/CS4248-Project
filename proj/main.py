@@ -1,4 +1,5 @@
 # import argparse
+import sys
 import os
 import torch
 from tensorboardX import SummaryWriter
@@ -6,11 +7,12 @@ from tqdm.auto import tqdm
 import numpy as np
 import random
 
-from proj.data.data import PlaylistDataset, to_dataloader
-from proj.constants import LOG_DIR, WEIGHTS_DIR, DATA_DIR
-from proj.models import all_models, all_tokenizers
-from proj.utils import all_opt, all_loss
+from .data.data import PlaylistDataset, to_dataloader
+from .constants import LOG_DIR, WEIGHTS_DIR, DATA_DIR
+from .models import all_models, all_tokenizers
+from .utils import all_opt
 
+sys.path.append(os.path.abspath(__file__))
 DEVICE_COUNT = torch.cuda.device_count()
 IS_CUDA = torch.cuda.is_available()
 SEED = 0
@@ -21,7 +23,7 @@ random.seed(SEED)
 
 DEFAULT_HP = {
     "epochs": 5,  # number of times we're training on entire dataset
-    "loss": "rouge",
+    "metric": "rouge",
     "opt": "ADAM",
     "wd": 0.001,
     "lr": 3e-3,
@@ -34,6 +36,7 @@ class Trainer:
         self.tokenizer = all_tokenizers[hp["model"]]()
         self.device = torch.device("cuda" if IS_CUDA else "cpu")
         opt = all_opt[hp["opt"]]
+        self.model.to(self.device)
         if hp["opt"] == "ADAM":
             self.opt = opt(
                 params=self.model.parameters(), lr=hp["lr"], weight_decay=hp["wd"]
@@ -50,16 +53,15 @@ class Trainer:
         )
         if weights is not None:
             weights.to(self.device)
-        self.loss = all_loss[hp["loss"]]
+        # self.metric = all_metric[hp["metric"]]
         self.epochs = hp["epochs"]
-        self.model.to(self.device)
         self.writer = SummaryWriter(os.path.join(LOG_DIR, exp_name))
         self.exp_name = exp_name
         self.model_name = hp["model_name"]
         self.hp = hp
         # TODO split df into train and val
-        self.train_dl = to_dataloader(PlaylistDataset(self.tokenizer, df))
-        self.val_dl = to_dataloader(PlaylistDataset(self.tokenizer, df))
+        self.train_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=4)
+        self.val_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=4)
 
     def decodeToText(self, embedding):
         gen_text = self.tokenizer.batch_decode(
@@ -94,23 +96,33 @@ class Trainer:
         trLoss = 0
         # we use tqdm to provide visual feedback on training
         for data in tqdm(self.train_dl, total=len(self.train_dl)):
-            for d in data:
-                d.to(self.device)
+            for i in range(len(data)):
+                data[i] = data[i].to(self.device)
             xb, maskX, yb, maskY = data
-
+            lm_labels = yb
+            lm_labels[lm_labels[:, :] == self.tokenizer.pad_token_id] = -100
+            lm_labels = lm_labels.cuda()
+            print(lm_labels.shape)
             self.opt.zero_grad()
-            outputs = self.model(xb)
+            outputs = self.model(
+                input_ids=xb,
+                attention_mask=maskX,
+                lm_labels=lm_labels,
+                decoder_attention_mask=maskY,
+            )
             loss = outputs[0]
-            preds = self.generate(xb, maskX, maskY)
-            self.metric.add_batch(preds, yb)
 
             loss.backward()  # calculates gradient descent
+            # preds = self.generate(xb, maskX, maskY)
+            # predText = self.decodeToText(preds)
+            # yText = self.decodeToText(yb)
+            # self.metric.add_batch(predText, yText)
             self.opt.step()  # updates model parameters
             trLoss += loss
             # self._log('train_loss', loss, self.steps[0])
 
-        rougeScore = self.metric.compute()
-        print("\nepoch trng info: loss:{}, rouge:{}".format(trLoss, rougeScore))
+        # rougeScore = self.metric.compute()
+        print("\nepoch trng info: loss:{}".format(trLoss))
 
     def validate(self):
         self.model.evak()
@@ -118,10 +130,17 @@ class Trainer:
         # we use tqdm to provide visual feedback on training
         with torch.no_grad():  # don't accumulate gradients, faster processing
             for data in tqdm(self.eval_dl, total=len(self.eval_dl)):
-                for d in data:
-                    d.to(self.device)
-                xb, maskX, yb, maskY = d
-                outputs = self.model(xb)
+                for i in range(len(data)):
+                    data[i] = data[i].to(self.device)
+                xb, maskX, yb, maskY = data
+                lm_labels = yb
+                lm_labels[lm_labels[:, :] == self.tokenizer.pad_token_id] = -100
+                outputs = self.model(
+                    input_ids=xb,
+                    attention_mask=maskX,
+                    decoder_attention_mask=maskY,
+                    lm_labels=lm_labels,
+                )
                 loss = outputs[0]
                 preds = self.model.generate(
                     xb,
@@ -134,11 +153,14 @@ class Trainer:
                     length_penalty=1.0,
                     early_stopping=True,
                 )
-                self.metric.add_batch(preds, yb)
+
+                predText = self.decodeToText(preds)
+                yText = self.decodeToText(yb)
+                # self.metric.add_batch(predText, yText)
                 valLoss += loss
 
-        rougeScore = self.metric.compute()
-        print("\nepoch val info: loss:{}, rouge:{}".format(valLoss, rougeScore))
+        # rougeScore = self.metric.compute()
+        print("\nepoch val info: loss:{}, rouge:{}".format(valLoss, 0))
 
     def one_cycle(self):
         for i in range(self.epochs):
@@ -192,6 +214,8 @@ class Trainer:
 if __name__ == "__main__":
     import pandas as pd
 
-    df = pd.read_csv(os.path.join(DATA_DIR, "..", "verboseAlldata.csv"))
-    hp = {**DEFAULT_HP, "model_name": "T5"}
+    df = pd.read_csv(os.path.join(DATA_DIR, "verbose10kdata.csv"))
+
+    hp = {**DEFAULT_HP, "model": "T5", "model_name": "T5_0"}
     trainer = Trainer("T5_finetuned", df, hp)
+    trainer.one_cycle()

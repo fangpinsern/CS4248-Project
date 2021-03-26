@@ -1,13 +1,8 @@
 import torch
-from nlp import load_metric
+
+# from nlp import load_metric
 
 
-all_opt = {
-    'SGD': torch.optim.SGD,
-    'ADAM': torch.optim.Adam
-}
+all_opt = {"SGD": torch.optim.SGD, "ADAM": torch.optim.Adam}
 
-all_metric = {
-    'rouge': load_metric('rouge')
-}
-
+# all_metric = {"rouge": load_metric("rouge")}
