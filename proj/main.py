@@ -22,7 +22,7 @@ torch.manual_seed(SEED)
 random.seed(SEED)
 
 DEFAULT_HP = {
-    "epochs": 5,  # number of times we're training on entire dataset
+    "epochs": 1,  # number of times we're training on entire dataset
     "metric": "rouge",
     "opt": "ADAM",
     "wd": 0.001,
@@ -60,8 +60,8 @@ class Trainer:
         self.model_name = hp["model_name"]
         self.hp = hp
         # TODO split df into train and val
-        self.train_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=8)
-        self.val_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=8)
+        self.train_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=4)
+        self.eval_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=4)
 
     def decodeToText(self, embedding):
         gen_text = self.tokenizer.batch_decode(
@@ -125,7 +125,7 @@ class Trainer:
         print("\nepoch trng info: loss:{}".format(trLoss))
 
     def validate(self):
-        self.model.evak()
+        self.model.eval()
         valLoss = 0
         # we use tqdm to provide visual feedback on training
         with torch.no_grad():  # don't accumulate gradients, faster processing

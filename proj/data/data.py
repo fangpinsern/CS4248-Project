@@ -13,7 +13,7 @@ def to_dataloader(ds, bs=64):
         ds,
         num_workers=torch.cuda.device_count() * 4,
         # shuffle=train,
-        drop_last=False,
+        drop_last=True,
         batch_size=bs,
     )
     return dl
