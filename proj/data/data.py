@@ -1,7 +1,3 @@
-import os
-import json
-import pandas as pd
-from multiprocessing import Pool
 import torch
 from torch.utils.data import Dataset, DataLoader
 import emoji
@@ -9,12 +5,14 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import re
-from ..constants import JSON_DIR, JSON_FILES
+from ..constants import X_COL, Y_COL, CATEGORY_SUBSET
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+import torchtext
 
 nltk.download("wordnet")
 lem = WordNetLemmatizer()
 STOPWORDS = stopwords.words("english")
-STOPWORDS.extend(["feat"])
+STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
 
 
 def to_dataloader(ds, bs=64):
@@ -26,28 +24,6 @@ def to_dataloader(ds, bs=64):
         batch_size=bs,
     )
     return dl
-
-
-def readJson(j):
-    df = pd.DataFrame(columns=dfCols)
-    with open(os.path.join(JSON_DIR, j), "rb") as infile:
-        try:
-            jsonIn = json.load(infile)
-        except Exception:
-            print("file error", j)
-            return
-        for i, playlist in enumerate(jsonIn["playlists"]):
-            allTrackData = playlist["tracks"]
-            tracks = map(lambda d: d["track_name"], allTrackData)
-            albums = map(lambda d: d["album_name"], allTrackData)
-            artists = map(lambda d: d["artist_name"], allTrackData)
-            playlist["tracks"] = "\n".join(tracks)
-            playlist["albums"] = "\n".join(albums)
-            playlist["artists"] = "\n".join(artists)
-            values = [j, i] + list(playlist.values())
-            df = df.append(dict(zip(dfCols, values)), ignore_index=True)
-    print(j, "done")
-    return df
 
 
 class TransformerDataset(Dataset):
@@ -89,25 +65,18 @@ class TransformerDataset(Dataset):
         )
 
 
-class EmbeddingsDataset(Dataset):
-    """
-    converts text to tensors based on embedding dictionary
-    provided
-    """
-
-    def __init__(self, embeddings, df):
-        self.embeddings = embeddings
+class NewsDataset(Dataset):
+    def __init__(self, df):
         self.df = df
+        self.glove = torchtext.vocab.GloVe(name="6B", dim=50)
 
     def __len__(self):
         return len(self.df)
 
     def tokenize(self, text):
-        text = emoji.demojize(text, use_aliases=True)
-        # Handles emoji parsing that has :emoji_one: syntax
-        text = text.replace(r"[_:\n]", " ")
         tokens = nltk.word_tokenize(text)
         tokens = [t.lower() for t in tokens]
+        # remove punctuations and stop words
         tokens = [
             lem.lemmatize(t)
             for t in tokens
@@ -115,34 +84,26 @@ class EmbeddingsDataset(Dataset):
         ]
         return tokens
 
-    def embed(self, tokens):
-        wordVectors = []
-        for t in tokens:
-            wordVectors.append(self.embeddings[t])
-        return wordVectors
-
     def __getitem__(self, idx):
-        """
-        Returns a N x Embedding dim tensor
-        """
-        wordVector = self.tokenize("summarize: " + self.df.loc[idx, "tracks"])
-        return wordVector
+        text = self.df.loc[idx, X_COL]
+        label = torch.tensor(CATEGORY_SUBSET.index(self.df.loc[idx, Y_COL]))
+        tokens = self.tokenize(text)
+        wordIdx = torch.tensor([self.glove.stoi[t] for t in tokens])
+        return wordIdx, label
+
+
+def split(df, val_pct=0.2, test_pct=0.2):
+    torch.manual_seed(0)
+    rand_indices = torch.randperm(len(df))
+    num_val = int(val_pct * len(df))
+    num_test = int(test_pct * len(df))
+    num_train = len(df) - num_val - num_test
+    df["phase"] = ""
+    trainDf = df.iloc[rand_indices[0:num_train]]
+    valDf = df.iloc[rand_indices[num_train : num_train + num_val]]
+    testDf = df.iloc[rand_indices[num_train + num_val :]]
+    return trainDf, valDf, testDf
 
 
 if __name__ == "__main__":
-    global dfCols
-
-    with open(os.path.join(JSON_DIR, JSON_FILES[1]), "rb") as infile:
-        samplePlaylist = json.load(infile)["playlists"]
-        samplePlaylist[0]["albums"] = 0
-        samplePlaylist[0]["artists"] = 0
-        dfCols = ["jsonfile", "index"] + list(samplePlaylist[0].keys())
-
-    res = []
-    with Pool(6) as p:
-        for j in JSON_FILES:
-            jsonData = p.apply_async(readJson, args=[j])
-            res.append(jsonData)
-
-        allDf = pd.concat([r.get() for r in res])
-        allDf.to_csv("verboseAlldata.csv", index=False)
+    pass
