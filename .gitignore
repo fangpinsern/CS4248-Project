@@ -3,3 +3,4 @@
 **/*.pyc
 /.ipynb_checkpoints
 **/logs
+**/model_weights
