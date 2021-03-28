@@ -5,7 +5,16 @@ from multiprocessing import Pool
 import torch
 from torch.utils.data import Dataset, DataLoader
 import emoji
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+import re
 from ..constants import JSON_DIR, JSON_FILES
+
+nltk.download("wordnet")
+lem = WordNetLemmatizer()
+STOPWORDS = stopwords.words("english")
+STOPWORDS.extend(["feat"])
 
 
 def to_dataloader(ds, bs=64):
@@ -41,7 +50,7 @@ def readJson(j):
     return df
 
 
-class PlaylistDataset(Dataset):
+class TransformerDataset(Dataset):
     """
     converts text to tensors based on tokenizer provided
     truncates tokens to max length provided
@@ -78,6 +87,46 @@ class PlaylistDataset(Dataset):
             target["input_ids"].flatten(),
             target["attention_mask"].flatten(),
         )
+
+
+class EmbeddingsDataset(Dataset):
+    """
+    converts text to tensors based on embedding dictionary
+    provided
+    """
+
+    def __init__(self, embeddings, df):
+        self.embeddings = embeddings
+        self.df = df
+
+    def __len__(self):
+        return len(self.df)
+
+    def tokenize(self, text):
+        text = emoji.demojize(text, use_aliases=True)
+        # Handles emoji parsing that has :emoji_one: syntax
+        text = text.replace(r"[_:\n]", " ")
+        tokens = nltk.word_tokenize(text)
+        tokens = [t.lower() for t in tokens]
+        tokens = [
+            lem.lemmatize(t)
+            for t in tokens
+            if re.match(r"\w+", t) and t not in STOPWORDS
+        ]
+        return tokens
+
+    def embed(self, tokens):
+        wordVectors = []
+        for t in tokens:
+            wordVectors.append(self.embeddings[t])
+        return wordVectors
+
+    def __getitem__(self, idx):
+        """
+        Returns a N x Embedding dim tensor
+        """
+        wordVector = self.tokenize("summarize: " + self.df.loc[idx, "tracks"])
+        return wordVector
 
 
 if __name__ == "__main__":
