@@ -14,6 +14,7 @@ lem = WordNetLemmatizer()
 STOPWORDS = stopwords.words("english")
 STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
 
+MAX_INPUT_LENGTH = 60
 
 def to_dataloader(ds, bs=64):
     dl = DataLoader(
@@ -88,9 +89,13 @@ class NewsDataset(Dataset):
         text = self.df.iloc[idx][X_COL]
         label = torch.tensor(CATEGORY_SUBSET.index(self.df.iloc[idx][Y_COL]))
         tokens = self.tokenize(text)
+        number_to_pad = MAX_INPUT_LENGTH - len(tokens)
+        
+        stoi_len = len(self.glove.stoi)
         wordIdx = torch.tensor(
-            [self.glove.stoi[t] if t in self.glove.stoi else 40001 for t in tokens]
+            [self.glove.stoi[t] if t in self.glove.stoi else stoi_len+1 for t in tokens]
         )
+        wordIdx = torch.cat([wordIdx, torch.from_numpy(np.array([stoi_len+2]*number_to_pad))])
         return wordIdx, label
 
 
