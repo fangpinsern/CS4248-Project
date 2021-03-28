@@ -3,6 +3,10 @@ import torch
 import numpy as np
 import os 
 
+import nltk
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+
 # input: 
     # glove_path: path to your 6B 50d glove file; if no glove_path input, then will take around 5m to download the glove_embeddings
     # output: can be Tensor or Array; Array for no glove_path input is not implemented
@@ -29,3 +33,9 @@ def get_glove_embeddings(glove_path=None, output='Tensor'):
         return None
       
     return glove
+    
+def get_stopwords():
+    nltk.download('stopwords')
+    STOPWORDS = stopwords.words("english")
+    STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
+    return STOPWORDS
