@@ -14,4 +14,4 @@ Can we apply a better metric than ROUGE-2 for our abstractive summarization task
 This project can be considered a text generation project and more specifically a summarization project. We will thus be planning our approach with this perspective.
 
 ### Set Up
-+ Download glove 6B 50d embedding vectors from: https://drive.google.com/file/d/1C5htxKX_Nk9OuyiQWhRjyD1GX2LMWAM2/view?usp=sharing , and place it into the folder `/embeddings`
++ Download glove 6B 50d embedding vectors from: https://drive.google.com/file/d/1C5htxKX_Nk9OuyiQWhRjyD1GX2LMWAM2/view?usp=sharing , and place it into the folder `/data/embeddings`

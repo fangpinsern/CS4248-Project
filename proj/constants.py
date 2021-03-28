@@ -8,6 +8,7 @@ DF_FILE = os.path.join(DATA_DIR, "subsetNews.csv")
 LOG_DIR = os.path.join(ROOT_DIR, "logs")
 WEIGHTS_DIR = os.path.join(ROOT_DIR, "model_weights")
 EMBEDDINGS_DIR = os.path.join(DATA_DIR, "embeddings")
+GLOVE_FILE = os.path.join(EMBEDDINGS_DIR, "glove.6B.50d.txt")
 WORD2IDX_FILE = os.path.join(EMBEDDINGS_DIR, "6B.50_idx.pkl")
 
 # SEED
