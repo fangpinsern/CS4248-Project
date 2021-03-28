@@ -4,3 +4,4 @@
 /.ipynb_checkpoints
 **/logs
 **/model_weights
+/.vector_cache
