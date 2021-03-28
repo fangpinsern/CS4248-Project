@@ -36,8 +36,8 @@ DEFAULT_HP = {
 
 
 class Trainer:
-    def __init__(self, exp_name, dls, hp, weights=None, sched=True):
-        self.model = all_models[hp["model"]]()
+    def __init__(self, exp_name, dls, hp, bs, weights=None, sched=True):
+        self.model = all_models[hp["model"]](bs)
         self.device = torch.device("cuda" if IS_CUDA else "cpu")
         opt = all_opt[hp["opt"]]
         if hp["opt"] == "ADAM":
@@ -56,7 +56,7 @@ class Trainer:
         )
         if weights is not None:
             weights.to(self.device)
-        self.loss = all_loss[hp["loss"]](weights)  # create all_loss dictionary
+        self.loss = all_loss[hp["loss"]]
         self.epochs = hp["epochs"]
         self.model.to(self.device)
         self.writer = SummaryWriter(os.path.join(LOG_DIR, exp_name, hp["model"]))
@@ -64,7 +64,8 @@ class Trainer:
         self.hp = hp
         self.metrics = {}
         self.dls = dls
-        self.class_names = dls[0].dataset.class_names
+        self.steps = [0] * 3
+        # self.class_names = dls[0].dataset.class_names
         # self.cms = {0: None, 1: None, 2: None}
         # self.auc = {0: None, 1: None, 2: 0}
         # self.recall = {0: None, 1: None, 2: [0 for i in (self.class_names)]}

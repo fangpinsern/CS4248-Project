@@ -2,10 +2,14 @@ import torch
 from torch import nn
 import torchtext
 import torch.nn.functional as F
+import numpy as np
 
 
 def create_emb_layer(non_trainable=False):
+    np.random.seed(0)
     glove = torchtext.vocab.GloVe(name="6B", dim=50)
+    randEmbed = torch.tensor(np.random.normal(scale=0.6, size=(50,))).unsqueeze(0)
+    glove.vectors = torch.cat([glove.vectors, randEmbed])
     emb_layer = nn.Embedding(*glove.vectors.shape)
     emb_layer.load_state_dict({"weight": glove.vectors})
     if non_trainable:
