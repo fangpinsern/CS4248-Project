@@ -1,42 +1,45 @@
 # import argparse
-import sys
 import os
 import torch
 from tensorboardX import SummaryWriter
-from tqdm.auto import tqdm
+from tqdm.auto import tqdm  # auto adjust to notebook and terminal
+
+from proj.models import all_models
+from proj.utils import all_loss, all_opt, accuracy
+from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR
+from proj.data.data import NewsDataset, split
+from sklearn.metrics import (
+    roc_curve,
+    auc,
+    roc_auc_score,
+    recall_score,
+    f1_score,
+    confusion_matrix,
+)
 import numpy as np
 import random
 
-from .data.data import PlaylistDataset, to_dataloader
-from .constants import LOG_DIR, WEIGHTS_DIR, DATA_DIR
-from .models import all_models, all_tokenizers
-from .utils import all_opt
-
-sys.path.append(os.path.abspath(__file__))
 DEVICE_COUNT = torch.cuda.device_count()
 IS_CUDA = torch.cuda.is_available()
-SEED = 0
 
 np.random.seed(SEED)
 torch.manual_seed(SEED)
 random.seed(SEED)
 
 DEFAULT_HP = {
-    "epochs": 1,  # number of times we're training on entire dataset
-    "metric": "rouge",
-    "opt": "ADAM",
+    "epochs": 5,  # number of times we're training on entire dataset
+    "loss": "cross_entropy",
+    "opt": "SGD",
     "wd": 0.001,
     "lr": 3e-3,
 }
 
 
 class Trainer:
-    def __init__(self, exp_name, df, hp, weights=None, sched=True):
+    def __init__(self, exp_name, dls, hp, weights=None, sched=True):
         self.model = all_models[hp["model"]]()
-        self.tokenizer = all_tokenizers[hp["model"]]()
         self.device = torch.device("cuda" if IS_CUDA else "cpu")
         opt = all_opt[hp["opt"]]
-        self.model.to(self.device)
         if hp["opt"] == "ADAM":
             self.opt = opt(
                 params=self.model.parameters(), lr=hp["lr"], weight_decay=hp["wd"]
@@ -53,114 +56,85 @@ class Trainer:
         )
         if weights is not None:
             weights.to(self.device)
-        # self.metric = all_metric[hp["metric"]]
+        self.loss = all_loss[hp["loss"]](weights)  # create all_loss dictionary
         self.epochs = hp["epochs"]
-        self.writer = SummaryWriter(os.path.join(LOG_DIR, exp_name))
+        self.model.to(self.device)
+        self.writer = SummaryWriter(os.path.join(LOG_DIR, exp_name, hp["model"]))
         self.exp_name = exp_name
-        self.model_name = hp["model_name"]
         self.hp = hp
-        # TODO split df into train and val
-        self.train_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=4)
-        self.eval_dl = to_dataloader(PlaylistDataset(self.tokenizer, df), bs=4)
-
-    def decodeToText(self, embedding):
-        gen_text = self.tokenizer.batch_decode(
-            embedding, skip_special_tokens=True, clean_up_tokenization_spaces=True
-        )
-        return gen_text
-
-    def freezeEncoder(self):
-        for param in self.model.base_model.parameters():
-            param.requires_grad = False
-
-    def unfreeze(self, n):
-        for param in self.model.base_model.parameters():
-            param.requires_grad = True
-
-    def generate(self, xb, maskX, maskY):
-        output = self.model.generate(
-            xb,
-            attention_mask=maskX,
-            use_cache=True,
-            decoder_attention_mask=maskY,
-            max_length=150,
-            num_beams=2,
-            repetition_penalty=2.5,
-            length_penalty=1.0,
-            early_stopping=True,
-        )
-        return output
+        self.metrics = {}
+        self.dls = dls
+        self.class_names = dls[0].dataset.class_names
+        # self.cms = {0: None, 1: None, 2: None}
+        # self.auc = {0: None, 1: None, 2: 0}
+        # self.recall = {0: None, 1: None, 2: [0 for i in (self.class_names)]}
 
     def train(self):
+        losses = []
+        # it turns dropout
         self.model.train()
-        trLoss = 0
+        acc_count = 0
         # we use tqdm to provide visual feedback on training
-        for data in tqdm(self.train_dl, total=len(self.train_dl)):
-            for i in range(len(data)):
-                data[i] = data[i].to(self.device)
-            xb, maskX, yb, maskY = data
-            lm_labels = yb
-            lm_labels[lm_labels[:, :] == self.tokenizer.pad_token_id] = -100
-            lm_labels = lm_labels.cuda()
-            print(lm_labels.shape)
+        for xb, yb in tqdm(self.dls[0], total=len(self.dls[0])):
+            xb = xb.to(self.device)  # BATCH_SIZE, 3, 224, 224
+            yb = yb.to(self.device)  # BATCH_SIZE, 1
             self.opt.zero_grad()
-            outputs = self.model(
-                input_ids=xb,
-                attention_mask=maskX,
-                lm_labels=lm_labels,
-                decoder_attention_mask=maskY,
-            )
-            loss = outputs[0]
-
+            output = self.model(xb)  # BATCH_SIZE, 3
+            acc_count += accuracy(output, yb)
+            loss = self.loss(output, yb)
             loss.backward()  # calculates gradient descent
-            # preds = self.generate(xb, maskX, maskY)
-            # predText = self.decodeToText(preds)
-            # yText = self.decodeToText(yb)
-            # self.metric.add_batch(predText, yText)
             self.opt.step()  # updates model parameters
-            trLoss += loss
-            # self._log('train_loss', loss, self.steps[0])
-
-        # rougeScore = self.metric.compute()
-        print("\nepoch trng info: loss:{}".format(trLoss))
+            losses.append(loss)
+            self.steps[0] += 1
+            self._log("train_loss", loss, self.steps[0])
+        losses = torch.stack(losses)
+        epoch_loss = losses.mean().item()
+        epoch_acc = acc_count / len(self.dls[0])
+        self.trng_loss.append(epoch_loss)
+        self.trng_acc.append(epoch_acc)
+        print("\nepoch trng info: loss:{}, acc:{}".format(epoch_loss, epoch_acc))
 
     def validate(self):
-        self.model.eval()
-        valLoss = 0
-        # we use tqdm to provide visual feedback on training
+        losses = []
+        acc_count = 0
         with torch.no_grad():  # don't accumulate gradients, faster processing
-            for data in tqdm(self.eval_dl, total=len(self.eval_dl)):
-                for i in range(len(data)):
-                    data[i] = data[i].to(self.device)
-                xb, maskX, yb, maskY = data
-                lm_labels = yb
-                lm_labels[lm_labels[:, :] == self.tokenizer.pad_token_id] = -100
-                outputs = self.model(
-                    input_ids=xb,
-                    attention_mask=maskX,
-                    decoder_attention_mask=maskY,
-                    lm_labels=lm_labels,
-                )
-                loss = outputs[0]
-                preds = self.model.generate(
-                    xb,
-                    attention_mask=maskX,
-                    use_cache=True,
-                    decoder_attention_mask=maskY,
-                    max_length=150,
-                    num_beams=2,
-                    repetition_penalty=2.5,
-                    length_penalty=1.0,
-                    early_stopping=True,
-                )
+            self.model.eval()  # ignore dropouts and weight decay
+            for xb, yb in tqdm(self.dls[1], total=len(self.dls[1])):
+                xb = xb.to(self.device)
+                yb = yb.to(self.device)
+                output = self.model(xb)
+                acc_count += accuracy(output, yb)
+                loss = self.loss(output, yb)
+                losses.append(loss)
+                self.steps[1] += 1
+                self._log("val_loss", loss, self.steps[1], writer=1)
+        losses = torch.stack(losses)
+        epoch_loss = losses.mean().item()
+        epoch_acc = acc_count / len(self.dls[1])
+        self.val_loss.append(epoch_loss)
+        self.val_acc.append(epoch_acc)
+        print("\nepoch val info: loss:{}, acc:{}".format(epoch_loss, epoch_acc))
 
-                predText = self.decodeToText(preds)
-                yText = self.decodeToText(yb)
-                # self.metric.add_batch(predText, yText)
-                valLoss += loss
+    def test(self):
+        losses = []
+        acc_count = 0
+        with torch.no_grad():  # don't accumulate gradients, faster processing
+            self.model.eval()  # ignore dropouts and weight decay
+            for xb, yb in tqdm(self.dls[-1], total=len(self.dls[-1])):
+                xb = xb.to(self.device)
+                yb = yb.to(self.device)
+                output = self.model(xb)
+                acc_count += accuracy(output, yb)
+                loss = self.loss(output, yb)
+                losses.append(loss)
 
-        # rougeScore = self.metric.compute()
-        print("\nepoch val info: loss:{}, rouge:{}".format(valLoss, 0))
+        if len(losses) > 0:
+            losses = torch.stack(losses)
+            epoch_loss = losses.mean().item()
+            epoch_acc = acc_count / len(self.dls[-1])
+            self.test_loss.append(epoch_loss)
+            self.test_acc.append(epoch_acc)
+            print("\nepoch test info: loss:{}, acc:{}".format(epoch_loss, epoch_acc))
 
     def one_cycle(self):
         for i in range(self.epochs):
@@ -168,7 +142,9 @@ class Trainer:
             self.train()
             self.validate()
             self.scheduler.step()
-        # self._write_hp()  # for comparing between experiments
+            self._save_weights()
+        self.test()
+        self._write_hp()  # for comparing between experiments
 
     def _log(self, phase, value, i, writer=0):
         if writer == 0:
@@ -202,7 +178,7 @@ class Trainer:
         best_val = min(self.val_loss)
         if self.val_loss[-1] == best_val:
             weights_path = os.path.join(
-                WEIGHTS_DIR, self.exp_name, self.model_name + ".pkl"
+                WEIGHTS_DIR, self.exp_name, self.hp["model"] + ".pkl"
             )
             os.makedirs(os.path.join(WEIGHTS_DIR, self.exp_name), exist_ok=True)
             self.model.cpu()
@@ -214,8 +190,11 @@ class Trainer:
 if __name__ == "__main__":
     import pandas as pd
 
-    df = pd.read_csv(os.path.join(DATA_DIR, "verbose10kdata.csv"))
-
-    hp = {**DEFAULT_HP, "model": "T5", "model_name": "T5_0"}
-    trainer = Trainer("T5_finetuned", df, hp)
-    trainer.one_cycle()
+    subset_df = pd.read_csv(os.path.join(DATA_DIR, "subsetNews.csv"))
+    dfs = split(subset_df)
+    dls = []
+    for d in dfs:
+        dls.append(NewsDataset(d))
+    model = "lstm"
+    hp = {**DEFAULT_HP, "model": model}
+    trainer = Trainer("deep learning", dls, hp)
