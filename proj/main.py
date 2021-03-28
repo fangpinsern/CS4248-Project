@@ -7,7 +7,7 @@ from tqdm.auto import tqdm  # auto adjust to notebook and terminal
 from proj.models import all_models
 from proj.utils import all_loss, all_opt, accuracy
 from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR
-from proj.data.data import NewsDataset, split
+from proj.data.data import NewsDataset, split, to_dataloader
 from sklearn.metrics import (
     roc_curve,
     auc,
@@ -194,8 +194,12 @@ if __name__ == "__main__":
     subset_df = pd.read_csv(os.path.join(DATA_DIR, "subsetNews.csv"))
     dfs = split(subset_df)
     dls = []
+    bs = 1
     for d in dfs:
-        dls.append(NewsDataset(d))
+        ds = NewsDataset(d)
+        dl = to_dataloader(ds, bs)
+        dls.append(dl)
     model = "lstm"
     hp = {**DEFAULT_HP, "model": model}
-    trainer = Trainer("deep learning", dls, hp)
+    trainer = Trainer("deep learning", dls, hp, bs)
+    trainer.one_cycle()
