@@ -85,10 +85,12 @@ class NewsDataset(Dataset):
         return tokens
 
     def __getitem__(self, idx):
-        text = self.df.loc[idx, X_COL]
-        label = torch.tensor(CATEGORY_SUBSET.index(self.df.loc[idx, Y_COL]))
+        text = self.df.iloc[idx][X_COL]
+        label = torch.tensor(CATEGORY_SUBSET.index(self.df.iloc[idx][Y_COL]))
         tokens = self.tokenize(text)
-        wordIdx = torch.tensor([self.glove.stoi[t] for t in tokens])
+        wordIdx = torch.tensor(
+            [self.glove.stoi[t] if t in self.glove.stoi else 40001 for t in tokens]
+        )
         return wordIdx, label
 
 

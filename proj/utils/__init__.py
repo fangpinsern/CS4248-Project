@@ -5,6 +5,8 @@ import torch
 
 all_opt = {"SGD": torch.optim.SGD, "ADAM": torch.optim.Adam}
 
+all_loss = {"cross_entropy": torch.nn.CrossEntropyLoss()}
+
 # all_metric = {"rouge": load_metric("rouge")}
 
 
