@@ -4,17 +4,17 @@ import torchtext
 import torch.nn.functional as F
 import numpy as np
 
+from ..constants import MAX_INPUT_LENGTH
 
 def create_emb_layer(non_trainable=False):
     np.random.seed(0)
     glove = torchtext.vocab.GloVe(name="6B", dim=50)
-    # randEmbed = torch.tensor(np.random.normal(scale=0.6, size=(50,))).unsqueeze(0)
-    unknownEmbed = torch.zeros(size=(50,)).unsqueeze(0)
-    glove.vectors = torch.cat([glove.vectors, randEmbed])
-    # here the pad token is a randomly initialized vector based on normal distribution
+    # here the unknown token embedding is a randomly initialized vector based on normal distribution
     # supposedly these glove vectors i.e. the weights of this embedding layer would change during training as well
-    # is this the case?
-    padEmbed = torch.FloatTensor(size=(50,)).normal_(0, 1).unsqueeze(0)
+    randEmbed = torch.tensor(np.random.normal(scale=0.6, size=(50,))).unsqueeze(0)
+    glove.vectors = torch.cat([glove.vectors, randEmbed])
+    # the pad token embedding is 0, such that it won't get involved in training
+    padEmbed = torch.zeros(size=(50,)).unsqueeze(0)
     glove.vectors = torch.cat([glove.vectors, padEmbed])
     
     emb_layer = nn.Embedding(*glove.vectors.shape)
@@ -43,11 +43,19 @@ class newsLSTM(nn.Module):
         self.fc = nn.Linear(hidden_dims, num_classes)
         hidden = torch.zeros((num_layers, batch_size, hidden_dims))
         self.hidden = (hidden, hidden)
+        self.batch_size = batch_size
 
     def forward(self, input):
         embeddings = self.embedding(input)
         print(embeddings.shape)
-        _, hidden = self.lstm(embeddings, self.hidden)
+        
+        input_lengths = [MAX_INPUT_LENGTH] * self.batch_size
+        # Pack padded batch of sequences for RNN module
+        packed = nn.utils.rnn.pack_padded_sequence(embeddings, input_lengths)
+        # Forward pass through LSTM
+        outputs, hidden = self.lstm(packed, self.hidden)
+        # Unpack padding
+        # outputs, _ = nn.utils.rnn.pad_packed_sequence(outputs)
         # get LSTM's block 1's hidden state
         label = self.fc(hidden[0][-1, :, :])
         return F.softmax(label, 1)

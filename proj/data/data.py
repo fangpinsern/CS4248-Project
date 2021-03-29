@@ -5,7 +5,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import re
-from ..constants import X_COL, Y_COL, CATEGORY_SUBSET
+from ..constants import X_COL, Y_COL, CATEGORY_SUBSET, MAX_INPUT_LENGTH
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 import torchtext
 
@@ -14,7 +14,6 @@ lem = WordNetLemmatizer()
 STOPWORDS = stopwords.words("english")
 STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
 
-MAX_INPUT_LENGTH = 60
 
 def to_dataloader(ds, bs=64):
     dl = DataLoader(
