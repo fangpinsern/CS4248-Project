@@ -126,19 +126,20 @@ def break_hashtag(text):
     else:
         return text
         
-def tokenize(text):
+def tokenize(text, with_stopwords=True):
     text = break_hashtag(text)
     text = re.sub(r'[^(\w|_)]', ' ', text)
     tokens = nltk.word_tokenize(text)
     tokens = [t.lower() for t in tokens]
-    # remove punctuations and stop words
-    s_tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
+    
     lem = WordNetLemmatizer()
-    s_tokens = [lem.lemmatize(t) for t in s_tokens]
-    if len(s_tokens) == 0:
-        return [lem.lemmatize(t) for t in tokens]
-    return s_tokens
-
+    if with_stopwords:
+        s_tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
+        s_tokens = [lem.lemmatize(t) for t in s_tokens]
+        if len(s_tokens) > 0:
+            return s_tokens
+    
+    return [lem.lemmatize(t) for t in tokens]
 
 # EMBEDDINGS
 # =========================================================================
