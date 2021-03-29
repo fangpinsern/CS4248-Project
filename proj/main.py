@@ -3,11 +3,6 @@ import os
 import torch
 from tensorboardX import SummaryWriter
 from tqdm.auto import tqdm  # auto adjust to notebook and terminal
-
-from proj.models import all_models
-from proj.utils import all_loss, all_opt, accuracy
-from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR
-from proj.data.data import NewsDataset, split, to_dataloader
 from sklearn.metrics import (
     roc_curve,
     auc,
@@ -18,6 +13,13 @@ from sklearn.metrics import (
 )
 import numpy as np
 import random
+
+
+from proj.models import all_models
+from proj.utils import all_loss, all_opt, accuracy
+from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR
+from proj.data.data import NewsDataset, split, to_dataloader
+
 
 DEVICE_COUNT = torch.cuda.device_count()
 IS_CUDA = torch.cuda.is_available()
