@@ -5,6 +5,7 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))  # This is your Project Ro
 DATA_DIR = os.path.join(ROOT_DIR, "..", "data")
 JSON_FILE = os.path.join(DATA_DIR, "News_Category_Dataset_v2.json")
 DF_FILE = os.path.join(DATA_DIR, "subsetNews.csv")
+TRAIN_TEST_SPLIT_FILE = os.path.join(DATA_DIR, 'train_test_split_dataset.csv')
 LOG_DIR = os.path.join(ROOT_DIR, "logs")
 WEIGHTS_DIR = os.path.join(ROOT_DIR, "model_weights")
 EMBEDDINGS_DIR = os.path.join(DATA_DIR, "embeddings")
