@@ -83,7 +83,7 @@ def get_frequent_ngrams_for_categories(dataset, ngram_range, n=20, remove_stopwo
     df = df.sort_values(by=CATEGORY_SUBSET)
     return df
     
-def get_stopwords(dataset=None, include_common_unigram=False, include_common_bigram=False, uninclude_certain_unigram=False):
+def get_stopwords(dataset=None, include_common_unigram=False, uninclude_certain_unigram=False):
     nltk.download('stopwords')
     STOPWORDS = stopwords.words("english")
     STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
@@ -97,13 +97,6 @@ def get_stopwords(dataset=None, include_common_unigram=False, include_common_big
         df['sum'] = df.sum(axis=1)
         common_unigrams = df[df['sum'] > 3].index.tolist()
         STOPWORDS = STOPWORDS.union(common_unigrams)
-
-    if include_common_bigram:
-        df = get_frequent_ngrams_for_categories(dataset, (2,2), n=20, remove_stopwords=True)
-        df[df != 0] = 1
-        df['sum'] = df.sum(axis=1)
-        common_bigrams = df[df['sum'] > 3].index.tolist()
-        STOPWORDS = STOPWORDS.union(common_bigrams)
         
     if uninclude_certain_unigram:
         stopwords_to_keep = ['ever', 'll', 'best', 'third', 'your', 'against', 'had', 'former', 'he', 'her', 'his', 'video', 'found', 'after']
@@ -135,7 +128,7 @@ def break_hashtag(text):
     else:
         return text
         
-def tokenize(text, with_stopwords=True):
+def tokenize(text, with_stopwords=True, stopwords=None):
     text = break_hashtag(text)
     text = re.sub(r'[^(\w|_)]', ' ', text)
     tokens = nltk.word_tokenize(text)
@@ -143,7 +136,9 @@ def tokenize(text, with_stopwords=True):
     
     lem = WordNetLemmatizer()
     if with_stopwords:
-        s_tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
+        if stopwords is None:
+            stopwords = get_stopwords(dataset=None, include_common_unigram=True, uninclude_certain_unigram=True)
+        s_tokens = [t for t in tokens if re.match(r"\w+", t) and t not in stopwords]
         s_tokens = [lem.lemmatize(t) for t in s_tokens]
         if len(s_tokens) > 0:
             return s_tokens
