@@ -83,7 +83,7 @@ def get_frequent_ngrams_for_categories(dataset, ngram_range, n=20, remove_stopwo
     df = df.sort_values(by=CATEGORY_SUBSET)
     return df
     
-def get_stopwords(dataset=None, include_common_unigram=False, include_common_bigram=False):
+def get_stopwords(dataset=None, include_common_unigram=False, include_common_bigram=False, uninclude_certain_unigram=False):
     nltk.download('stopwords')
     STOPWORDS = stopwords.words("english")
     STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
@@ -104,6 +104,15 @@ def get_stopwords(dataset=None, include_common_unigram=False, include_common_big
         df['sum'] = df.sum(axis=1)
         common_bigrams = df[df['sum'] > 3].index.tolist()
         STOPWORDS = STOPWORDS.union(common_bigrams)
+        
+    if uninclude_certain_unigram:
+        stopwords_to_keep = ['ever', 'll', 'best', 'third', 'your', 'against', 'had', 'former', 'he', 'her', 'his', 'video', 'found', 'after']
+        for s in stopwords_to_keep:
+        try:
+            STOPWORDS.remove(s)
+        except:
+            continue
+            
     return STOPWORDS
     
 # TOKENIZATION
