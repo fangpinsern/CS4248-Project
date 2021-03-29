@@ -49,6 +49,95 @@ def train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0.2):
 
     return data
     
+# STOPWORDS
+# =========================================================================
+
+def get_top_n_ngrams(corpus, ngram_range, n=20, remove_stopwords=False):
+    vec = None
+    if remove_stopwords:
+        vec = CountVectorizer(ngram_range=ngram_range, stop_words = 'english').fit(corpus)
+    else:
+        vec = CountVectorizer(ngram_range=ngram_range).fit(corpus)
+    bag_of_words = vec.transform(corpus)
+    sum_words = bag_of_words.sum(axis=0) 
+    words_freq = [(word, sum_words[0, idx]) for word, idx in vec.vocabulary_.items()]
+    words_freq =sorted(words_freq, key = lambda x: x[1], reverse=True)
+    return words_freq[:n]
+
+def get_frequent_ngrams_for_categories(dataset, ngram_range, n=20, remove_stopwords=False):
+    vocab = {}
+    for i in range(len(CATEGORY_SUBSET)):
+        cat = CATEGORY_SUBSET[i]
+#         print(f"{cat}: ")   
+        common_words = get_top_n_ngrams(dataset[dataset['category']==cat]['headline'], ngram_range, n, remove_stopwords=remove_stopwords)
+        for word, freq in common_words:
+#             print(f"    {word}, {freq}")
+            r_freq = freq / len(dataset[dataset['category']==cat]['headline'])
+            if word not in vocab:
+                vocab[word] = [r_freq if j == i else 0 for j in range(len(CATEGORY_SUBSET))]
+            else:
+                vocab[word][i] = r_freq
+    df = pd.DataFrame(vocab)
+    df.index = CATEGORY_SUBSET
+    df = df.T
+    df = df.sort_values(by=CATEGORY_SUBSET)
+    return df
+    
+def get_stopwords(dataset=None, include_common_unigram=False, include_common_bigram=False):
+    nltk.download('stopwords')
+    STOPWORDS = stopwords.words("english")
+    STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
+    
+    if dataset is None:
+        dataset = get_dataset()
+        
+    if include_common_unigram:
+        df = get_frequent_ngrams_for_categories(dataset, (1,1), n=20, remove_stopwords=True)
+        df[df != 0] = 1
+        df['sum'] = df.sum(axis=1)
+        common_unigrams = df[df['sum'] > 3].index.tolist()
+        STOPWORDS = STOPWORDS.union(common_unigrams)
+
+    if include_common_bigram:
+        df = get_frequent_ngrams_for_categories(dataset, (2,2), n=20, remove_stopwords=True)
+        df[df != 0] = 1
+        df['sum'] = df.sum(axis=1)
+        common_bigrams = df[df['sum'] > 3].index.tolist()
+        STOPWORDS = STOPWORDS.union(common_bigrams)
+    return STOPWORDS
+    
+# TOKENIZATION
+# =========================================================================
+
+def break_hashtag(text):
+    if re.match(r'#\w+', text):
+        words = []
+        i = 1
+        word = ''
+        while i < len(text):
+            if text[i].isupper():
+                words.append(word)
+                word = text[i]
+            else:
+                word += text[i]
+            i += 1
+        words.append(word)
+        return ' '.join(words).strip()
+    else:
+        return text
+        
+def tokenize(text):
+    text = break_hashtag(text)
+    text = re.sub(r'[^(\w|_)]', ' ', text)
+    tokens = nltk.word_tokenize(text)
+    # remove punctuations and stop words
+    s_tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
+    lem = WordNetLemmatizer()
+    s_tokens = [lem.lemmatize(t.lower()) for t in s_tokens]
+    if len(s_tokens) == 0:
+        return tokens
+    return s_tokens
+
 
 # EMBEDDINGS
 # =========================================================================
@@ -80,8 +169,3 @@ def get_glove_embeddings(glove_path=None, output='Tensor'):
       
     return glove
     
-def get_stopwords():
-    nltk.download('stopwords')
-    STOPWORDS = stopwords.words("english")
-    STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
-    return STOPWORDS
