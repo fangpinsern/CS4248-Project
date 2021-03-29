@@ -6,17 +6,17 @@ import numpy as np
 
 from ..constants import MAX_INPUT_LENGTH
 
-def create_emb_layer(non_trainable=False):
+
+def create_emb_layer(non_trainable=False, embedDims=50):
     np.random.seed(0)
-    glove = torchtext.vocab.GloVe(name="6B", dim=50)
+    glove = torchtext.vocab.GloVe(name="6B", dim=embedDims)
     # here the unknown token embedding is a randomly initialized vector based on normal distribution
     # supposedly these glove vectors i.e. the weights of this embedding layer would change during training as well
-    randEmbed = torch.tensor(np.random.normal(scale=0.6, size=(50,))).unsqueeze(0)
-    glove.vectors = torch.cat([glove.vectors, randEmbed])
+    randEmbed = torch.tensor(np.random.normal(scale=0.6, size=(embedDims,)))
+    randEmbed = randEmbed.unsqueeze(0)
     # the pad token embedding is 0, such that it won't get involved in training
-    padEmbed = torch.zeros(size=(50,)).unsqueeze(0)
-    glove.vectors = torch.cat([glove.vectors, padEmbed])
-    
+    padEmbed = torch.zeros(size=(embedDims,), dtype=torch.long).unsqueeze(0)
+    glove.vectors = torch.cat([glove.vectors, randEmbed, padEmbed])
     emb_layer = nn.Embedding(*glove.vectors.shape)
     emb_layer.load_state_dict({"weight": glove.vectors})
     if non_trainable:
@@ -46,12 +46,14 @@ class newsLSTM(nn.Module):
         self.batch_size = batch_size
 
     def forward(self, input):
+        if isinstance(input, torch.FloatTensor):
+            print(input)
         embeddings = self.embedding(input)
-        print(embeddings.shape)
-        
         input_lengths = [MAX_INPUT_LENGTH] * self.batch_size
         # Pack padded batch of sequences for RNN module
-        packed = nn.utils.rnn.pack_padded_sequence(embeddings, input_lengths)
+        packed = nn.utils.rnn.pack_padded_sequence(
+            embeddings, torch.tensor(input_lengths), batch_first=True
+        )
         # Forward pass through LSTM
         outputs, hidden = self.lstm(packed, self.hidden)
         # Unpack padding

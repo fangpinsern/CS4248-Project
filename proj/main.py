@@ -3,11 +3,6 @@ import os
 import torch
 from tensorboardX import SummaryWriter
 from tqdm.auto import tqdm  # auto adjust to notebook and terminal
-
-from proj.models import all_models
-from proj.utils import all_loss, all_opt, accuracy
-from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR
-from proj.data.data import NewsDataset, split, to_dataloader
 from sklearn.metrics import (
     roc_curve,
     auc,
@@ -18,6 +13,13 @@ from sklearn.metrics import (
 )
 import numpy as np
 import random
+
+
+from proj.models import all_models
+from proj.utils import all_loss, all_opt, accuracy
+from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR
+from proj.data.data import NewsDataset, split, to_dataloader
+
 
 DEVICE_COUNT = torch.cuda.device_count()
 IS_CUDA = torch.cuda.is_available()
@@ -63,8 +65,11 @@ class Trainer:
         self.exp_name = exp_name
         self.hp = hp
         self.metrics = {}
+        for p in ["trng", "val", "test"]:
+            self.metrics[p] = [[], []]
         self.dls = dls
         self.steps = [0] * 3
+        self.batch_size = dls[0].batch_size
         # self.class_names = dls[0].dataset.class_names
         # self.cms = {0: None, 1: None, 2: None}
         # self.auc = {0: None, 1: None, 2: 0}
@@ -82,6 +87,7 @@ class Trainer:
             self.opt.zero_grad()
             output = self.model(xb)  # BATCH_SIZE, 3
             acc_count += accuracy(output, yb)
+            print(acc_count)
             loss = self.loss(output, yb)
             loss.backward()  # calculates gradient descent
             self.opt.step()  # updates model parameters
@@ -90,9 +96,9 @@ class Trainer:
             self._log("train_loss", loss, self.steps[0])
         losses = torch.stack(losses)
         epoch_loss = losses.mean().item()
-        epoch_acc = acc_count / len(self.dls[0])
-        self.trng_loss.append(epoch_loss)
-        self.trng_acc.append(epoch_acc)
+        epoch_acc = acc_count / len(self.dls[0]) / self.batch_size
+        self.metrics["trng"][0].append(epoch_loss)
+        self.metrics["trng"][1].append(epoch_acc)
         print("\nepoch trng info: loss:{}, acc:{}".format(epoch_loss, epoch_acc))
 
     def validate(self):
@@ -108,12 +114,12 @@ class Trainer:
                 loss = self.loss(output, yb)
                 losses.append(loss)
                 self.steps[1] += 1
-                self._log("val_loss", loss, self.steps[1], writer=1)
+                self._log("val_loss", loss, self.steps[1])
         losses = torch.stack(losses)
         epoch_loss = losses.mean().item()
-        epoch_acc = acc_count / len(self.dls[1])
-        self.val_loss.append(epoch_loss)
-        self.val_acc.append(epoch_acc)
+        epoch_acc = acc_count / len(self.dls[1]) / self.batch_size
+        self.metrics["val"][0].append(epoch_loss)
+        self.metrics["val"][1].append(epoch_acc)
         print("\nepoch val info: loss:{}, acc:{}".format(epoch_loss, epoch_acc))
 
     def test(self):
@@ -132,9 +138,9 @@ class Trainer:
         if len(losses) > 0:
             losses = torch.stack(losses)
             epoch_loss = losses.mean().item()
-            epoch_acc = acc_count / len(self.dls[-1])
-            self.test_loss.append(epoch_loss)
-            self.test_acc.append(epoch_acc)
+            epoch_acc = acc_count / len(self.dls[2]) / self.batch_size
+            self.metrics["test"][0].append(epoch_loss)
+            self.metrics["test"][1].append(epoch_acc)
             print("\nepoch test info: loss:{}, acc:{}".format(epoch_loss, epoch_acc))
 
     def one_cycle(self):
@@ -144,22 +150,33 @@ class Trainer:
             self.validate()
             self.scheduler.step()
             self._save_weights()
-        self.test()
-        self._write_hp()  # for comparing between experiments
+        if len(self.dls) > 2:
+            self.test()
+        metrics = self.get_metrics()
+        self._write_hp(metrics)  # for comparing between experiments
 
-    def _log(self, phase, value, i, writer=0):
-        if writer == 0:
-            self.writer.add_scalar(tag=phase, scalar_value=value, global_step=i)
-        else:
-            self.writer_val.add_scalar(tag=phase, scalar_value=value, global_step=i)
-
-    def _write_hp(self):
-        val_loss, val_acc = min(self.val_loss), max(self.val_acc)
-        test_loss, test_acc = min(self.test_loss), max(self.test_acc)
-
+    def get_metrics(self):
+        val_loss, val_acc = min(self.metrics["val"][0]), max(self.metrics["val"][1])
         metric_names = ["val_loss", "val_acc", "test_loss", "test_acc"]
-        metric_values = [val_loss, val_acc, test_loss, test_acc]
+        metric_values = [val_loss, val_acc]
+
+        if len(self.dls) > 2:
+            test_loss, test_acc = min(self.metrics["test"][0]), max(
+                self.metrics["test"][1]
+            )
+            metric_names = [*metric_names, "test_loss", "test_acc"]
+            metric_values = [*metric_values, test_loss, test_acc]
+
         metrics = dict(zip(metric_names, metric_values))
+        return metrics
+
+    def _log(self, phase, value, i):
+        self.writer.add_scalar(tag=phase, scalar_value=value, global_step=i)
+        # if writer == 0:
+        # else:
+        #     self.writer_val.add_scalar(tag=phase, scalar_value=value, global_step=i)
+
+    def _write_hp(self, metrics):
         self.writer.add_hparams(self.hp, metrics)
 
     def load_weights(self, pkl_name, num_classes=None, family=None):
@@ -176,8 +193,8 @@ class Trainer:
         self.model.to(self.device)
 
     def _save_weights(self):
-        best_val = min(self.val_loss)
-        if self.val_loss[-1] == best_val:
+        best_val = min(self.metrics["val"][0])
+        if self.metrics["val"][0][-1] == best_val:
             weights_path = os.path.join(
                 WEIGHTS_DIR, self.exp_name, self.hp["model"] + ".pkl"
             )

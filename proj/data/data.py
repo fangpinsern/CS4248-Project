@@ -89,12 +89,16 @@ class NewsDataset(Dataset):
         label = torch.tensor(CATEGORY_SUBSET.index(self.df.iloc[idx][Y_COL]))
         tokens = self.tokenize(text)
         number_to_pad = MAX_INPUT_LENGTH - len(tokens)
-        
+
         stoi_len = len(self.glove.stoi)
+        # print(tokens)
         wordIdx = torch.tensor(
-            [self.glove.stoi[t] if t in self.glove.stoi else stoi_len+1 for t in tokens]
+            [self.glove.stoi[t] if t in self.glove.stoi else stoi_len for t in tokens],
+            dtype=torch.long,
         )
-        wordIdx = torch.cat([wordIdx, torch.from_numpy(np.array([stoi_len+2]*number_to_pad))])
+        # print(wordIdx)
+        padding = torch.tensor([stoi_len + 1] * number_to_pad, dtype=torch.long)
+        wordIdx = torch.cat([wordIdx, padding])
         return wordIdx, label
 
 
