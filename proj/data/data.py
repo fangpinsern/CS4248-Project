@@ -1,5 +1,5 @@
 import torch
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, WeightedRandomSampler
 import emoji
 import nltk
 from nltk.corpus import stopwords
@@ -15,11 +15,30 @@ STOPWORDS = stopwords.words("english")
 STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
 
 
-def to_dataloader(ds, bs=64):
+def class_weights(labels):
+    weight = []
+    big_i = labels.max().item() + 1
+    for i in range(big_i):
+        weight.append((labels == i).sum())
+    weight = torch.tensor(weight, dtype=torch.float32)
+    return len(labels) / weight
+
+
+def get_weighted_sampler(label_list):
+    weights = class_weights(label_list)
+    weights_as_idx = weights[label_list]
+    weighted_sampler = WeightedRandomSampler(
+        weights=weights_as_idx, num_samples=len(weights_as_idx), replacement=True
+    )
+    return weighted_sampler
+
+
+def to_dataloader(ds, bs=64, sampler=None):
     dl = DataLoader(
         ds,
         num_workers=torch.cuda.device_count() * 4,
-        # shuffle=train,
+        shuffle=sampler is None,
+        sampler=sampler,
         drop_last=True,
         batch_size=bs,
     )
@@ -75,14 +94,15 @@ class NewsDataset(Dataset):
 
     def tokenize(self, text):
         tokens = nltk.word_tokenize(text)
-        tokens = [t.lower() for t in tokens]
+        # tokens = [t.lower() for t in tokens]
         # remove punctuations and stop words
-        tokens = [
-            lem.lemmatize(t)
-            for t in tokens
-            if re.match(r"\w+", t) and t not in STOPWORDS
-        ]
+        # lem.lemmatize(t)
+        # tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
+        tokens = [t.lower() for t in tokens if re.match(r"\w+", t)]
         return tokens
+
+    def labels(self):
+        return torch.tensor(self.df[Y_COL].apply(lambda d: CATEGORY_SUBSET.index(d)).values)
 
     def __getitem__(self, idx):
         text = self.df.iloc[idx][X_COL]
@@ -99,7 +119,7 @@ class NewsDataset(Dataset):
         # print(wordIdx)
         padding = torch.tensor([stoi_len + 1] * number_to_pad, dtype=torch.long)
         wordIdx = torch.cat([wordIdx, padding])
-        return wordIdx, label
+        return wordIdx[:MAX_INPUT_LENGTH], label
 
 
 def split(df, val_pct=0.2, test_pct=0.2):

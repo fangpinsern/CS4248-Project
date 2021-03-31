@@ -14,7 +14,6 @@ from sklearn.metrics import (
 import numpy as np
 import random
 
-
 from proj.models import all_models
 from proj.utils import all_loss, all_opt, accuracy
 from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR
@@ -31,37 +30,22 @@ random.seed(SEED)
 DEFAULT_HP = {
     "epochs": 5,  # number of times we're training on entire dataset
     "loss": "cross_entropy",
-    "opt": "SGD",
-    "wd": 0.001,
-    "lr": 3e-3,
+    "opt": "ADAM",
+    "wd": 0.00001,
+    "lr": 1e-3,
 }
 
 
 class Trainer:
-    def __init__(self, exp_name, dls, hp, bs, weights=None, sched=True):
+    def __init__(self, exp_name, model_name, dls, hp, bs, weights=None, sched=True):
         self.model = all_models[hp["model"]](bs)
         self.device = torch.device("cuda" if IS_CUDA else "cpu")
-        opt = all_opt[hp["opt"]]
-        if hp["opt"] == "ADAM":
-            self.opt = opt(
-                params=self.model.parameters(), lr=hp["lr"], weight_decay=hp["wd"]
-            )
-        else:
-            self.opt = opt(
-                params=self.model.parameters(),
-                lr=hp["lr"],
-                momentum=0.9,
-                weight_decay=hp["wd"],
-            )
-        self.scheduler = torch.optim.lr_scheduler.StepLR(
-            self.opt, step_size=2, gamma=0.1 if sched else 1
-        )
         if weights is not None:
             weights.to(self.device)
         self.loss = all_loss[hp["loss"]]
         self.epochs = hp["epochs"]
         self.model.to(self.device)
-        self.writer = SummaryWriter(os.path.join(LOG_DIR, exp_name, hp["model"]))
+        self.writer = SummaryWriter(os.path.join(LOG_DIR, exp_name, model_name))
         self.exp_name = exp_name
         self.hp = hp
         self.metrics = {}
@@ -70,6 +54,21 @@ class Trainer:
         self.dls = dls
         self.steps = [0] * 3
         self.batch_size = dls[0].batch_size
+        self.model_name = model_name
+        opt = all_opt[hp["opt"]]
+        parameters = filter(lambda p: p.requires_grad, self.model.parameters())
+        if hp["opt"] == "ADAM":
+            self.opt = opt(params=parameters, lr=hp["lr"], weight_decay=hp["wd"])
+        else:
+            self.opt = opt(
+                params=parameters,
+                lr=hp["lr"],
+                momentum=0.9,
+                weight_decay=hp["wd"],
+            )
+        self.scheduler = torch.optim.lr_scheduler.StepLR(
+            self.opt, step_size=2, gamma=0.1 if sched else 1
+        )
         # self.class_names = dls[0].dataset.class_names
         # self.cms = {0: None, 1: None, 2: None}
         # self.auc = {0: None, 1: None, 2: 0}
@@ -87,7 +86,6 @@ class Trainer:
             self.opt.zero_grad()
             output = self.model(xb)  # BATCH_SIZE, 3
             acc_count += accuracy(output, yb)
-            print(acc_count)
             loss = self.loss(output, yb)
             loss.backward()  # calculates gradient descent
             self.opt.step()  # updates model parameters
@@ -127,13 +125,20 @@ class Trainer:
         acc_count = 0
         with torch.no_grad():  # don't accumulate gradients, faster processing
             self.model.eval()  # ignore dropouts and weight decay
+            labels = []
+            preds = []
             for xb, yb in tqdm(self.dls[-1], total=len(self.dls[-1])):
                 xb = xb.to(self.device)
                 yb = yb.to(self.device)
                 output = self.model(xb)
                 acc_count += accuracy(output, yb)
                 loss = self.loss(output, yb)
+                labels.append(yb.cpu())
+                preds.append(torch.argmax(output.cpu(), dim=1))
                 losses.append(loss)
+            labels = torch.cat(labels)
+            preds = torch.cat(preds)
+            f1_score(labels, preds)
 
         if len(losses) > 0:
             losses = torch.stack(losses)
@@ -154,6 +159,12 @@ class Trainer:
             self.test()
         metrics = self.get_metrics()
         self._write_hp(metrics)  # for comparing between experiments
+
+    def freeze(self):
+        for p in self.model.embedding.parameters():
+            p.requires_grad = False
+        for p in self.model.lstm.parameters():
+            p.requires_grad = False
 
     def get_metrics(self):
         val_loss, val_acc = min(self.metrics["val"][0]), max(self.metrics["val"][1])
@@ -196,7 +207,7 @@ class Trainer:
         best_val = min(self.metrics["val"][0])
         if self.metrics["val"][0][-1] == best_val:
             weights_path = os.path.join(
-                WEIGHTS_DIR, self.exp_name, self.hp["model"] + ".pkl"
+                WEIGHTS_DIR, self.exp_name, self.model_name + ".pkl"
             )
             os.makedirs(os.path.join(WEIGHTS_DIR, self.exp_name), exist_ok=True)
             self.model.cpu()
