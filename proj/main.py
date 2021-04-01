@@ -31,10 +31,10 @@ DEFAULT_HP = {
 
 # TODO
 """
-- [ ] calculate f1_score and confusion matrix
-- [ ] log scores and CM images
+- [x] calculate and log f1_score 
+- [ ] generate and log confusion matrix
 - [ ] only set non bias and norm weights to trainable
-- [ ] add getPreds method for all rows in dataframe
+- [x] add getPreds method for all rows in dataframe
 """
 
 
@@ -82,10 +82,11 @@ class Trainer:
         # self.auc = {0: None, 1: None, 2: 0}
         # self.recall = {0: None, 1: None, 2: [0 for i in (self.class_names)]}
 
-    def anEpoch(self, phaseIndex, phaseName):
+    def anEpoch(self, phaseIndex, toLog=True):
+        phaseName = ["train", "val", "test"][phaseIndex]
         losses = []
         acc_count = 0
-        allOutput, allLabels = [], []
+        allPreds, allLabels = [], []
         # we use tqdm to provide visual feedback on training stage
         for xb, yb in tqdm(self.dls[phaseIndex], total=len(self.dls[phaseIndex])):
             if self.isTransformer:
@@ -98,29 +99,33 @@ class Trainer:
                 )
                 loss = outputs[0]
                 output = outputs[1]
+                inputIds.detach().cpu()
+                mask.detach().cpu()
+                yb.detach().cpu()
             else:
                 xb = xb.to(self.device)  # BATCH_SIZE, 3, 224, 224
                 yb = yb.to(self.device)  # BATCH_SIZE, 1
                 output = self.model(xb)  # BATCH_SIZE, 3
                 loss = self.loss(output, yb)
-            allOutput.append(output)
+                xb.detach().cpu()
+                yb.detach().cpu()
+            allPreds.append(torch.argmax(output, dim=1))
             allLabels.append(yb)
 
             acc_count += accuracy(output, yb)
             losses.append(loss)
-            self.steps[0] += 1
-            self._log("{}_loss".format(phaseName),
-                      loss, self.steps[phaseIndex])
-            # remove from device
-            xb.detach().cpu()
-            yb.detach().cpu()
+            self.steps[phaseIndex] += 1
+            if toLog:
+                self._log("{}_loss".format(phaseName),
+                          loss, self.steps[phaseIndex])
+
             if phaseIndex == 0:
                 self.opt.zero_grad()
                 loss.backward()  # calculates gradient descent
                 self.opt.step()  # updates model parameters
-        allOutput = torch.cat(allOutput)
+        allPreds = torch.cat(allPreds)
         allLabels = torch.cat(allLabels)
-        f1Score = skMetrics.f1_score(allLabels, allOutput, average="macro")
+        f1Score = skMetrics.f1_score(allLabels, allPreds, average="macro")
         losses = torch.stack(losses)
         epoch_loss = losses.mean().item()
         epoch_acc = acc_count / len(self.dls[phaseIndex]) / self.batch_size
@@ -132,22 +137,23 @@ class Trainer:
                 phaseName, epoch_loss, epoch_acc, f1Score
             )
         )
+        return allPreds, allLabels
 
     def one_cycle(self):
         self.freeze()
         for i in range(self.epochs):
             print("epoch number: {}".format(i))
             self.model.train()
-            self.anEpoch(0, "train")
+            self.anEpoch(0)
             with torch.no_grad():
                 self.model.eval()
-                self.anEpoch(1, "val")
+                self.anEpoch(1)
             self.scheduler.step()
             self._save_weights()
         if len(self.dls) > 2 and len(self.dls[2]) > 0:
             with torch.no_grad():
                 self.model.eval()
-                self.anEpoch(2, "test")
+                self.anEpoch(2)
         metrics = {}
         for i in range(3):
             metrics.update(self.getMetrics(i))
@@ -199,6 +205,10 @@ class Trainer:
             state = self.model.state_dict()
             torch.save(state, weights_path)  # open(pkl), compress
             self.model.to(self.device)
+
+    def getPreds(self, phaseIdx):
+        preds, _ = self.anEpoch(phaseIdx, toLog=False)
+        return preds
 
 
 if __name__ == "__main__":

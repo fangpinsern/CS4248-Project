@@ -25,9 +25,3 @@ all_models = {
     ),
     "lstm": lambda bs: newsLSTM(bs),
 }
-
-
-# def replaceHead(model):
-#     inFeatures = model.classifier.in_features
-#     model.classifier = torch.nn.Linear(inFeatures, 10)
-#     return model
