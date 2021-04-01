@@ -49,6 +49,7 @@ class NewsDataset(Dataset):
         self.df = df
         self.glove = torchtext.vocab.GloVe(name="6B", dim=50)
         self.tokenizer = tokenizer
+        self.maxLength = MAX_INPUT_LENGTH
 
     def __len__(self):
         return len(self.df)
@@ -72,13 +73,14 @@ class NewsDataset(Dataset):
         text = self.df.iloc[idx][X_COL]
 
         if self.tokenizer is not None:
-            tokens = self.tokenizer.encode(
+            tokenDict = self.tokenizer.encode_plus(
                 text,
                 return_tensors="pt",
                 max_length=self.maxLength,
                 truncation=True,
                 padding="max_length",
             )
+            tokens = (tokenDict["input_ids"][0], tokenDict["attention_mask"][0])
             return tokens, label
 
         tokens = self.tokenize(text)
