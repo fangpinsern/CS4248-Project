@@ -1,7 +1,8 @@
 import os
 
-# file dir
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))  # This is your Project Root
+# file path constants
+# This is your Project Root
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(ROOT_DIR, "..", "data")
 JSON_FILE = os.path.join(DATA_DIR, "News_Category_Dataset_v2.json")
 DF_FILE = os.path.join(DATA_DIR, "subsetNews.csv")
@@ -44,4 +45,5 @@ CATEGORY_SUBSET = [
     "STYLE",
     "ENTERTAINMENT",
 ]
+
 MAX_INPUT_LENGTH = 16
