@@ -49,7 +49,7 @@ class Trainer:
         self.exp_name = exp_name
         self.hp = hp
         self.metrics = {}
-        for p in ["trng", "val", "test"]:
+        for p in ["train", "val", "test"]:
             self.metrics[p] = [[], []]
         self.dls = dls
         self.steps = [0] * 3
@@ -121,6 +121,7 @@ class Trainer:
         )
 
     def one_cycle(self):
+        self.freeze()
         for i in range(self.epochs):
             print("epoch number: {}".format(i))
             self.model.train()
@@ -131,13 +132,17 @@ class Trainer:
             self.scheduler.step()
             self._save_weights()
         if len(self.dls) > 2 and len(self.dls[2]) > 0:
-            self.anEpoch(2, "test")
-        metrics = self.get_metrics()
+            with torch.no_grad():
+                self.model.eval()
+                self.anEpoch(1, "test")
+        metrics = {}
+        for i in range(3):
+            metrics.update(self.get_metrics(i))
         self._write_hp(metrics)  # for comparing between experiments
 
     def freeze(self):
         if self.isTransformer:
-            for param in model.base_model.parameters():
+            for param in self.model.base_model.parameters():
                 param.requires_grad = False
             return
         for p in self.model.embedding.parameters():
@@ -146,12 +151,10 @@ class Trainer:
             p.requires_grad = False
 
     def get_metrics(self, type):
-        """
-        returns metrics in a dictionary
-        """
-
         phases = ["train", "val", "test"]
-        val_loss, val_acc = min(self.metrics[type][0]), max(self.metrics[type][1])
+        val_loss, val_acc = min(self.metrics[phases[type]][0]), max(
+            self.metrics[phases[type]][1]
+        )
         metric_names = [
             f"{phases[type]}_{metricType}" for metricType in ["loss", "acc"]
         ]
