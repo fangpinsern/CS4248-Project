@@ -32,13 +32,12 @@ def get_weighted_sampler(label_list):
     return weighted_sampler
 
 
-def to_dataloader(ds, bs=64, sampler=None):
+def to_dataloader(ds, bs=64, sampler=None, drop_last=True):
     dl = DataLoader(
         ds,
         num_workers=torch.cuda.device_count() * 4,
-        shuffle=sampler is None,
         sampler=sampler,
-        drop_last=True,
+        drop_last=drop_last,
         batch_size=bs,
     )
     return dl
@@ -80,7 +79,8 @@ class NewsDataset(Dataset):
                 truncation=True,
                 padding="max_length",
             )
-            tokens = (tokenDict["input_ids"][0], tokenDict["attention_mask"][0])
+            tokens = (tokenDict["input_ids"][0],
+                      tokenDict["attention_mask"][0])
             return tokens, label
 
         tokens = self.tokenize(text)
@@ -93,7 +93,8 @@ class NewsDataset(Dataset):
             dtype=torch.long,
         )
         # print(wordIdx)
-        padding = torch.tensor([stoi_len + 1] * number_to_pad, dtype=torch.long)
+        padding = torch.tensor(
+            [stoi_len + 1] * number_to_pad, dtype=torch.long)
         wordIdx = torch.cat([wordIdx, padding])
         return wordIdx[:MAX_INPUT_LENGTH], label
 
@@ -106,8 +107,8 @@ def split(df, val_pct=0.2, test_pct=0.2):
     num_train = len(df) - num_val - num_test
     df["phase"] = ""
     trainDf = df.iloc[rand_indices[0:num_train]]
-    valDf = df.iloc[rand_indices[num_train : num_train + num_val]]
-    testDf = df.iloc[rand_indices[num_train + num_val :]]
+    valDf = df.iloc[rand_indices[num_train: num_train + num_val]]
+    testDf = df.iloc[rand_indices[num_train + num_val:]]
     return trainDf, valDf, testDf
 
 

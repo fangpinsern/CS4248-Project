@@ -125,7 +125,8 @@ class Trainer:
                 self.opt.step()  # updates model parameters
         allPreds = torch.cat(allPreds)
         allLabels = torch.cat(allLabels)
-        f1Score = skMetrics.f1_score(allLabels, allPreds, average="macro")
+        f1Score = skMetrics.f1_score(
+            allLabels.cpu(), allPreds.cpu(), average="macro")
         losses = torch.stack(losses)
         epoch_loss = losses.mean().item()
         epoch_acc = acc_count / len(self.dls[phaseIndex]) / self.batch_size
@@ -140,7 +141,7 @@ class Trainer:
         return allPreds, allLabels
 
     def one_cycle(self):
-        self.freeze()
+        # self.freeze()
         for i in range(self.epochs):
             print("epoch number: {}".format(i))
             self.model.train()
@@ -159,15 +160,15 @@ class Trainer:
             metrics.update(self.getMetrics(i))
         self._write_hp(metrics)  # for comparing between experiments
 
-    def freeze(self):
+    def freeze(self, toTrain=False):
         if self.isTransformer:
             for param in self.model.base_model.parameters():
-                param.requires_grad = False
+                param.requires_grad = toTrain
             return
         for p in self.model.embedding.parameters():
-            p.requires_grad = False
+            p.requires_grad = toTrain
         for p in self.model.lstm.parameters():
-            p.requires_grad = False
+            p.requires_grad = toTrain
 
     def getMetrics(self, type):
         phases = ["train", "val", "test"]
