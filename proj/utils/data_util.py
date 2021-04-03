@@ -2,12 +2,13 @@ import torchtext
 import torch
 import numpy as np
 import os 
+import pandas as pd
 
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
-from ..constants import JSON_FILE, TRAIN_TEST_SPLIT_FILE, CATEGORY_SUBSET
+from ..constants import JSON_FILE, TRAIN_TEST_SPLIT_FILE, CATEGORY_SUBSET, BIGRAM_TRIGRAM_VOCAB
 
 # DATASET
 # =========================================================================
@@ -128,22 +129,57 @@ def break_hashtag(text):
     else:
         return text
         
-def tokenize(text, with_stopwords=True, stopwords=None):
+def tokenize(text, with_stopwords=False):
     text = break_hashtag(text)
-    text = re.sub(r'[^(\w|_)]', ' ', text)
+    text = re.sub(r'[^\w]', ' ', text)
     tokens = nltk.word_tokenize(text)
     tokens = [t.lower() for t in tokens]
     
     lem = WordNetLemmatizer()
     if with_stopwords:
-        if stopwords is None:
-            stopwords = get_stopwords(dataset=None, include_common_unigram=True, uninclude_certain_unigram=True)
-        s_tokens = [t for t in tokens if re.match(r"\w+", t) and t not in stopwords]
+        s_tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
         s_tokens = [lem.lemmatize(t) for t in s_tokens]
         if len(s_tokens) > 0:
             return s_tokens
     
-    return [lem.lemmatize(t) for t in tokens]
+    # return [lem.lemmatize(t) for t in tokens]
+    return [t for t in tokens]
+    
+    
+class Bigram_Trigram_Tokenizer:
+    def __init__(self):
+        self.bigram_trigram_vocab = pd.read_csv(BIGRAM_TRIGRAM_VOCAB)
+        
+    def get_PMI_for_word(self, word):
+        pmi = self.bigram_trigram_vocab[self.bigram_trigram_vocab['ngram']==word]['PMI'].values
+        if len(pmi) == 0:
+            return 0
+
+        return pmi[0]
+
+    def tokenize_with_bigrams(self, text):
+        unigrams = tokenize(text)
+        bigrams = [' '.join(t) for t in list(zip(unigrams, unigrams[1:]+[" "]))]
+        bigrams_pmi = [self.get_PMI_for_word(word) for word in bigrams]
+
+        def helper(left_start, right_end):    
+            if left_start >= right_end:
+            return ''
+
+        max_bigram_arg = np.argmax(bigrams_pmi[left_start:right_end]) + left_start
+        if bigrams_pmi[max_bigram_arg] > 0:
+            left = helper(left_start, max_bigram_arg)
+            right = helper(max_bigram_arg+2, right_end)
+            bi_unigram = '_'.join(bigrams[max_bigram_arg].split(' '))
+            return ' '.join([left, bi_unigram, right])
+        else:
+            return ' '.join(unigrams[left_start:right_end])
+
+        ret = helper(0, len(unigrams))
+        return nltk.word_tokenize(ret)
+        
+    def get_bigram_trigram_token_list(self):
+        return self.bigram_trigram_vocab['token'].values
 
 # EMBEDDINGS
 # =========================================================================
