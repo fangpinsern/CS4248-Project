@@ -1,0 +1,1582 @@
+ngram,PMI,token
+lupita nyong,14.462977306182086,lupita_nyong
+aziz ansari,14.342683072464368,aziz_ansari
+usain bolt,14.342683072464368,usain_bolt
+patton oswalt,14.286099544098002,patton_oswalt
+lindsay lohan,14.272293744572973,lindsay_lohan
+blac chyna,14.128558267111519,blac_chyna
+gwen stefani,14.128558267111519,gwen_stefani
+meghan markle,14.032342951852222,meghan_markle
+brie larson,14.032342951852216,brie_larson
+iggy azalea,13.986539262239097,iggy_azalea
+ronda rousey,13.98011299307966,ronda_rousey
+hilary duff,13.925427747935705,hilary_duff
+notre dame,13.857256245294128,notre_dame
+gigi hadid,13.850166820507807,gigi_hadid
+simone biles,13.816614260796785,simone_biles
+costa rica,13.798362556240564,costa_rica
+gwyneth paltrow,13.777085896610147,gwyneth_paltrow
+leonardo dicaprio,13.777085896610146,leonardo_dicaprio
+floyd mayweather,13.736887068326052,floyd_mayweather
+hip hop,13.70525315184908,hip_hop
+hugh jackman,13.664611167351731,hugh_jackman
+bernie sanders,13.664611167351731,bernie_sanders
+bryan cranston,13.664611167351731,bryan_cranston
+miranda lambert,13.61498039962713,miranda_lambert
+angelina jolie,13.59151255220235,angelina_jolie
+meryl streep,13.560274507536993,meryl_streep
+bradley cooper,13.543595766390364,bradley_cooper
+carpool karaoke,13.527107643601802,carpool_karaoke
+cam newton,13.49468616590942,cam_newton
+lip sync,13.43195041056146,lip_sync
+nicki minaj,13.43195041056146,nicki_minaj
+channing tatum,13.425502600763421,channing_tatum
+brad pitt,13.419908584290194,brad_pitt
+nicole kidman,13.401576761517939,nicole_kidman
+trevor noah,13.383654853520675,trevor_noah
+reese witherspoon,13.371829418123884,reese_witherspoon
+samantha bee,13.335256054564304,samantha_bee
+tina fey,13.258618807675898,tina_fey
+rick steves,13.211020427303493,rick_steves
+colin kaepernick,13.20413069731172,colin_kaepernick
+bruce springsteen,13.181025687005654,bruce_springsteen
+jim carrey,13.179184340181491,jim_carrey
+peyton manning,13.155056069288596,peyton_manning
+sean spicer,13.108795012290091,sean_spicer
+fifty shades,13.101181828180215,fifty_shades
+muhammad ali,13.079648666630574,muhammad_ali
+ed sheeran,13.066421507458589,ed_sheeran
+seth rogen,13.055801924676214,seth_rogen
+demi lovato,13.032342951852222,demi_lovato
+mariah carey,13.030266832569072,mariah_carey
+kobe bryant,13.00452918682678,kobe_bryant
+force awakens,12.942145142880642,force_awakens
+joan rivers,12.916418317762272,joan_rivers
+steven spielberg,12.909723665188265,steven_spielberg
+comic con,12.891422848445325,comic_con
+calvin harris,12.880107184422164,calvin_harris
+lena dunham,12.878014805460927,lena_dunham
+lamar odom,12.878014805460925,lamar_odom
+alec baldwin,12.839051649916534,alec_baldwin
+melissa mccarthy,12.834536168794045,melissa_mccarthy
+woody allen,12.81403109978278,woody_allen
+seth meyers,12.792767518842414,seth_meyers
+popcorn preview,12.769793404043789,popcorn_preview
+ariana grande,12.756637263983741,ariana_grande
+silicon valley,12.741461986879425,silicon_valley
+whitney houston,12.672831674156704,whitney_houston
+blake shelton,12.655622384124479,blake_shelton
+blake lively,12.585451629832606,blake_lively
+planned parenthood,12.552052385216394,planned_parenthood
+steph curry,12.545966670853113,steph_curry
+tim tebow,12.525547129614178,tim_tebow
+los angeles,12.5108058312727,los_angeles
+larry nassar,12.45480337473638,larry_nassar
+peanut butter,12.408271414091944,peanut_butter
+ask airfarewatchdog,12.401576761517935,ask_airfarewatchdog
+emma watson,12.39452200398399,emma_watson
+debbie reynolds,12.380174284785713,debbie_reynolds
+selena gomez,12.356569186195788,selena_gomez
+ellen degeneres,12.342683072464368,ellen_degeneres
+liam hemsworth,12.332619389119673,liam_hemsworth
+matt damon,12.32413267609259,matt_damon
+tiger woods,12.286099544098008,tiger_woods
+britney spears,12.264197442067587,britney_spears
+johnny depp,12.26376967226643,johnny_depp
+met gala,12.21967911840955,met_gala
+johnny manziel,12.200213295821085,johnny_manziel
+kendrick lamar,12.199942900348287,kendrick_lamar
+katy perry,12.187981288418648,katy_perry
+kevin spacey,12.174507852972019,kevin_spacey
+ben affleck,12.159855558204946,ben_affleck
+jay z,12.146973451846984,jay_z
+ncaa tournament,12.144743694852464,ncaa_tournament
+jon chattman,12.09172149893115,jon_chattman
+carrie fisher,12.036226386339447,carrie_fisher
+miley cyrus,12.029022593560605,miley_cyrus
+las vegas,11.99994868994269,las_vegas
+kevin hart,11.978110640168511,kevin_hart
+carrie underwood,11.956056037655465,carrie_underwood
+jessica chastain,11.94214514288064,jessica_chastain
+ray rice,11.920988491284078,ray_rice
+mark hamill,11.920450071781321,mark_hamill
+looney front,11.88838886254902,looney_front
+scott disick,11.886692696532927,scott_disick
+chrissy teigen,11.878014805460927,chrissy_teigen
+kelly clarkson,11.87106204481916,kelly_clarkson
+harry potter,11.86180973158096,harry_potter
+pleads guilty,11.858905982513221,pleads_guilty
+huffpost tastemakers,11.839334337296865,huffpost_tastemakers
+lady gaga,11.80929954895092,lady_gaga
+kerry washington,11.769793404043787,kerry_washington
+paul mccartney,11.765267380796564,paul_mccartney
+kristen bell,11.747805102878132,kristen_bell
+leslie jones,11.692166889872295,leslie_jones
+jimmy kimmel,11.682400480795266,jimmy_kimmel
+hunger games,11.666415664198485,hunger_games
+san bernardino,11.664611167351731,san_bernardino
+san diego,11.664611167351731,san_diego
+amy poehler,11.655622384124479,amy_poehler
+cell phone,11.64966082588576,cell_phone
+nyong o,11.64668925935447,nyong_o
+san francisco,11.644147064792016,san_francisco
+jimmy fallon,11.64407236213616,jimmy_fallon
+stephen colbert,11.634275088980775,stephen_colbert
+amy schumer,11.628400915389449,amy_schumer
+huffpost deathmatch,11.62777439917136,huffpost_deathmatch
+plus size,11.616248145790337,plus_size
+k rowling,11.611499830892171,k_rowling
+mark zuckerberg,11.572526768361021,mark_zuckerberg
+harry styles,11.549133949931795,harry_styles
+hillary clinton,11.540956689360144,hillary_clinton
+suicide squad,11.469811497270394,suicide_squad
+harvey weinstein,11.45688267857482,harvey_weinstein
+serena williams,11.446941475000825,serena_williams
+kate hudson,11.43771735378034,kate_hudson
+difference between,11.3676294295946,difference_between
+golden globes,11.366269892781984,golden_globes
+emma stone,11.357685235803617,emma_stone
+march madness,11.357182642159483,march_madness
+david bowie,11.32416758493152,david_bowie
+tom hiddleston,11.286099544098006,tom_hiddleston
+jessica simpson,11.278957474853984,jessica_simpson
+daily meditation,11.26382583901967,daily_meditation
+tom hanks,11.250475634367287,tom_hanks
+flight attendant,11.245072275837948,flight_attendant
+jennifer aniston,11.240584884845635,jennifer_aniston
+ryan lochte,11.237189943617057,ryan_lochte
+infinity war,11.214719694340786,infinity_war
+ryan gosling,11.1830060511339,ryan_gosling
+justin timberlake,11.172758071022058,justin_timberlake
+amber rose,11.136540002772994,amber_rose
+jennifer lawrence,11.133395638751283,jennifer_lawrence
+justin bieber,11.116174542655694,justin_bieber
+true detective,11.114326118263321,true_detective
+taste test,11.11094347886867,taste_test
+jennifer lopez,11.100407226797373,jennifer_lopez
+social media,11.081152257220962,social_media
+chris pratt,11.080928218857153,chris_pratt
+tom brady,11.079648666630575,tom_brady
+birth control,11.059621611950877,birth_control
+test results,11.05580192467621,test_results
+george clooney,11.053176455269382,george_clooney
+ice cream,11.051814458433853,ice_cream
+climate change,11.02862466360611,climate_change
+north korea,11.028118365990496,north_korea
+kristen stewart,11.024125199462151,kristen_stewart
+domestic violence,11.016912911282613,domestic_violence
+gold medal,10.990166657743584,gold_medal
+youtube videos,10.987948832493768,youtube_videos
+red carpet,10.926662252660654,red_carpet
+north carolina,10.920450071781321,north_carolina
+gilmore girls,10.915460034737409,gilmore_girls
+halloween costumes,10.884848996549238,halloween_costumes
+cruise ship,10.869250355796149,cruise_ship
+bucket list,10.859834789395906,bucket_list
+golden globe,10.844872520838296,golden_globe
+funniest tweets,10.836538169484768,funniest_tweets
+little liars,10.827326039229083,little_liars
+michael phelps,10.761604006230442,michael_phelps
+ryan reynolds,10.74395012691582,ryan_reynolds
+jon snow,10.717325984149653,jon_snow
+pope francis,10.7058823344112,pope_francis
+gluten free,10.7020858727704,gluten_free
+sag awards,10.66822242090411,sag_awards
+jon stewart,10.641060089921586,jon_stewart
+louis c,10.634863823957682,louis_c
+st patrick,10.612011152903863,st_patrick
+last jedi,10.571307447512334,last_jedi
+kanye west,10.55217166057018,kanye_west
+james corden,10.547747409660838,james_corden
+credit card,10.544978320440487,credit_card
+stephen curry,10.535078354710377,stephen_curry
+grilled cheese,10.525618025461313,grilled_cheese
+box office,10.522320435360733,box_office
+kylie jenner,10.511246389202311,kylie_jenner
+sexual misconduct,10.501322470015607,sexual_misconduct
+st louis,10.498006524201033,st_louis
+caitlyn jenner,10.483232013032714,caitlyn_jenner
+james franco,10.46285851207432,james_franco
+taylor swift,10.444687136099084,taylor_swift
+each other,10.409309220981598,each_other
+kendall jenner,10.397075369282996,kendall_jenner
+black panther,10.394082224971015,black_panther
+south africa,10.37820042342857,south_africa
+national anthem,10.348030943789956,national_anthem
+la land,10.338804112844628,la_land
+bill cosby,10.313949463722434,bill_cosby
+kris jenner,10.297539695732087,kris_jenner
+chris hemsworth,10.271109751859091,chris_hemsworth
+health care,10.268682491020591,health_care
+bill murray,10.256918518686053,bill_murray
+super bowl,10.255233439743627,super_bowl
+last minute,10.25522023121403,last_minute
+kourtney kardashian,10.233058581289876,kourtney_kardashian
+r r,10.230149734910393,r_r
+robin williams,10.207956633385006,robin_williams
+horror story,10.199278947274749,horror_story
+sexual assault,10.162500393815645,sexual_assault
+shuts down,10.147335474142151,shuts_down
+release date,10.137791147627134,release_date
+michelle obama,10.135221004654511,michelle_obama
+trip playlist,10.111814006720703,trip_playlist
+credit cards,10.104405729054509,credit_cards
+lebron james,10.084775433318287,lebron_james
+saturday night,10.075288613931264,saturday_night
+sexual harassment,10.064382868706343,sexual_harassment
+20 funniest,10.060391547949497,20_funniest
+khloe kardashian,10.052741974000963,khloe_kardashian
+f king,10.044024756899855,f_king
+pays tribute,10.012534470772039,pays_tribute
+d c,10.006399684599938,d_c
+years ago,9.984990323976037,years_ago
+south carolina,9.90252816378406,south_carolina
+pokemon go,9.864487814525203,pokemon_go
+john oliver,9.822889586223267,john_oliver
+part ii,9.807459545653662,part_ii
+la la,9.804641619130706,la_la
+american idol,9.802593790481847,american_idol
+dressed list,9.794246447768332,dressed_list
+live updates,9.786289723939989,live_updates
+spring break,9.781153266208332,spring_break
+john legend,9.770787474944337,john_legend
+kim kardashian,9.76940237679085,kim_kardashian
+american sniper,9.766067914456732,american_sniper
+front part,9.76162277922234,front_part
+pitch perfect,9.742716147128249,pitch_perfect
+fatally shot,9.73269177725169,fatally_shot
+stress free,9.671497552936973,stress_free
+c k,9.652141815389518,c_k
+james bond,9.649627023680047,james_bond
+academy awards,9.635800943211736,academy_awards
+road trip,9.625311599477609,road_trip
+road trips,9.623181635939805,road_trips
+open letter,9.597144537915103,open_letter
+years later,9.589244163305949,years_later
+never heard,9.576017244082744,never_heard
+billboard music,9.537906694508543,billboard_music
+walking dead,9.509720744571087,walking_dead
+f k,9.485968948808312,f_k
+9 youtube,9.4790893108584,9_youtube
+high school,9.47397655515476,high_school
+breaking bad,9.4293947056577,breaking_bad
+united airlines,9.408864149448851,united_airlines
+choice awards,9.395203926497695,choice_awards
+shut down,9.390606625154515,shut_down
+no longer,9.385533220756738,no_longer
+prince harry,9.379208948489486,prince_harry
+airport security,9.336956461437415,airport_security
+ohio state,9.32327767329178,ohio_state
+president obama,9.312442448310788,president_obama
+yet another,9.301019540735007,yet_another
+star wars,9.294192324586438,star_wars
+national parks,9.279318193705938,national_parks
+stranger things,9.26357929881827,stranger_things
+love letters,9.262878317829113,love_letters
+black friday,9.240835964675332,black_friday
+american horror,9.240451997170792,american_horror
+j k,9.225083009553098,j_k
+spider man,9.219506330213537,spider_man
+one direction,9.205726127633984,one_direction
+tonight show,9.143538763320418,tonight_show
+ve been,9.112639501858617,ve_been
+national park,9.098252634658431,national_park
+film festival,9.092704819456022,film_festival
+star trek,9.079781273371873,star_trek
+x men,9.061384279096774,x_men
+car crash,9.010626174503086,car_crash
+apple rumors,9.007527818405023,apple_rumors
+weekend box,8.983800255959572,weekend_box
+happens when,8.973339764484239,happens_when
+winter olympics,8.970226192970133,winter_olympics
+tom cruise,8.924912018763413,tom_cruise
+rio olympics,8.91085956667552,rio_olympics
+travel zen,8.842116324549368,travel_zen
+mad men,8.820376179592985,mad_men
+pretty little,8.81516997692314,pretty_little
+white house,8.81379924518973,white_house
+donald trump,8.813217513310523,donald_trump
+weekly travel,8.804641619130706,weekly_travel
+shares adorable,8.781968117989893,shares_adorable
+rob kardashian,8.778680190378857,rob_kardashian
+mass shooting,8.771639463209164,mass_shooting
+north west,8.706190271103132,north_west
+wonder woman,8.700473107826152,wonder_woman
+college football,8.693355031479584,college_football
+so far,8.682393321036146,so_far
+ivanka trump,8.660711826221336,ivanka_trump
+j j,8.655579303812099,j_j
+year old,8.632063994480253,year_old
+i am,8.603715125387012,i_am
+late night,8.585059717087397,late_night
+sex abuse,8.584883974881,sex_abuse
+happy birthday,8.565947385465156,happy_birthday
+football players,8.522736259867193,football_players
+labor day,8.491742490044473,labor_day
+i m,8.466771002590539,i_m
+chris brown,8.435792476855854,chris_brown
+speaks out,8.425155840747117,speaks_out
+york city,8.419850932986831,york_city
+most expensive,8.409797268322908,most_expensive
+movie review,8.385232736117253,movie_review
+while traveling,8.346983209897994,while_traveling
+fast food,8.345340478021082,fast_food
+captain america,8.335936240023784,captain_america
+memorial day,8.316223472128934,memorial_day
+police officer,8.311239070347415,police_officer
+better than,8.305291601852943,better_than
+ve never,8.29182179655049,ve_never
+too much,8.288781867361541,too_much
+dessert recipes,8.286099544098002,dessert_recipes
+football player,8.251096063465718,football_player
+friday box,8.244919066573122,friday_box
+right now,8.232972660434227,right_now
+baby boy,8.22103001622593,baby_boy
+most romantic,8.217845960550596,most_romantic
+most popular,8.201904416681575,most_popular
+chris rock,8.190437238256882,chris_rock
+sexual abuse,8.163627059269928,sexual_abuse
+must see,8.125536211923396,must_see
+cooking off,8.113723063661594,cooking_off
+opens up,8.078442969962977,opens_up
+nfl player,8.047364117882099,nfl_player
+world cup,8.040539524744437,world_cup
+kim k,8.012731530645983,kim_k
+aren t,7.992893202222499,aren_t
+didn t,7.992893202222499,didn_t
+shouldn t,7.992893202222498,shouldn_t
+wouldn t,7.992893202222498,wouldn_t
+wasn t,7.992893202222498,wasn_t
+isn t,7.992893202222498,isn_t
+doesn t,7.992893202222498,doesn_t
+couldn t,7.992893202222498,couldn_t
+they re,7.990958047235669,they_re
+fashion week,7.978152451962366,fashion_week
+what happens,7.971588920773122,what_happens
+save money,7.968520558304941,save_money
+so much,7.9354436382973175,so_much
+don t,7.8823348270748,don_t
+music awards,7.847488469045307,music_awards
+doctor who,7.814424329705961,doctor_who
+i learned,7.78346320931497,i_learned
+less than,7.767446388424612,less_than
+nfl players,7.766463291254789,nfl_players
+its own,7.763100622379596,its_own
+looks like,7.747716584065881,looks_like
+can teach,7.7273309839220765,can_teach
+most dangerous,7.710414856964856,most_dangerous
+night live,7.707732435911537,night_live
+breaks down,7.701079244252586,breaks_down
+police say,7.673187911475858,police_say
+new zealand,7.663484501897451,new_zealand
+your weekly,7.6621336637454895,your_weekly
+golden state,7.652585298544736,golden_state
+our taste,7.648091736416749,our_taste
+new york,7.646901617701848,new_york
+explains why,7.638194998688352,explains_why
+haven t,7.63032312283779,haven_t
+new orleans,7.62449037028158,new_orleans
+13 reasons,7.6072421302837565,13_reasons
+time since,7.5986757905345845,time_since
+won t,7.595920418705642,won_t
+baby girl,7.59493763954492,baby_girl
+american airlines,7.570420348352818,american_airlines
+ll ever,7.547370674306362,ll_ever
+music festival,7.5427076807723585,music_festival
+50 years,7.53847459322402,50_years
+love letter,7.528083822704531,love_letter
+what happened,7.52155600013808,what_happened
+most important,7.506758998209994,most_important
+1 million,7.505791127742133,1_million
+shooting suspect,7.4744497794011435,shooting_suspect
+check out,7.4532759049897885,check_out
+cops say,7.452213217541587,cops_say
+they were,7.411360216402848,they_were
+last night,7.40584209426072,last_night
+me too,7.37474101354379,me_too
+our favorite,7.373930631253806,our_favorite
+school football,7.360228729987362,school_football
+york fashion,7.352635852890575,york_fashion
+have been,7.347726281509877,have_been
+ve ever,7.347463693241508,ve_ever
+old boy,7.337283084721782,old_boy
+get ready,7.3368339967676794,get_ready
+part 2,7.3197486819809745,part_2
+1 000,7.284779936804045,1_000
+9 11,7.280561360556573,9_11
+more than,7.278320927244625,more_than
+has been,7.269934120903728,has_been
+proof that,7.259094246818115,proof_that
+talking about,7.2510175423346865,talking_about
+re going,7.235951897509249,re_going
+get away,7.2189341170808925,get_away
+we re,7.2114602795666976,we_re
+ll never,7.204659439939629,ll_never
+20 years,7.195936218661372,20_years
+found dead,7.1461350403356505,found_dead
+daily show,7.07464368210935,daily_show
+real life,7.00978238847685,real_life
+best dressed,7.005525663404278,best_dressed
+their own,7.001988940881687,their_own
+feel like,6.997837671096513,feel_like
+might be,6.987666808244818,might_be
+truth about,6.986952797704233,truth_about
+gives us,6.982775417238492,gives_us
+tweets from,6.978096289063697,tweets_from
+will smith,6.971099318848343,will_smith
+old girl,6.9521988075445655,old_girl
+facts about,6.951845361515026,facts_about
+calls out,6.9460332288895765,calls_out
+we ve,6.935172951403683,we_ve
+world series,6.887397761121188,world_series
+may have,6.877707358461169,may_have
+at least,6.86038257371476,at_least
+top 9,6.849652746333848,top_9
+talk about,6.837674341595715,talk_about
+says she,6.8231269262430345,says_she
+one thing,6.806319280068905,one_thing
+inspired by,6.802128779989218,inspired_by
+most beautiful,6.797514161602244,most_beautiful
+part 1,6.795804042552732,part_1
+tv shows,6.776415881379941,tv_shows
+look like,6.769281523253834,look_like
+top 10,6.756267117039478,top_10
+season 2,6.73757399863144,season_2
+his own,6.7323287368042735,his_own
+sides with,6.727580711671215,sides_with
+new jersey,6.7078786212559045,new_jersey
+say they,6.689025878759551,say_they
+says he,6.688797781361604,says_he
+this week,6.684113173699852,this_week
+holiday season,6.674664832015655,holiday_season
+t believe,6.662247890234027,t_believe
+shot dead,6.642659576389222,shot_dead
+obsessed with,6.640117870420878,obsessed_with
+reasons why,6.6398569209927585,reasons_why
+may be,6.628264007938796,may_be
+know about,6.612410548276465,know_about
+best picture,6.596144566652495,best_picture
+learned from,6.59462787476452,learned_from
+who killed,6.590918288058803,who_killed
+way through,6.5884028929959975,way_through
+just got,6.587795570300906,just_got
+man accused,6.586645731665713,man_accused
+learn from,6.573493182402438,learn_from
+conversation with,6.5683821168219625,conversation_with
+reveals she,6.538939403959148,reveals_she
+dies after,6.493918978951224,dies_after
+that prove,6.456565292972937,that_prove
+no 1,6.455060325621204,no_1
+shows off,6.425728793511156,shows_off
+thank you,6.405103272784711,thank_you
+your favorite,6.3928645181306925,your_favorite
+should never,6.378044520539621,should_never
+disney world,6.37602484075941,disney_world
+an open,6.360895641943735,an_open
+should know,6.351161226388676,should_know
+season 6,6.347722312910419,season_6
+thrones season,6.339260734162219,thrones_season
+we need,6.333503581287626,we_need
+new england,6.3278814701130095,new_england
+charged with,6.306847606728373,charged_with
+even more,6.294880156449728,even_more
+iphone 5,6.283554964512677,iphone_5
+first child,6.278988397146982,first_child
+first time,6.276148445362015,first_time
+talks about,6.271481644894401,talks_about
+you ll,6.268102342678907,you_ll
+every woman,6.264381018783825,every_woman
+i ve,6.247168833630076,i_ve
+could be,6.238987793514828,could_be
+t know,6.230392515949153,t_know
+new album,6.213873854071177,new_album
+than ever,6.211546353305921,than_ever
+she was,6.203336372174706,she_was
+you re,6.20196133034786,you_re
+lessons from,6.196024833571317,lessons_from
+searching for,6.1899317750154985,searching_for
+his wife,6.166559801316434,his_wife
+carry on,6.161978232268819,carry_on
+first look,6.149152683320183,first_look
+6 ways,6.147301530692623,6_ways
+based on,6.146646578512822,based_on
+at cannes,6.141125916165602,at_cannes
+on earth,6.120399128517415,on_earth
+5 reasons,6.110406062196077,5_reasons
+he was,6.108871688171213,he_was
+that ll,6.066744833399937,that_ll
+you ve,6.066478889025035,you_ve
+you need,6.057549370221857,you_need
+will give,6.0529920316120105,will_give
+dancing with,6.043082537399148,dancing_with
+10 things,6.036442280635072,10_things
+travel tips,6.034832768277483,travel_tips
+ever need,6.018209965253559,ever_need
+an interview,6.00808698937038,an_interview
+t tell,6.0063137179848205,t_tell
+carly rae jepsen,29.803153523035874,carly_rae_jepsen
+taraji p henson,29.46528388427949,taraji_p_henson
+lana del rey,28.880321383558325,lana_del_rey
+neil degrasse tyson,28.088908005369753,neil_degrasse_tyson
+lin manuel miranda,27.896262927427358,lin_manuel_miranda
+joseph gordon levitt,27.402274086753696,joseph_gordon_levitt
+shaquille o neal,27.04826602087241,shaquille_o_neal
+cinco de mayo,27.01051615453441,cinco_de_mayo
+julia louis dreyfus,26.673870506090907,julia_louis_dreyfus
+rosie o donnell,26.192655930207586,rosie_o_donnell
+lupita nyong o,26.109666565536557,lupita_nyong_o
+batman v superman,25.782685242922906,batman_v_superman
+dark knight rises,25.421682672355608,dark_knight_rises
+lip sync battle,25.265161181888942,lip_sync_battle
+robert de niro,24.679488543660565,robert_de_niro
+neil patrick harris,24.41543533482893,neil_patrick_harris
+rio de janeiro,24.384715237286077,rio_de_janeiro
+avengers infinity war,24.142365267526323,avengers_infinity_war
+sarah jessica parker,23.99319404277125,sarah_jessica_parker
+cheap celeb finds,23.241759493453127,cheap_celeb_finds
+j k rowling,23.082339254847216,j_k_rowling
+pretty little liars,22.980975287303444,pretty_little_liars
+health care reform,22.80566037864645,health_care_reform
+j j abrams,22.789675754465062,j_j_abrams
+taste test results,22.775554646220407,taste_test_results
+chocolate chip cookie,22.668919746139863,chocolate_chip_cookie
+r r martin,22.588099564028074,r_r_martin
+gilmore girls revival,22.58368245564152,gilmore_girls_revival
+la la land,22.280949255725265,la_la_land
+better call saul,22.25137584626848,better_call_saul
+louis c k,22.246363654849855,louis_c_k
+looney front part,22.240367401262738,looney_front_part
+bill o reilly,22.073532779482843,bill_o_reilly
+celeb finds list,22.03035785603465,celeb_finds_list
+big bang theory,21.989594987123066,big_bang_theory
+george r r,21.776366201459894,george_r_r
+weekly travel zen,21.543253367926216,weekly_travel_zen
+mighty movie podcast,21.515979392030466,mighty_movie_podcast
+school lunch project,21.466968856852628,school_lunch_project
+9 youtube videos,21.30575723631911,9_youtube_videos
+road trip playlist,21.155838763620558,road_trip_playlist
+20 funniest tweets,21.09856357860391,20_funniest_tweets
+our cheap celeb,21.000173506883364,our_cheap_celeb
+daily fantasy sports,20.84146267610208,daily_fantasy_sports
+o j simpson,20.822072799783353,o_j_simpson
+michael b jordan,20.57467204025765,michael_b_jordan
+ve been waiting,20.43740066632572,ve_been_waiting
+washington d c,20.40624347889342,washington_d_c
+wolf movie review,20.371771998356348,wolf_movie_review
+saturday night live,20.36247657380393,saturday_night_live
+billboard music awards,20.34363263916259,billboard_music_awards
+golden state warriors,20.30820768266921,golden_state_warriors
+ve never heard,20.27836105878959,ve_never_heard
+american horror story,20.12370345099787,american_horror_story
+toronto film festival,20.062435794008557,toronto_film_festival
+sexual assault survivors,20.04470299624,sexual_assault_survivors
+huffington post travel,19.874306197188663,huffington_post_travel
+society for arete,19.854542942367235,society_for_arete
+weekend box office,19.712951675506016,weekend_box_office
+our taste test,19.703893661092962,our_taste_test
+pleads not guilty,19.570775902678466,pleads_not_guilty
+globes red carpet,19.520884092120987,globes_red_carpet
+black friday deals,19.33377032205613,black_friday_deals
+ve never seen,19.295367484095273,ve_never_seen
+and meghan markle,19.292962163044272,and_meghan_markle
+with jon chattman,19.23433970988121,with_jon_chattman
+walt disney world,19.22301275059971,walt_disney_world
+top 9 youtube,19.205885309406717,top_9_youtube
+on lip sync,19.166918501885352,on_lip_sync
+bachelor season 21,19.13323503667496,bachelor_season_21
+amazing spider man,19.113640801037747,amazing_spider_man
+golden globes red,19.00101661962172,golden_globes_red
+mtv movie awards,18.989448544574145,mtv_movie_awards
+friday box office,18.974070486119565,friday_box_office
+handmaid s tale,18.95126136421076,handmaid_s_tale
+funniest tweets from,18.83226435257025,funniest_tweets_from
+ve ever seen,18.823945263773336,ve_ever_seen
+season 21 episode,18.796827444510946,season_21_episode
+at comic con,18.74393160184664,at_comic_con
+international film festival,18.726832762224127,international_film_festival
+my 2014 travels,18.638264050674067,my_2014_travels
+fifty shades of,18.625120507438915,fifty_shades_of
+didn t notice,18.61748869072635,didn_t_notice
+super bowl ad,18.565212428957835,super_bowl_ad
+kids choice awards,18.558375948690554,kids_choice_awards
+sides with jon,18.55626780476857,sides_with_jon
+unarmed black man,18.53748557609876,unarmed_black_man
+sport and society,18.46249613723365,sport_and_society
+awards red carpet,18.398487460761267,awards_red_carpet
+high school football,18.37522443827568,high_school_football
+grey s anatomy,18.119590014097827,grey_s_anatomy
+super bowl 50,18.11720708006533,super_bowl_50
+make friends podcast,18.11699195763065,make_friends_podcast
+american crime story,17.929770827195007,american_crime_story
+best dressed list,17.919071039544946,best_dressed_list
+we re obsessed,17.914139487751942,we_re_obsessed
+an open letter,17.843112455890935,an_open_letter
+hall of fame,17.8412417228924,hall_of_fame
+shades of grey,17.830216105294326,shades_of_grey
+tina fey and,17.75312607904223,tina_fey_and
+get down dirty,17.735131044443047,get_down_dirty
+fourth of july,17.676182476621907,fourth_of_july
+horror story season,17.670118371229805,horror_story_season
+and liam hemsworth,17.663627928203127,and_liam_hemsworth
+the force awakens,17.59194136923666,the_force_awakens
+a huffpost deathmatch,17.54984153560914,a_huffpost_deathmatch
+front part 2,17.492964824142266,front_part_2
+road trip through,17.490788351576708,road_trip_through
+4th of july,17.47824309901,4th_of_july
+top 5 tastes,17.474631981359682,top_5_tastes
+your bucket list,17.463074764087825,your_bucket_list
+what happens when,17.319809058064223,what_happens_when
+zaki s review,17.305863009627622,zaki_s_review
+york fashion week,17.091247601686078,york_fashion_week
+pleads guilty to,17.07169277764469,pleads_guilty_to
+taught me about,17.06306711119966,taught_me_about
+youtube videos of,16.953358418884086,youtube_videos_of
+nicki minaj s,16.941519143771895,nicki_minaj_s
+in ncaa tournament,16.933663096887148,in_ncaa_tournament
+harry and meghan,16.92594617862837,harry_and_meghan
+don t worry,16.911191603148772,don_t_worry
+the exceptional traveler,16.909240138452972,the_exceptional_traveler
+born to explore,16.89691560694494,born_to_explore
+blake lively and,16.88083625918533,blake_lively_and
+york film festival,16.878011222871134,york_film_festival
+can teach us,16.853559191241686,can_teach_us
+first time since,16.837022203184222,first_time_since
+i ve learned,16.83671418588094,i_ve_learned
+this week besides,16.769236970396573,this_week_besides
+the looney front,16.7532088226824,the_looney_front
+didn t know,16.734693770735298,didn_t_know
+best road trips,16.73240937266541,best_road_trips
+your weekly travel,16.729809688709985,your_weekly_travel
+17 year old,16.702723877883578,17_year_old
+speaks out against,16.697449585320086,speaks_out_against
+dead at 77,16.67424804637596,dead_at_77
+according to tripadvisor,16.667795418711044,according_to_tripadvisor
+ll ever need,16.647197222874567,ll_ever_need
+and amy poehler,16.61739711354221,and_amy_poehler
+paris fashion week,16.600921975103,paris_fashion_week
+faith in practice,16.577519286661875,faith_in_practice
+year old boy,16.55729343836201,year_old_boy
+cyrus and liam,16.533567387638755,cyrus_and_liam
+making a murderer,16.528083134247485,making_a_murderer
+mariah carey s,16.528077594903337,mariah_carey_s
+in pictures faith,16.484409882270395,in_pictures_faith
+pictures faith in,16.484409882270395,pictures_faith_in
+bachelor in paradise,16.474904220178992,bachelor_in_paradise
+16 year old,16.302793270994936,16_year_old
+in los angeles,16.277563583383227,in_los_angeles
+chefs we love,16.270029993606297,chefs_we_love
+won t believe,16.22687261226399,won_t_believe
+and jay z,16.204963496524027,and_jay_z
+opens up about,16.191751754172117,opens_up_about
+roll hall of,16.190755649451667,roll_hall_of
+doesn t care,16.17444439170256,doesn_t_care
+st patrick s,16.173668397262762,st_patrick_s
+year old girl,16.172209161184796,year_old_girl
+road trips from,16.124143127275712,road_trips_from
+the difference between,16.1043612927219,the_difference_between
+the met gala,16.100800890872026,the_met_gala
+new york city,16.08333543488428,new_york_city
+13 reasons why,16.050266176370684,13_reasons_why
+alec baldwin s,16.010818208891212,alec_baldwin_s
+otp s guide,16.009379931297723,otp_s_guide
+what happened when,15.978589624568095,what_happened_when
+re obsessed with,15.975605441481044,re_obsessed_with
+away with murder,15.96888264178056,away_with_murder
+on social media,15.953623872294793,on_social_media
+teach us about,15.951000521942374,teach_us_about
+mac and cheese,15.9440894057951,mac_and_cheese
+a brief history,15.920862140016165,a_brief_history
+been waiting for,15.920171610336602,been_waiting_for
+and don ts,15.884310123230476,and_don_ts
+carrie fisher s,15.84448574667536,carrie_fisher_s
+you never knew,15.822691154262971,you_never_knew
+girl in havana,15.811984540298894,girl_in_havana
+a whole lot,15.80948535224216,a_whole_lot
+place on earth,15.802742657666176,place_on_earth
+fey and amy,15.802206352070506,fey_and_amy
+miley cyrus and,15.80060372403004,miley_cyrus_and
+ariana grande s,15.796578611450991,ariana_grande_s
+probably didn t,15.79548699270435,probably_didn_t
+the dark knight,15.782239647083061,the_dark_knight
+celebrities react to,15.778439482395035,celebrities_react_to
+at golden globes,15.772500754043401,at_golden_globes
+rock and roll,15.766031783694535,rock_and_roll
+we ve been,15.760832351803472,we_ve_been
+don t forget,15.75591337767086,don_t_forget
+victoria s secret,15.748391125752507,victoria_s_secret
+best beauty list,15.742193277460869,best_beauty_list
+jessica simpson s,15.736842052775495,jessica_simpson_s
+and jimmy fallon,15.735614966524224,and_jimmy_fallon
+brief history of,15.7351420156009,brief_history_of
+walking dead star,15.705911510058266,walking_dead_star
+with jimmy fallon,15.699227731835885,with_jimmy_fallon
+things i learned,15.67709289838293,things_i_learned
+tweets from women,15.639849902882025,tweets_from_women
+won t tell,15.63805263587332,won_t_tell
+year old son,15.636634687425804,year_old_son
+informants a week,15.628842798111288,informants_a_week
+game of thrones,15.598420273614426,game_of_thrones
+when it comes,15.596753817721806,when_it_comes
+week in ouch,15.583285132353199,week_in_ouch
+we ve ever,15.570634955334894,we_ve_ever
+for st patrick,15.562476993223967,for_st_patrick
+food informants a,15.541379956860947,food_informants_a
+explains why she,15.539704482032207,explains_why_she
+could have been,15.535955761294375,could_have_been
+50 shades of,15.513098848655195,50_shades_of
+year old daughter,15.508076447030033,year_old_daughter
+house of cards,15.484108197911846,house_of_cards
+pays tribute to,15.476860032899475,pays_tribute_to
+the nba finals,15.461456029282713,the_nba_finals
+lively and ryan,15.447183081739139,lively_and_ryan
+violence against women,15.429398551283539,violence_against_women
+you ve been,15.418207101092413,you_ve_been
+like this anymore,15.406831681929027,like_this_anymore
+on saturday night,15.389764775884213,on_saturday_night
+behind the scenes,15.359866394502873,behind_the_scenes
+be scared it,15.35301270854194,be_scared_it
+down dirty with,15.346537213458578,down_dirty_with
+in las vegas,15.328843137925222,in_las_vegas
+katy perry s,15.325581244242134,katy_perry_s
+12 year old,15.311933924851413,12_year_old
+you ve never,15.306762238695393,you_ve_never
+in san francisco,15.298136886740599,in_san_francisco
+chrissy teigen and,15.291485504736354,chrissy_teigen_and
+t be scared,15.26008253908968,t_be_scared
+dwayne the rock,15.259678065414528,dwayne_the_rock
+doesn t think,15.233338080756129,doesn_t_think
+15 year old,15.207312962140705,15_year_old
+lady gaga s,15.206430095793333,lady_gaga_s
+i am not,15.204553733163516,i_am_not
+never heard of,15.186112567091156,never_heard_of
+the middle east,15.174174077202242,the_middle_east
+13 year old,15.142008923409096,13_year_old
+the united states,15.14026414938414,the_united_states
+doesn t want,15.13594131796155,doesn_t_want
+9 year old,15.11776137716242,9_year_old
+jay z s,15.116110844306641,jay_z_s
+signs you re,15.110540453595185,signs_you_re
+david bowie s,15.080896644627352,david_bowie_s
+you probably didn,15.055693969821508,you_probably_didn
+new york fashion,15.016120354788024,new_york_fashion
+the golden globes,14.976537754951366,the_golden_globes
+kendall and kylie,14.972697117379552,kendall_and_kylie
+the 20 funniest,14.941513320411966,the_20_funniest
+in practice around,14.938109001918342,in_practice_around
+the last jedi,14.916376319734594,the_last_jedi
+don t want,14.900017859160434,don_t_want
+can learn from,14.897976076053581,can_learn_from
+mistakes to avoid,14.88785927130413,mistakes_to_avoid
+jimmy fallon and,14.88761805996927,jimmy_fallon_and
+happens when you,14.839416820714645,happens_when_you
+everything you need,14.83507842304525,everything_you_need
+than you thought,14.824822096889909,than_you_thought
+why i m,14.809490142881778,why_i_m
+open letter to,14.775165914885893,open_letter_to
+don t tell,14.766659759134855,don_t_tell
+in apple rumors,14.765265565191436,in_apple_rumors
+touching tribute to,14.762614515233347,touching_tribute_to
+4 year old,14.751633478364525,4_year_old
+the hunger games,14.740182514603347,the_hunger_games
+you ll ever,14.726470272202242,you_ll_ever
+and ryan reynolds,14.701500270471824,and_ryan_reynolds
+i m not,14.682407340628956,i_m_not
+8 year old,14.678877135929211,8_year_old
+about sexual assault,14.675739784913425,about_sexual_assault
+speaks out about,14.6730506653239,speaks_out_about
+of sexual misconduct,14.6716241946596,of_sexual_misconduct
+t get enough,14.666124249029455,t_get_enough
+3 year old,14.661247241907413,3_year_old
+shouldn t be,14.65863191557996,shouldn_t_be
+your next trip,14.644664653521225,your_next_trip
+off the cuff,14.636390865211592,off_the_cuff
+for hillary clinton,14.633175526431547,for_hillary_clinton
+6 year old,14.615261036633234,6_year_old
+prince harry and,14.584686605489075,prince_harry_and
+my conversation with,14.579789922139726,my_conversation_with
+amy schumer and,14.567092031694145,amy_schumer_and
+at winter olympics,14.563542606832044,at_winter_olympics
+gives birth to,14.560817738921427,gives_birth_to
+things you didn,14.553479396360883,things_you_didn
+dreaming of my,14.525663931179109,dreaming_of_my
+11 things we,14.49317683007109,11_things_we
+rest of us,14.372632911049399,rest_of_us
+new york times,14.340831657176645,new_york_times
+your next vacation,14.32324493769858,your_next_vacation
+harvey weinstein s,14.299107958552256,harvey_weinstein_s
+jimmy fallon s,14.298839010886534,jimmy_fallon_s
+the dark side,14.284891794319474,the_dark_side
+don t let,14.283160380535731,don_t_let
+justin bieber s,14.2786781803014,justin_bieber_s
+the amazing spider,14.266396721651306,the_amazing_spider
+and john legend,14.258521517715248,and_john_legend
+and james corden,14.246487733244773,and_james_corden
+don t know,14.244374264930734,don_t_know
+what it means,14.24363110123085,what_it_means
+what i learned,14.230777556066036,what_i_learned
+women this week,14.213232092064226,women_this_week
+kendall jenner is,14.208447877078186,kendall_jenner_is
+this holiday season,14.20521645048208,this_holiday_season
+i learned from,14.194226891679303,i_learned_from
+valentine s day,14.164283840522824,valentine_s_day
+get away with,14.155101450563526,get_away_with
+doesn t look,14.136764821061075,doesn_t_look
+hillary clinton s,14.132858615253339,hillary_clinton_s
+hit and run,14.125254986851775,hit_and_run
+say goodbye to,14.125222067703188,say_goodbye_to
+the gilmore girls,14.104704102562213,the_gilmore_girls
+amy schumer s,14.103843864695266,amy_schumer_s
+chrissy teigen s,14.095717648602461,chrissy_teigen_s
+2 year old,14.083115234355528,2_year_old
+box office with,14.074262494395244,box_office_with
+james corden and,14.040036855777345,james_corden_and
+kendall jenner and,14.019132690369835,kendall_jenner_and
+kanye west s,14.004894533375914,kanye_west_s
+man who killed,13.98429989219489,man_who_killed
+doesn t have,13.966301744364838,doesn_t_have
+teigen and john,13.953960554797971,teigen_and_john
+doesn t know,13.948884691287432,doesn_t_know
+practice around the,13.942848531095786,practice_around_the
+that aren t,13.941822295991695,that_aren_t
+the funniest tweets,13.940052363283687,the_funniest_tweets
+arrested for allegedly,13.939571646652324,arrested_for_allegedly
+week in pictures,13.936922086967895,week_in_pictures
+of sexual harassment,13.920303307516331,of_sexual_harassment
+save money on,13.902392718042908,save_money_on
+year s eve,13.896886105646846,year_s_eve
+you didn t,13.893038391054175,you_didn_t
+the red carpet,13.892672922709643,the_red_carpet
+accused of killing,13.88695838964885,accused_of_killing
+wars the force,13.884667460007265,wars_the_force
+as much as,13.88443054565845,as_much_as
+the next level,13.884019610950215,the_next_level
+if you re,13.883886005404573,if_you_re
+an ode to,13.868722842707756,an_ode_to
+recipes that ll,13.859512352242351,recipes_that_ll
+be able to,13.830503993625983,be_able_to
+and kylie jenner,13.82119331275793,and_kylie_jenner
+kylie jenner s,13.814802820732524,kylie_jenner_s
+in d c,13.812392599993567,in_d_c
+under fire for,13.800300417465946,under_fire_for
+gets real about,13.780989386337163,gets_real_about
+you ll never,13.757319901138198,you_ll_never
+the rock johnson,13.749483333095348,the_rock_johnson
+we learned from,13.712306008010593,we_learned_from
+on our cheap,13.710534295134645,on_our_cheap
+you re going,13.681697154791305,you_re_going
+of sexual assault,13.67948631243258,of_sexual_assault
+she doesn t,13.669908741584615,she_doesn_t
+has no time,13.636737869230444,has_no_time
+s golden globes,13.636011611319955,s_golden_globes
+you shouldn t,13.61796215894912,you_shouldn_t
+can t miss,13.606389568288266,can_t_miss
+bill cosby s,13.579873516521461,bill_cosby_s
+things we re,13.574575251935876,things_we_re
+the wolf movie,13.551756727441974,the_wolf_movie
+taylor swift s,13.549842092859356,taylor_swift_s
+pay tribute to,13.535380830827409,pay_tribute_to
+obsessed with this,13.533239568272007,obsessed_with_this
+7 year old,13.530129689665275,7_year_old
+he doesn t,13.520996273558742,he_doesn_t
+that ll make,13.518725230103671,that_ll_make
+won t be,13.518150692030131,won_t_be
+you should never,13.515667482459351,you_should_never
+than you think,13.514535408437938,than_you_think
+taylor swift and,13.505606511814785,taylor_swift_and
+i don t,13.49969812346542,i_don_t
+at box office,13.49896548877415,at_box_office
+first look at,13.494081467312697,first_look_at
+you ll want,13.485482655778814,you_ll_want
+the box office,13.46484275248735,the_box_office
+says she was,13.453360952906644,says_she_was
+more than just,13.439674234994438,more_than_just
+t know about,13.421703812159569,t_know_about
+years in prison,13.393708137331007,years_in_prison
+can t stop,13.382006154476356,can_t_stop
+your way through,13.37606743882534,your_way_through
+she didn t,13.369561177282762,she_didn_t
+reasons to visit,13.360772458984535,reasons_to_visit
+shot and killed,13.353206933530128,shot_and_killed
+why we need,13.348433975270266,why_we_need
+kourtney kardashian s,13.326822628263269,kourtney_kardashian_s
+new york film,13.32434353438807,new_york_film
+kylie jenner and,13.318692972228742,kylie_jenner_and
+the national anthem,13.285736244618793,the_national_anthem
+to avoid them,13.27170214897938,to_avoid_them
+don t need,13.261518086778734,don_t_need
+the walking dead,13.255912936947455,the_walking_dead
+new star wars,13.236577637776696,new_star_wars
+recipe you ll,13.229242463958693,recipe_you_ll
+world s largest,13.220577821682653,world_s_largest
+5 year old,13.218908100619315,5_year_old
+kendall jenner s,13.177372900117225,kendall_jenner_s
+get ready for,13.176823300726225,get_ready_for
+a love letter,13.152853728791976,a_love_letter
+caught on video,13.140172248346325,caught_on_video
+taste test the,13.12956877508108,taste_test_the
+isn t just,13.08764876124328,isn_t_just
+to save money,13.079209165817675,to_save_money
+women s march,13.065359957023206,women_s_march
+make you feel,13.051607012298264,make_you_feel
+patrick s day,13.048105434733847,patrick_s_day
+10 reasons why,13.04484250441566,10_reasons_why
+10 year old,13.037049577903158,10_year_old
+cooking off the,12.99484483612407,cooking_off_the
+need to know,12.99429650236469,need_to_know
+says he was,12.982520389993415,says_he_was
+all star game,12.960364202874484,all_star_game
+trump s inauguration,12.954989194470473,trump_s_inauguration
+when you re,12.947357030031927,when_you_re
+around the world,12.94502618440116,around_the_world
+will give you,12.943522131566963,will_give_you
+like a boss,12.93874439193661,like_a_boss
+james corden s,12.935242659690942,james_corden_s
+he won t,12.93431661924361,he_won_t
+make your own,12.9338495212525,make_your_own
+reasons you should,12.92138851435188,reasons_you_should
+an interview with,12.919379654213989,an_interview_with
+the bachelorette season,12.916376319734594,the_bachelorette_season
+they don t,12.915669708267925,they_don_t
+like a local,12.914496845689941,like_a_local
+the super bowl,12.912090376536883,the_super_bowl
+we re all,12.905965556306242,we_re_all
+and kanye west,12.883180199653633,and_kanye_west
+may not be,12.87356612818511,may_not_be
+the tonight show,12.867119258796409,the_tonight_show
+you ll see,12.849766149902791,you_ll_see
+won t make,12.849698675745776,won_t_make
+where to find,12.826237687135885,where_to_find
+is better than,12.818695913704946,is_better_than
+love letter to,12.809545327682152,love_letter_to
+on live tv,12.803341089133642,on_live_tv
+the most outrageous,12.784181707369726,the_most_outrageous
+ways to save,12.780421012243721,ways_to_save
+s most expensive,12.777484037272837,s_most_expensive
+proud to be,12.760830465819168,proud_to_be
+have in common,12.760408906816476,have_in_common
+you should know,12.748651315063512,you_should_know
+khloe kardashian s,12.741860127542115,khloe_kardashian_s
+wanted to know,12.731262096530898,wanted_to_know
+don t have,12.722765101453849,don_t_have
+is what happens,12.700499268376337,is_what_happens
+why you should,12.69895581620975,why_you_should
+first teaser for,12.691312593498928,first_teaser_for
+kim kardashian is,12.676073565250485,kim_kardashian_is
+look back at,12.672925006186832,look_back_at
+people s choice,12.656468636311471,people_s_choice
+things you should,12.647061118661599,things_you_should
+will make you,12.642245050304078,will_make_you
+nothing to do,12.641900649447265,nothing_to_do
+your first look,12.629535910226569,your_first_look
+should know about,12.616473104042866,should_know_about
+accused of sexual,12.614792972062931,accused_of_sexual
+man charged with,12.605901828316306,man_charged_with
+to get away,12.583724005657412,to_get_away
+the mtv movie,12.560801867044985,the_mtv_movie
+ways to use,12.553685636248323,ways_to_use
+man accused of,12.539427709728287,man_accused_of
+as good as,12.520985533490993,as_good_as
+kim kardashian and,12.508784684872134,kim_kardashian_and
+mother s day,12.489396852317851,mother_s_day
+one thing you,12.474456958687409,one_thing_you
+the music industry,12.473734359061153,the_music_industry
+from women this,12.470346526354206,from_women_this
+we don t,12.465236216767938,we_don_t
+ways to cook,12.458492917356365,ways_to_cook
+a road trip,12.442726583507447,a_road_trip
+a sides with,12.437239515345164,a_sides_with
+weighs in on,12.426925763471493,weighs_in_on
+week in apple,12.399981101109686,week_in_apple
+coming to netflix,12.399686787198075,coming_to_netflix
+re going to,12.395422878108267,re_going_to
+u s cities,12.380441709709025,u_s_cities
+we can t,12.377773375517595,we_can_t
+u s open,12.362475163179575,u_s_open
+of thrones season,12.332684696722136,of_thrones_season
+is making us,12.315772920641784,is_making_us
+taylor swift is,12.307898575413887,taylor_swift_is
+into the woods,12.303035171906195,into_the_woods
+father s day,12.302851167964228,father_s_day
+you can actually,12.292522360827009,you_can_actually
+scared it s,12.291999961435266,scared_it_s
+it doesn t,12.283906905158773,it_doesn_t
+you don t,12.26945235438615,you_don_t
+the most popular,12.26359843478587,the_most_popular
+kim kardashian s,12.256433300371869,kim_kardashian_s
+where to stay,12.213654863611506,where_to_stay
+t tell you,12.204966113302104,t_tell_you
+q a with,12.18931200190159,q_a_with
+restaurants in america,12.186323274775866,restaurants_in_america
+make you want,12.161210620423152,make_you_want
+things you need,12.150966206476236,things_you_need
+the bachelor season,12.147701865841055,the_bachelor_season
+where you can,12.142081471152249,where_you_can
+what to expect,12.120939148654964,what_to_expect
+don t be,12.12021200079583,don_t_be
+movie review of,12.115622292843375,movie_review_of
+as you d,12.113822408743966,as_you_d
+like this before,12.103742092461117,like_this_before
+easy ways to,12.090468407879538,easy_ways_to
+in solidarity with,12.086114650093625,in_solidarity_with
+you won t,12.061118038653872,you_won_t
+that will make,12.054470719686035,that_will_make
+like a pro,12.050558395265961,like_a_pro
+why donald trump,12.0421167540446,why_donald_trump
+look like this,12.037912356197175,look_like_this
+what your favorite,12.033881249607198,what_your_favorite
+t look like,12.01215297848468,t_look_like
+u s soccer,11.989768758829381,u_s_soccer
+ways to avoid,11.96372822560678,ways_to_avoid
+what s leaving,11.958930908610366,what_s_leaving
+you re not,11.957774598100702,you_re_not
+that won t,11.916287203884561,that_won_t
+don t get,11.915296001481506,don_t_get
+that make us,11.909294324969732,that_make_us
+can t get,11.898222488122563,can_t_get
+that don t,11.886632243229368,that_don_t
+7 tips for,11.88660481118857,7_tips_for
+there is no,11.867470096995618,there_is_no
+it s ok,11.86121972561067,it_s_ok
+black and white,11.844672379807141,black_and_white
+need to talk,11.84466994466337,need_to_talk
+u s olympic,11.814588031935575,u_s_olympic
+recipes you ll,11.811698109069274,recipes_you_ll
+ll make you,11.807945974208168,ll_make_you
+steps out in,11.794395116677872,steps_out_in
+10 things you,11.787042119445546,10_things_you
+the white house,11.782383858902545,the_white_house
+trailer is here,11.764966614840892,trailer_is_here
+where to go,11.734882412209597,where_to_go
+women s rights,11.733556318966178,women_s_rights
+ways to eat,11.725631721522888,ways_to_eat
+easy way to,11.70562978450116,easy_way_to
+i m a,11.695303116527874,i_m_a
+donald trump s,11.689245501378693,donald_trump_s
+5 things you,11.6767198906684,5_things_you
+how to avoid,11.673210283738134,how_to_avoid
+on the looney,11.672063502039697,on_the_looney
+donald trump is,11.670764653865414,donald_trump_is
+places to go,11.669189871019595,places_to_go
+of thrones star,11.657119647220078,of_thrones_star
+fall in love,11.652478454331886,fall_in_love
+the most important,11.65091517650626,the_most_important
+how to survive,11.650126670625093,how_to_survive
+the top 9,11.639626630738126,the_top_9
+first trailer for,11.63603015799774,first_trailer_for
+things to do,11.597792297157376,things_to_do
+five ways to,11.595996441106289,five_ways_to
+new music video,11.593315496413565,new_music_video
+ll want to,11.589792834650073,ll_want_to
+do you know,11.583285682799636,do_you_know
+here s what,11.581337582029533,here_s_what
+will help you,11.579744876945815,will_help_you
+international women s,11.574478699760856,international_women_s
+what you think,11.562911002340796,what_you_think
+s super bowl,11.554774574941616,s_super_bowl
+recipes that make,11.551181860755714,recipes_that_make
+of taylor swift,11.539990712678213,of_taylor_swift
+to tripadvisor photos,11.537383216793547,to_tripadvisor_photos
+a conversation with,11.508653848637335,a_conversation_with
+found dead in,11.50794411079092,found_dead_in
+you can now,11.477278167195115,you_can_now
+about donald trump,11.468475909280727,about_donald_trump
+how to cook,11.453729457821588,how_to_cook
+women s soccer,11.45229458480711,women_s_soccer
+in star wars,11.449475379164278,in_star_wars
+what happened to,11.441561046041699,what_happened_to
+8 ways to,11.402224697709613,8_ways_to
+change how you,11.39937292365068,change_how_you
+in new orleans,11.398510895936935,in_new_orleans
+recipes you need,11.398014617436402,recipes_you_need
+do when you,11.374407047012744,do_when_you
+best and worst,11.354416907348051,best_and_worst
+s most famous,11.336451329461045,s_most_famous
+on earth photos,11.322498728185264,on_earth_photos
+s day gift,11.311932748002214,s_day_gift
+a whole new,11.293785513958115,a_whole_new
+and society for,11.286475060461932,and_society_for
+6 ways to,11.277208053749499,6_ways_to
+a bunch of,11.274239467429993,a_bunch_of
+7 ways to,11.271399159442947,7_ways_to
+the weekend box,11.240431163514252,the_weekend_box
+a look back,11.238520610615629,a_look_back
+in new york,11.238402752854832,in_new_york
+world s greatest,11.237065944471224,world_s_greatest
+photo of baby,11.218411992354527,photo_of_baby
+will make your,11.193297539582332,will_make_your
+europe s most,11.18772055028786,europe_s_most
+the daily show,11.185247300694591,the_daily_show
+to know before,11.184041689801292,to_know_before
+it comes to,11.17520245661534,it_comes_to
+confessions of a,11.172568049535093,confessions_of_a
+at donald trump,11.155883245794469,at_donald_trump
+for first time,11.14415212549016,for_first_time
+here are all,11.143896748025071,here_are_all
+to taylor swift,11.136423194329591,to_taylor_swift
+to make friends,11.119646411076626,to_make_friends
+york city s,11.117686303629084,york_city_s
+need to see,11.116793324358921,need_to_see
+need to stop,11.107181729574627,need_to_stop
+reasons why you,11.106360738441609,reasons_why_you
+in real life,11.092615509229308,in_real_life
+our girl in,11.072898894258321,our_girl_in
+you need to,11.054944448796439,you_need_to
+and i m,11.053618446103576,and_i_m
+the most beautiful,11.05060471145167,the_most_beautiful
+let s get,11.048475166934972,let_s_get
+travel tips for,11.047226357740794,travel_tips_for
+it means to,11.005828417578378,it_means_to
+best places to,11.004187653182898,best_places_to
+of all time,10.997033293829247,of_all_time
+how to spend,10.98716165790266,how_to_spend
+how to make,10.977291413878596,how_to_make
+in order photos,10.976206807513924,in_order_photos
+of my 2014,10.967076845882248,of_my_2014
+4 ways to,10.96040786731517,4_ways_to
+going to be,10.96013927404258,going_to_be
+no time for,10.956919894526695,no_time_for
+there s no,10.951872337454596,there_s_no
+what you need,10.945658963663142,what_you_need
+how to cocktail,10.931776754626233,how_to_cocktail
+the truth about,10.929475114830844,the_truth_about
+star wars the,10.913646526979024,star_wars_the
+to talk about,10.869040496447044,to_talk_about
+world s most,10.863884308634617,world_s_most
+a lot of,10.853642442809246,a_lot_of
+here s why,10.845180247767805,here_s_why
+you can t,10.842503046864145,you_can_t
+recipes that will,10.835830433210688,recipes_that_will
+back to school,10.834143694492848,back_to_school
+watch the top,10.812737562899287,watch_the_top
+from new york,10.792962073871756,from_new_york
+is a total,10.790608563169704,is_a_total
+ways to get,10.784525410576453,ways_to_get
+and the beast,10.759618106848421,and_the_beast
+dancing with the,10.749117603303523,dancing_with_the
+america s best,10.741573529606654,america_s_best
+you should be,10.734671968679027,you_should_be
+5 ways to,10.697143164563194,5_ways_to
+the importance of,10.693973489380577,the_importance_of
+in wake of,10.689233960203131,in_wake_of
+best response to,10.667283350722748,best_response_to
+looks like a,10.66151610452006,looks_like_a
+on your next,10.651482849143754,on_your_next
+to know about,10.646496204481387,to_know_about
+how to save,10.623654459263907,how_to_save
+things you can,10.620382785924072,things_you_can
+ways to make,10.602228394817807,ways_to_make
+through the years,10.572753153747914,through_the_years
+just got a,10.560488779808649,just_got_a
+on a budget,10.557588234484996,on_a_budget
+the one thing,10.549937528781443,the_one_thing
+5 tips for,10.549388013609668,5_tips_for
+all of us,10.547577353240506,all_of_us
+we need to,10.542572088172987,we_need_to
+what you re,10.541215931241476,what_you_re
+10 ways to,10.538004718347116,10_ways_to
+at new york,10.519835321593156,at_new_york
+first photo of,10.511878294402289,first_photo_of
+guardians of the,10.491217095470887,guardians_of_the
+now you can,10.477278167195118,now_you_can
+how to plan,10.468376233785989,how_to_plan
+s world cup,10.460840919857793,s_world_cup
+you can do,10.456869207204717,you_can_do
+says she s,10.454819940094083,says_she_s
+can t be,10.447786658824338,can_t_be
+the world cup,10.447730108874506,the_world_cup
+t want you,10.434351101101454,t_want_you
+recipes that are,10.434002348104775,recipes_that_are
+with donald trump,10.41978282402037,with_donald_trump
+i can t,10.412235282215082,i_can_t
+for donald trump,10.40820269903224,for_donald_trump
+5 reasons to,10.396394383064996,5_reasons_to
+the first time,10.386752063947256,the_first_time
+how to get,10.382646359760107,how_to_get
+you can make,10.369690221349467,you_can_make
+this is us,10.369051304284476,this_is_us
+the best dressed,10.350594535626536,the_best_dressed
+more than a,10.349792291230552,more_than_a
+for people who,10.338473608616727,for_people_who
+for the holidays,10.334087953311766,for_the_holidays
+on this week,10.325020721538985,on_this_week
+this is what,10.31757508679339,this_is_what
+more the week,10.31595277308088,more_the_week
+america s most,10.30323228565927,america_s_most
+here s how,10.295864444831935,here_s_how
+on the rise,10.282287668610714,on_the_rise
+s new album,10.276072585921199,s_new_album
+here s where,10.229442682323883,here_s_where
+donald trump in,10.223936184246732,donald_trump_in
+and we re,10.22054072376278,and_we_re
+i love you,10.214909007179074,i_love_you
+what to do,10.211912808702458,what_to_do
+isn t a,10.203085725456905,isn_t_a
+orange is the,10.183021979120767,orange_is_the
+in the dolomites,10.172541515026346,in_the_dolomites
+lord of the,10.164052352217377,lord_of_the
+the most adorable,10.15341551703544,the_most_adorable
+best hotels for,10.1520871813526,best_hotels_for
+t want to,10.14807682441841,t_want_to
+for your next,10.144514573668877,for_your_next
+to do when,10.126200811163226,to_do_when
+want to be,10.125776917081794,want_to_be
+a lesson in,10.112109858626573,a_lesson_in
+this week in,10.106538928413727,this_week_in
+a tale of,10.091648054151523,a_tale_of
+the best response,10.084079561057788,the_best_response
+wants to be,10.082758560706539,wants_to_be
+of the galaxy,10.076179596192047,of_the_galaxy
+the rest of,10.076179596192047,the_rest_of
+the evolution of,10.067190812964784,the_evolution_of
+10 reasons to,10.066144020456175,10_reasons_to
+what you should,10.063242252594774,what_you_should
+new on netflix,10.047020504023898,new_on_netflix
+at the vmas,10.03555394509117,at_the_vmas
+at the grammys,10.029343453189364,at_the_grammys
+says he s,10.020505253205966,says_he_s
+might be the,10.016345769121152,might_be_the
+donald trump for,9.993165199753397,donald_trump_for
+look like a,9.991952985769931,look_like_a
+u s women,9.983359338761515,u_s_women
+what do you,9.968265948222301,what_do_you
+in honor of,9.962915610236422,in_honor_of
+how to eat,9.949686952483994,how_to_eat
+new year s,9.944625055398092,new_year_s
+back in time,9.90040337333852,back_in_time
+stuns in a,9.885601328817888,stuns_in_a
+will have you,9.877123663871599,will_have_you
+best hotels in,9.875063525647251,best_hotels_in
+at the oscars,9.871134049613724,at_the_oscars
+women s history,9.8609639649806,women_s_history
+to keep your,9.823146809152911,to_keep_your
+best part of,9.817647300649394,best_part_of
+how to keep,9.816299537206293,how_to_keep
+t know you,9.813641296981146,t_know_you
+wants you to,9.807623550438676,wants_you_to
+in defense of,9.788886210461376,in_defense_of
+the star wars,9.776143003229087,the_star_wars
+at the emmys,9.774671210112427,at_the_emmys
+in the works,9.757504015747507,in_the_works
+donald trump and,9.745676675903695,donald_trump_and
+s best beauty,9.745317873885712,s_best_beauty
+how to stay,9.732588830817061,how_to_stay
+the first trailer,9.727150762333345,the_first_trailer
+the handmaid s,9.720312992350275,the_handmaid_s
+things to know,9.717016544802968,things_to_know
+is coming to,9.707809082560411,is_coming_to
+could be a,9.688119046965555,could_be_a
+how to find,9.682206641619011,how_to_find
+at the box,9.650935841690185,at_the_box
+how to use,9.648457850264467,how_to_use
+moments from the,9.635839856044164,moments_from_the
+new this week,9.630606781192355,new_this_week
+recipe of the,9.598911292408964,recipe_of_the
+these are the,9.58515172846073,these_are_the
+on a plane,9.584637274358354,on_a_plane
+a look at,9.576351567591118,a_look_at
+of the wolf,9.574985453163476,of_the_wolf
+this week s,9.571848245545688,this_week_s
+the world series,9.555525810249463,the_world_series
+are going to,9.553019368361015,are_going_to
+test the best,9.528381654841825,test_the_best
+how do you,9.522328138831456,how_do_you
+says about you,9.51525171610053,says_about_you
+is just as,9.510878465593104,is_just_as
+s new single,9.46085554609062,s_new_single
+the problem with,9.451488534440934,the_problem_with
+in a bikini,9.446977009221436,in_a_bikini
+how you can,9.438623017021355,how_you_can
+in prison for,9.433184235118867,in_prison_for
+to help you,9.430544593678933,to_help_you
+it s not,9.429900466166627,it_s_not
+s new song,9.429491375181287,s_new_song
+videos of the,9.41511411638509,videos_of_the
+best way to,9.413573484685159,best_way_to
+new york s,9.401961857037056,new_york_s
+isn t the,9.391622207604364,isn_t_the
+the best places,9.379163687823317,the_best_places
+it s time,9.377107708926005,it_s_time
+and it was,9.340988152774699,and_it_was
+is full of,9.336254433273098,is_full_of
+had the best,9.317763143159171,had_the_best
+it s like,9.314698696134867,it_s_like
+for valentine s,9.308753911267793,for_valentine_s
+world s best,9.297462606556039,world_s_best
+with this week,9.2472440139949,with_this_week
+is ready to,9.237730219723607,is_ready_to
+year old s,9.227801177503778,year_old_s
+time s up,9.215594883844695,time_s_up
+get out of,9.209660670248851,get_out_of
+or not to,9.183427051523758,or_not_to
+10 things to,9.178839747875145,10_things_to
+it s really,9.174610623071542,it_s_really
+first time in,9.169018811435613,first_time_in
+it takes to,9.130275788502873,it_takes_to
+with the stars,9.129730679100746,with_the_stars
+is going to,9.12612171387211,is_going_to
+s guide to,9.124449767037305,s_guide_to
+the best way,9.103388189426617,the_best_way
+s ok to,9.10221839231341,s_ok_to
+at the golden,9.095926563070655,at_the_golden
+to deal with,9.077690704942627,to_deal_with
+you want to,9.075708462448711,you_want_to
+the top 10,9.073488004308624,the_top_10
+from around the,9.060559908720348,from_around_the
+to save on,9.047290560006283,to_save_on
+she s not,9.042673164439492,she_s_not
+the power of,9.03127123870984,the_power_of
+the end of,9.023409120936877,the_end_of
+week s best,9.005185000640823,week_s_best
+and more photos,9.001335162591923,and_more_photos
+the future of,9.000076617106252,the_future_of
+the way we,8.97738092207365,the_way_we
+s top 10,8.973969960181007,s_top_10
+on netflix in,8.970411628216496,on_netflix_in
+over the top,8.962139269105037,over_the_top
+know about the,8.935536867618055,know_about_the
+like to be,8.930818700372363,like_to_be
+recipes to make,8.921043877837837,recipes_to_make
+the best thing,8.912224532517072,the_best_thing
+of new york,8.906137070766126,of_new_york
+he s not,8.903814361077544,he_s_not
+in the caribbean,8.889607551754843,in_the_caribbean
+is all about,8.889427826502349,is_all_about
+this is how,8.871637277402558,this_is_how
+new york and,8.865210024035932,new_york_and
+this year s,8.818781596753382,this_year_s
+the new york,8.793834880668683,the_new_york
+but it s,8.783658742317016,but_it_s
+5 things to,8.78103006953966,5_things_to
+best ways to,8.772416899530597,best_ways_to
+the joy of,8.770209075207651,the_joy_of
+at the 2015,8.769894069850558,at_the_2015
+what it s,8.747514178581923,what_it_s
+here s your,8.74666190797263,here_s_your
+donald trump to,8.741490175197741,donald_trump_to
+in front of,8.710607610995703,in_front_of
+here to make,8.708968451176531,here_to_make
+the best part,8.705345110551946,the_best_part
+a taste of,8.699330631372767,a_taste_of
+know how to,8.693802715212072,know_how_to
+there s a,8.687895712120094,there_s_a
+to say about,8.687546106292594,to_say_about
+this is why,8.680793915325504,this_is_why
+the best road,8.654108010815406,the_best_road
+make the most,8.623594570506754,make_the_most
+could be the,8.596547609920286,could_be_the
+to become a,8.595716517654237,to_become_a
+this is my,8.586212661833905,this_is_my
+tweets about the,8.583497455725508,tweets_about_the
+to new york,8.58348954780108,to_new_york
+hour of the,8.576865186381703,hour_of_the
+what to watch,8.563918677738231,what_to_watch
+in your life,8.56314557353923,in_your_life
+at the end,8.558206544016983,at_the_end
+in the middle,8.555870154577853,in_the_middle
+the u s,8.54531954640445,the_u_s
+look at the,8.535406203615814,look_at_the
+the rise of,8.52877089818066,the_rise_of
+women need to,8.526824803525784,women_need_to
+things not to,8.518555477084853,things_not_to
+here are the,8.503349840610213,here_are_the
+is getting a,8.498808573109308,is_getting_a
+want you to,8.490745961727555,want_you_to
+you re a,8.481632293277002,you_re_a
+the new black,8.475711193148854,the_new_black
+the best hotels,8.464765555545853,the_best_hotels
+on the road,8.45493507197179,on_the_road
+looks from the,8.417416336910655,looks_from_the
+of the day,8.40276943139365,of_the_day
+to make your,8.39572558541824,to_make_your
+u s photos,8.387312957551131,u_s_photos
+a case for,8.355270062465642,a_case_for
+it s just,8.354121673343066,it_s_just
+like it s,8.353172843949508,like_it_s
+how to take,8.352446121984407,how_to_take
+women s day,8.3494961609587,women_s_day
+is back with,8.346573367196399,is_back_with
+to do with,8.337138409266268,to_do_with
+at the airport,8.301601589462166,at_the_airport
+is making a,8.287768804913776,is_making_a
+what is it,8.285210204982242,what_is_it
+t have to,8.283291832350121,t_have_to
+world s top,8.282762652879235,world_s_top
+to stay in,8.253244964162121,to_stay_in
+the 10 best,8.249124176200489,the_10_best
+to take your,8.243816176511082,to_take_your
+the man who,8.23467394917192,the_man_who
+on new year,8.22885882700971,on_new_year
+you to know,8.21795946102754,you_to_know
+the art of,8.2174334485454,the_art_of
+to run for,8.216852024835639,to_run_for
+you need for,8.208395937263964,you_need_for
+in the kitchen,8.199508562626619,in_the_kitchen
+how to do,8.181012498590464,how_to_do
+is what it,8.178295001065727,is_what_it
+on the internet,8.168630886815144,on_the_internet
+at a time,8.155221597092181,at_a_time
+s response to,8.153443715668587,s_response_to
+the world photos,8.130386480209005,the_world_photos
+why it s,8.130027696467684,why_it_s
+in the u,8.116536105297598,in_the_u
+recipe how to,8.112065144872965,recipe_how_to
+a guide to,8.109947373471861,a_guide_to
+to make it,8.083830929579655,to_make_it
+can be a,8.079663362689281,can_be_a
+the internet is,8.057491097036909,the_internet_is
+is there a,8.018530970939956,is_there_a
+at the 2016,8.002817158679171,at_the_2016
+the 10 most,8.002314389884795,the_10_most
+recipes how to,8.000623917709229,recipes_how_to
+you need a,7.969131065426211,you_need_a
+on the cover,7.9669970256454965,on_the_cover
+to buy a,7.9666988368551435,to_buy_a
+the age of,7.943808397459506,the_age_of
+to get your,7.934166411402153,to_get_your
+the cost of,7.929687289214847,the_cost_of
+on what it,7.910923167590242,on_what_it
+on the red,7.906710101292063,on_the_red
+the best hotel,7.900698279136043,the_best_hotel
+what not to,7.898210734992922,what_not_to
+the cast of,7.893654557970095,the_cast_of
+there is a,7.881027447190021,there_is_a
+end of the,7.8745457350223935,end_of_the
+the world s,7.863353181495492,the_world_s
+beauty and the,7.833618688292191,beauty_and_the
+the best food,7.801800542823423,the_best_food
+of the week,7.796543223021112,of_the_week
+t have a,7.791659479730433,t_have_a
+in love with,7.7911945367122755,in_love_with
+and where to,7.783090505456138,and_where_to
+it s all,7.764837566671815,it_s_all
+restaurants in the,7.757504015747499,restaurants_in_the
+travel the world,7.748035392062071,travel_the_world
+the best ways,7.741754132894408,the_best_ways
+best things to,7.74082658708712,best_things_to
+new game of,7.734797131910077,new_game_of
+to be an,7.733788839137447,to_be_an
+the new year,7.732273676147933,the_new_year
+a trip to,7.725523864985093,a_trip_to
+returns to the,7.706037049846373,returns_to_the
+says it s,7.692442224758494,says_it_s
+s new movie,7.68927175505484,s_new_movie
+s your first,7.6885917818491265,s_your_first
+at the weekend,7.680889063791809,at_the_weekend
+and it s,7.680316778718527,and_it_s
+in talks to,7.670856407104792,in_talks_to
+the trailer for,7.6480393274762974,the_trailer_for
+in the face,7.631395246597678,in_the_face
+journey to the,7.622981310118817,journey_to_the
+is a real,7.6171612771124435,is_a_real
+s 10 best,7.610158290604082,s_10_best
+to visit in,7.609765998874026,to_visit_in
+at u s,7.601468589021246,at_u_s
+how to travel,7.579260339905447,how_to_travel
+the cover of,7.573376200301823,the_cover_of
+live from the,7.554919860660597,live_from_the
+is back and,7.534963695329787,is_back_and
+s what we,7.501002880563463,s_what_we
+not to be,7.499251123185765,not_to_be
+on game of,7.4843526264491596,on_game_of
+to do in,7.474258135832442,to_do_in
+tips for a,7.466816715113801,tips_for_a
+the heart of,7.456044380439978,the_heart_of
+how to be,7.425250541741987,how_to_be
+in the dark,7.337965124233719,in_the_dark
+of the year,7.336835516919415,of_the_year
+how to have,7.324196645180237,how_to_have
+is here and,7.309108236521618,is_here_and
+the return of,7.300554352122242,the_return_of
+in the world,7.293707204548802,in_the_world
+be the most,7.292046586791109,be_the_most
+for the future,7.289693833953315,for_the_future
+s going to,7.277638150189631,s_going_to
+is now a,7.2528983450667175,is_now_a
+of being a,7.25062310820428,of_being_a
+the 5 best,7.2383376209742485,the_5_best
+the week in,7.237496956867112,the_week_in
+is the only,7.201018408414612,is_the_only
+sex and the,7.175471840967084,sex_and_the
+to be a,7.160612342111996,to_be_a
+what s new,7.153724453131338,what_s_new
+in the age,7.1486947730719805,in_the_age
+s all about,7.147859466736377,s_all_about
+you have to,7.12846131018845,you_have_to
+are the most,7.125934780613336,are_the_most
+for the first,7.1094570597793245,for_the_first
+is the perfect,7.0940169730620255,is_the_perfect
+of the future,7.093186021497729,of_the_future
+the secret to,7.023519239702544,the_secret_to
+how not to,7.004813948630848,how_not_to
+get the best,7.003791772100144,get_the_best
+have the best,6.963263965517534,have_the_best
+is not a,6.951208789059166,is_not_a
+one of the,6.897265811522473,one_of_the
+the beauty of,6.874545735022387,the_beauty_of
+are all the,6.870074407667283,are_all_the
+and the city,6.852727511239897,and_the_city
+a week in,6.849075452792776,a_week_in
+here s a,6.844813120971067,here_s_a
+in u s,6.840140299085911,in_u_s
+of this world,6.837786348491192,of_this_world
+is the most,6.835098675700457,is_the_most
+video how to,6.785711217372878,video_how_to
+and more the,6.770846039618888,and_more_the
+on the way,6.768700279926512,on_the_way
+is how you,6.7621304755898555,is_how_you
+to celebrate the,6.760484833868753,to_celebrate_the
+tips for the,6.753756901322255,tips_for_the
+to find the,6.75192282036533,to_find_the
+the face of,6.748436965872571,the_face_of
+guide to the,6.734582970425997,guide_to_the
+are the best,6.731198537841508,are_the_best
+here s the,6.7281507029629575,here_s_the
+is your new,6.68537322942059,is_your_new
+to go to,6.68434392648998,to_go_to
+s what it,6.643177518767189,s_what_it
+to make a,6.6296638495775815,to_make_a
+in new video,6.621003507907879,in_new_video
+trailer for the,6.600733612697943,trailer_for_the
+all about the,6.561758796698007,all_about_the
+history of the,6.558641427762795,history_of_the
+letter to the,6.555370403964139,letter_to_the
+to take a,6.554375722273343,to_take_a
+of the world,6.548252447573623,of_the_world
+shot in the,6.5480506501185545,shot_in_the
+some of the,6.542349304681202,some_of_the
+is one of,6.5364677648517935,is_one_of
+hotels in the,6.500116173054849,hotels_in_the
+is the best,6.496945961295005,is_the_best
+a game of,6.491464816491599,a_game_of
+to watch on,6.454154127839416,to_watch_on
+the life of,6.443495917754916,the_life_of
+part of the,6.4426999480569895,part_of_the
+of america s,6.439400002925062,of_america_s
+this is the,6.407017028497684,this_is_the
+to go in,6.404522903009906,to_go_in
+the country s,6.3565647217682875,the_country_s
+the story of,6.356220427331523,the_story_of
+s like to,6.346243997208668,s_like_to
+what s your,6.345018692921776,what_s_your
+tribute to the,6.301053215231447,tribute_to_the
+to the future,6.301053215231447,to_the_future
+of the box,6.2696836768635285,of_the_box
+in time for,6.24613505588534,in_time_for
+is all of,6.244081515880621,is_all_of
+recipes for a,6.162624984523242,recipes_for_a
+back to the,6.1359939689609595,back_to_the
+and how to,6.127995072886647,and_how_to
+to see the,6.120480969589637,to_see_the
+to have a,6.111088746190326,to_have_a
+she s a,6.107099240978492,she_s_a
+in the life,6.104061777143585,in_the_life
+s why you,6.095670642962929,s_why_you
+of u s,6.094685542110732,of_u_s
+is here to,6.094501956145287,is_here_to
+are you a,6.0828354350053635,are_you_a
+to make with,6.077122826548795,to_make_with
+u s a,6.073954789058561,u_s_a
+of the most,6.067190812964789,of_the_most
+for women in,6.0404823499684985,for_women_in
+on how to,6.027912119789496,on_how_to
+the game of,6.016564739894825,the_game_of

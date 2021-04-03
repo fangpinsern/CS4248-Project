@@ -5,6 +5,8 @@ import os
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(ROOT_DIR, "..", "data")
 PREDS_DIR = os.path.join(DATA_DIR, "predictions")
+VOCAB_DIR = os.path.join(ROOT_DIR, "..", "vocab")
+
 JSON_FILE = os.path.join(DATA_DIR, "News_Category_Dataset_v2.json")
 DF_FILE = os.path.join(DATA_DIR, "subsetNews.csv")
 TRAIN_TEST_SPLIT_FILE = os.path.join(DATA_DIR, "train_test_split_dataset.csv")
@@ -13,6 +15,8 @@ WEIGHTS_DIR = os.path.join(ROOT_DIR, "model_weights")
 EMBEDDINGS_DIR = os.path.join(DATA_DIR, "embeddings")
 GLOVE_FILE = os.path.join(EMBEDDINGS_DIR, "glove.6B.50d.txt")
 WORD2IDX_FILE = os.path.join(EMBEDDINGS_DIR, "6B.50_idx.pkl")
+
+BIGRAM_TRIGRAM_VOCAB = os.path.join(VOCAB_DIR, "bigram_trigram_vocab_PMI.csv")
 
 # SEED
 SEED = 42
