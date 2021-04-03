@@ -10,7 +10,7 @@ import random
 
 from proj.models import all_models
 from proj.utils import all_loss, all_opt, accuracy
-from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR
+from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR, CATEGORY_SUBSET, PREDS_DIR, Y_COL, PRED_COL
 from proj.data.data import NewsDataset, split, to_dataloader
 
 
@@ -36,6 +36,7 @@ DEFAULT_HP = {
 - [ ] only set non bias and norm weights to trainable
 - [x] add getPreds method for all rows in dataframe
 """
+PHASES = ["train", "val", "test", "train"]
 
 
 class Trainer:
@@ -83,7 +84,7 @@ class Trainer:
         # self.recall = {0: None, 1: None, 2: [0 for i in (self.class_names)]}
 
     def anEpoch(self, phaseIndex, toLog=True):
-        phaseName = ["train", "val", "test"][phaseIndex]
+        phaseName = PHASES[phaseIndex]
         losses = []
         acc_count = 0
         allPreds, allLabels = [], []
@@ -109,8 +110,8 @@ class Trainer:
                 loss = self.loss(output, yb)
                 xb.detach().cpu()
                 yb.detach().cpu()
-            allPreds.append(torch.argmax(output, dim=1))
-            allLabels.append(yb)
+            allPreds.append(torch.argmax(output, dim=1).cpu())
+            allLabels.append(yb.cpu())
 
             acc_count += accuracy(output, yb)
             losses.append(loss)
@@ -207,8 +208,22 @@ class Trainer:
             torch.save(state, weights_path)  # open(pkl), compress
             self.model.to(self.device)
 
-    def getPreds(self, phaseIdx):
-        preds, _ = self.anEpoch(phaseIdx, toLog=False)
+    def getPreds(self, phaseIdx, toSave=False):
+        with torch.no_grad():
+            preds, _ = self.anEpoch(phaseIdx, toLog=False)
+        if not toSave:
+            return preds
+        dfCopy = self.dls[phaseIdx].dataset.getDF()
+        if len(preds) < len(dfCopy):
+            extra = len(dfCopy) % self.batch_size
+            toFill = self.batch_size - extra
+            preds = torch.cat([preds, torch.tensor([-1] * toFill)])
+        predCategories = list(map(lambda l: CATEGORY_SUBSET[l], preds.numpy()))
+        dfCopy[PRED_COL] = predCategories
+        dfCopy["correct"] = dfCopy[PRED_COL] == dfCopy[Y_COL]
+        csvPath = os.path.join(
+            PREDS_DIR, f"{self.model_name}_{PHASES[phaseIdx]}_preds.csv")
+        dfCopy.to_csv(csvPath, index=False)
         return preds
 
 

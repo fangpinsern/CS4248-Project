@@ -4,6 +4,7 @@ import os
 # This is your Project Root
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(ROOT_DIR, "..", "data")
+PREDS_DIR = os.path.join(DATA_DIR, "predictions")
 JSON_FILE = os.path.join(DATA_DIR, "News_Category_Dataset_v2.json")
 DF_FILE = os.path.join(DATA_DIR, "subsetNews.csv")
 TRAIN_TEST_SPLIT_FILE = os.path.join(DATA_DIR, "train_test_split_dataset.csv")
@@ -19,6 +20,7 @@ SEED = 42
 # Data related constants
 X_COL = "headline"
 Y_COL = "category"
+PRED_COL = "prediction"
 
 CATEGORY_DICT = {
     0: "CRIME",

@@ -14,6 +14,7 @@ STOPWORDS = stopwords.words("english")
 STOPWORDS = set(STOPWORDS) | set(ENGLISH_STOP_WORDS)
 
 
+
 def class_weights(labels):
     weight = []
     big_i = labels.max().item() + 1
@@ -49,6 +50,9 @@ class NewsDataset(Dataset):
         self.glove = torchtext.vocab.GloVe(name="6B", dim=50)
         self.tokenizer = tokenizer
         self.maxLength = MAX_INPUT_LENGTH
+
+    def getDF(self):
+        return self.df.copy()
 
     def __len__(self):
         return len(self.df)
