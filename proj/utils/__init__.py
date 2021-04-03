@@ -3,7 +3,7 @@ import torch
 # from nlp import load_metric
 
 
-all_opt = {"SGD": torch.optim.SGD, "ADAM": torch.optim.Adam}
+all_opt = {"SGD": torch.optim.SGD, "ADAM": torch.optim.AdamW}
 
 all_loss = {"cross_entropy": torch.nn.CrossEntropyLoss()}
 

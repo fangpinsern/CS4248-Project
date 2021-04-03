@@ -17,7 +17,8 @@ def create_emb_layer(non_trainable=False, embedDims=50):
     # the pad token embedding is 0, such that it won't get involved in training
     padEmbed = torch.zeros(size=(embedDims,), dtype=torch.long).unsqueeze(0)
     glove.vectors = torch.cat([glove.vectors, randEmbed, padEmbed])
-    emb_layer = nn.Embedding(*glove.vectors.shape)
+    numEmbeddings = glove.vectors.shape[0]
+    emb_layer = nn.Embedding(*glove.vectors.shape, padding_idx=numEmbeddings - 1)
     emb_layer.load_state_dict({"weight": glove.vectors})
     if non_trainable:
         emb_layer.weight.requires_grad = False
@@ -27,7 +28,7 @@ def create_emb_layer(non_trainable=False, embedDims=50):
 
 class newsLSTM(nn.Module):
     def __init__(
-        self, batch_size, hidden_dims=256, num_classes=10, num_layers=4, dropout=0.2
+        self, batch_size, hidden_dims=128, num_classes=10, num_layers=1, dropout=0.2
     ):
         super().__init__()
         self.embedding, embed_dims = create_emb_layer(True)
@@ -51,11 +52,11 @@ class newsLSTM(nn.Module):
         embeddings = self.embedding(input)
         input_lengths = [MAX_INPUT_LENGTH] * self.batch_size
         # Pack padded batch of sequences for RNN module
-        packed = nn.utils.rnn.pack_padded_sequence(
-            embeddings, torch.tensor(input_lengths), batch_first=True
-        )
+        # packed = nn.utils.rnn.pack_padded_sequence(
+        #     embeddings, torch.tensor(input_lengths), batch_first=True
+        # )
         # Forward pass through LSTM
-        outputs, hidden = self.lstm(packed, self.hidden)
+        outputs, hidden = self.lstm(embeddings, self.hidden)
         # Unpack padding
         # outputs, _ = nn.utils.rnn.pad_packed_sequence(outputs)
         # get LSTM's block 1's hidden state
