@@ -50,11 +50,11 @@ def train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0.2):
 
     return data
     
-def balanced_train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0.2, count=2000):
+def balanced_train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0.2, count=4000):
     def balance_train_data(train_data, count):
         ret = None
         for cat in CATEGORY_SUBSET:
-            data_of_cat = data[data['category']==cat]
+            data_of_cat = train_data[train_data['category']==cat]
             data_of_cat = data_of_cat.sample(count, replace=True)
             if ret is None:
                 ret = data_of_cat
@@ -165,21 +165,26 @@ def get_stopwords(dataset=None, include_common_unigram=False, uninclude_certain_
 # =========================================================================
 
 def break_hashtag(text):
-    if re.match(r'#\w+', text):
-        words = []
-        i = 1
-        word = ''
-        while i < len(text):
-            if text[i].isupper():
-                words.append(word)
-                word = text[i]
-            else:
-                word += text[i]
-            i += 1
-        words.append(word)
-        return ' '.join(words).strip()
-    else:
-        return text
+    text_words = re.split(r'(#\w+)', text)
+    texts = []
+    for text_word in text_words:
+        if re.match(r'#\w+', text_word):
+            words = []
+            i = 1
+            word = ''
+            while i < len(text_word):
+                if text_word[i].isupper():
+                    words.append(word)
+                    word = text_word[i]
+                else:
+                    word += text_word[i]
+                i += 1
+            words.append(word)
+            texts.append(' '.join(words).strip())
+        else:
+            texts.append(text_word)
+
+    return ' '.join(texts)
         
 def tokenize(text, with_stopwords=False):
     text = break_hashtag(text)
