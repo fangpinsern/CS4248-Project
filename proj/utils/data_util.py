@@ -165,21 +165,26 @@ def get_stopwords(dataset=None, include_common_unigram=False, uninclude_certain_
 # =========================================================================
 
 def break_hashtag(text):
-    if re.match(r'#\w+', text):
-        words = []
-        i = 1
-        word = ''
-        while i < len(text):
-            if text[i].isupper():
-                words.append(word)
-                word = text[i]
-            else:
-                word += text[i]
-            i += 1
-        words.append(word)
-        return ' '.join(words).strip()
-    else:
-        return text
+    text_words = re.split(r'(#\w+)', text)
+    texts = []
+    for text_word in text_words:
+        if re.match(r'#\w+', text_word):
+            words = []
+            i = 1
+            word = ''
+            while i < len(text_word):
+                if text_word[i].isupper():
+                    words.append(word)
+                    word = text_word[i]
+                else:
+                    word += text_word[i]
+                i += 1
+            words.append(word)
+            texts.append(' '.join(words).strip())
+        else:
+            texts.append(text_word)
+
+    return ' '.join(texts)
         
 def tokenize(text, with_stopwords=False):
     text = break_hashtag(text)
