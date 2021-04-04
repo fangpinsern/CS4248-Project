@@ -50,11 +50,11 @@ def train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0.2):
 
     return data
     
-def balanced_train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0.2, count=2000):
+def balanced_train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0.2, count=4000):
     def balance_train_data(train_data, count):
         ret = None
         for cat in CATEGORY_SUBSET:
-            data_of_cat = data[data['category']==cat]
+            data_of_cat = train_data[train_data['category']==cat]
             data_of_cat = data_of_cat.sample(count, replace=True)
             if ret is None:
                 ret = data_of_cat
