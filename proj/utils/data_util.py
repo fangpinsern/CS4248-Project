@@ -237,6 +237,16 @@ class Bigram_Trigram_Tokenizer:
         
     def get_bigram_trigram_token_list(self):
         return self.bigram_trigram_vocab['token'].values
+        
+    def get_bigram_token_list(self):
+        df = self.bigram_trigram_vocab.copy()
+        df['len'] = df['ngram'].apply(lambda x: len(x.split(' ')))
+        bigrams = df[df['len']==2]
+        return bigrams['token'].values
+        
+    def get_bigram_glove_embeddings(self):
+        embeddings = pickle.load(open(BIGRAM_VOCAB_EMBEDDINGS, 'rb'))
+        return embeddings
 
 # EMBEDDINGS
 # =========================================================================
