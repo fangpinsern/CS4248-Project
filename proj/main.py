@@ -41,11 +41,10 @@ PHASES = ["train", "val", "test", "train"]
 
 class Trainer:
     def __init__(self, exp_name, model_name, dls, hp, bs, sched=False):
-        self.model = all_models[hp["model"]](bs)
         self.device = torch.device("cuda" if IS_CUDA else "cpu")
+        self.model = all_models[hp["model"]](bs).to(self.device)
         self.loss = all_loss[hp["loss"]]
         self.epochs = hp["epochs"]
-        self.model.to(self.device)
         self.writer = SummaryWriter(
             os.path.join(LOG_DIR, exp_name, model_name))
         self.exp_name = exp_name
@@ -215,9 +214,8 @@ class Trainer:
             return preds
         dfCopy = self.dls[phaseIdx].dataset.getDF()
         if len(preds) < len(dfCopy):
-            extra = len(dfCopy) % self.batch_size
-            toFill = self.batch_size - extra
-            preds = torch.cat([preds, torch.tensor([-1] * toFill)])
+            extra = len(dfCopy) - len(preds)
+            preds = torch.cat([preds, torch.tensor([-1] * extra)])
         predCategories = list(map(lambda l: CATEGORY_SUBSET[l], preds.numpy()))
         dfCopy[PRED_COL] = predCategories
         dfCopy["correct"] = dfCopy[PRED_COL] == dfCopy[Y_COL]

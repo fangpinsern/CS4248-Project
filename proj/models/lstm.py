@@ -4,7 +4,9 @@ import torchtext
 import torch.nn.functional as F
 import numpy as np
 
-from ..constants import MAX_INPUT_LENGTH
+from proj.constants import MAX_INPUT_LENGTH
+
+IS_CUDA = torch.cuda.is_available()
 
 
 def create_emb_layer(non_trainable=False, embedDims=50):
@@ -18,7 +20,8 @@ def create_emb_layer(non_trainable=False, embedDims=50):
     padEmbed = torch.zeros(size=(embedDims,), dtype=torch.long).unsqueeze(0)
     glove.vectors = torch.cat([glove.vectors, randEmbed, padEmbed])
     numEmbeddings = glove.vectors.shape[0]
-    emb_layer = nn.Embedding(*glove.vectors.shape, padding_idx=numEmbeddings - 1)
+    emb_layer = nn.Embedding(*glove.vectors.shape,
+                             padding_idx=numEmbeddings - 1)
     emb_layer.load_state_dict({"weight": glove.vectors})
     if non_trainable:
         emb_layer.weight.requires_grad = False
@@ -42,8 +45,12 @@ class newsLSTM(nn.Module):
         self.lstm = torch.nn.LSTM(**kwargs)
         self.drop = nn.Dropout(p=0.3)
         self.fc = nn.Linear(hidden_dims, num_classes)
-        hidden = torch.zeros((num_layers, batch_size, hidden_dims))
-        self.hidden = (hidden, hidden)
+        self.device = torch.device("cuda" if IS_CUDA else "cpu")
+        hidden = torch.zeros(
+            (num_layers, batch_size, hidden_dims), device=self.device)
+        cell = torch.zeros(
+            (num_layers, batch_size, hidden_dims), device=self.device)
+        self.hidden = (hidden, cell)
         self.batch_size = batch_size
 
     def forward(self, input):
