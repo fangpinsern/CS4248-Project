@@ -7,7 +7,7 @@ from transformers import (
     # get_linear_schedule_with_warmup,
 )
 
-from .lstm import newsLSTM
+from .lstm import lstmAttention, newsLSTM
 
 all_tokenizers = {
     "T5": lambda: T5Tokenizer.from_pretrained("t5-small"),
@@ -24,4 +24,5 @@ all_models = {
         "distilbert-base-uncased", num_labels=10
     ),
     "lstm": lambda bs: newsLSTM(bs),
+    "lstmAttention": lambda bs: lstmAttention(bs),
 }

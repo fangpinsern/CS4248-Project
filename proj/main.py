@@ -191,7 +191,7 @@ class Trainer:
     def load_weights(self, pkl_name, num_classes=None, family=None):
         weights_path = os.path.join(WEIGHTS_DIR, self.exp_name, pkl_name)
         sd = torch.load(weights_path)
-        self.model.load_state_dict(sd)
+        self.model.load_state_dict(sd, strict=False)
         self.model.to(self.device)
 
     def _save_weights(self):
