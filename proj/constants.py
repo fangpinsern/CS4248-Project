@@ -16,9 +16,8 @@ EMBEDDINGS_DIR = os.path.join(DATA_DIR, "embeddings")
 GLOVE_FILE = os.path.join(EMBEDDINGS_DIR, "glove.6B.50d.txt")
 WORD2IDX_FILE = os.path.join(EMBEDDINGS_DIR, "6B.50_idx.pkl")
 
-BIGRAM_VOCAB_EMBEDDINGS = os.path.join(VOCAB_DIR, "mitten_bigram_dict_50d_515_10000.pkl")
-
 BIGRAM_TRIGRAM_VOCAB = os.path.join(VOCAB_DIR, "bigram_trigram_vocab_PMI.csv")
+BIGRAM_VOCAB_EMBEDDINGS = os.path.join(VOCAB_DIR, "mitten_bigram_dict_50d_515_10000.pkl")
 
 # SEED
 SEED = 42

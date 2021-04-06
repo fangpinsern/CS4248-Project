@@ -7,6 +7,7 @@ import pandas as pd
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+from nltk.corpus import wordnet as wn
 
 from ..constants import JSON_FILE, TRAIN_TEST_SPLIT_FILE, CATEGORY_SUBSET, BIGRAM_TRIGRAM_VOCAB
 
@@ -219,6 +220,35 @@ def tokenize(text, with_stopwords=False):
     # return [lem.lemmatize(t) for t in tokens]
     return [t for t in tokens]
 
+def tokenize_synonyms(text):
+    synsets = []
+    tokens = tokenize(text)
+    for token in tokens:
+        synsetss = wn.synsets(token)
+        s_set = []
+        for s in synsetss:
+            s_set.append(s.lemmas()[0].name().lower())
+        s_set.sort()
+        if len(s_set) > 0:
+            synsets += s_set[0].split("_")
+
+    return synsets
+
+def tokenize_hypernyms(text):
+    synsets = []
+    tokens = tokenize(text)
+    for token in tokens:
+        synsetss = wn.synsets(token)
+        h_set = []
+        for s in synsetss:
+            for h in s.hypernyms():
+                h_set.append(h.lemmas()[0].name().lower())
+
+        h_set.sort()
+        if len(h_set) > 0:
+            synsets += h_set[0].split("_")
+            
+    return synsets
 
 class Bigram_Trigram_Tokenizer:
     def __init__(self):
