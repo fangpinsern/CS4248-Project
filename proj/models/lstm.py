@@ -4,15 +4,20 @@ import torchtext
 import torch.nn.functional as F
 import numpy as np
 from torchnlp.nn import Attention
+import pickle
 
-from proj.constants import MAX_INPUT_LENGTH
+from proj.constants import MAX_INPUT_LENGTH, DL_BIGRAM_GLOVE_EMBEDDINGS
 
 IS_CUDA = torch.cuda.is_available()
 
 
-def create_emb_layer(non_trainable=False, embedDims=50):
+def create_emb_layer(non_trainable=False, embedDims=50, useBigram=False):
     np.random.seed(0)
-    glove = torchtext.vocab.GloVe(name="6B", dim=embedDims)
+    if useBigram:
+        with open(DL_BIGRAM_GLOVE_EMBEDDINGS, "rb") as infile:
+            glove = pickle.load(infile)
+    else:
+        glove = torchtext.vocab.GloVe(name="6B", dim=embedDims)
     # here the unknown token embedding is a randomly initialized vector based on normal distribution
     # supposedly these glove vectors i.e. the weights of this embedding layer would change during training as well
     randEmbed = torch.tensor(np.random.normal(scale=0.6, size=(embedDims,)))
@@ -32,10 +37,11 @@ def create_emb_layer(non_trainable=False, embedDims=50):
 
 class newsLSTM(nn.Module):
     def __init__(
-        self, batch_size, hidden_dims=128, num_classes=10, num_layers=1, dropout=0.2
+        self, batch_size, hidden_dims=128, num_classes=10, num_layers=1, dropout=0.2, useBigram=False
     ):
         super().__init__()
-        self.embedding, embed_dims = create_emb_layer(True)
+        self.embedding, embed_dims = create_emb_layer(
+            non_trainable=not useBigram, useBigram=useBigram)
         kwargs = {
             "input_size": embed_dims,
             "hidden_size": hidden_dims,
@@ -74,10 +80,11 @@ class newsLSTM(nn.Module):
 
 class lstmAttention(nn.Module):
     def __init__(
-        self, batch_size, hidden_dims=128, num_classes=10, num_layers=1, dropout=0.2
+        self, batch_size, hidden_dims=128, num_classes=10, num_layers=1, dropout=0.2, useBigram=False
     ):
         super().__init__()
-        self.embedding, embed_dims = create_emb_layer(True)
+        self.embedding, embed_dims = create_emb_layer(
+            non_trainable=not useBigram, useBigram=useBigram)
         kwargs = {
             "input_size": embed_dims,
             "hidden_size": hidden_dims,

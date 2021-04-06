@@ -1,4 +1,3 @@
-import torch
 from transformers import (
     T5ForConditionalGeneration,
     T5Tokenizer,
@@ -25,4 +24,5 @@ all_models = {
     ),
     "lstm": lambda bs: newsLSTM(bs),
     "lstmAttention": lambda bs: lstmAttention(bs),
+    "lstmBigram": lambda bs: newsLSTM(bs, useBigram=True)
 }
