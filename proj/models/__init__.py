@@ -1,4 +1,3 @@
-import torch
 from transformers import (
     T5ForConditionalGeneration,
     T5Tokenizer,
@@ -6,7 +5,7 @@ from transformers import (
     DistilBertTokenizer,
     # get_linear_schedule_with_warmup,
 )
-
+from proj.constants import DISTILBERT_BIGRAM_TOKENIZER
 from .lstm import lstmAttention, newsLSTM
 
 all_tokenizers = {
@@ -14,7 +13,16 @@ all_tokenizers = {
     "distilBert": lambda: DistilBertTokenizer.from_pretrained(
         "distilbert-base-uncased"
     ),
+    "distilBertBigram": lambda: DistilBertTokenizer.from_pretrained(DISTILBERT_BIGRAM_TOKENIZER)
 }
+
+
+def getDistilBertBigram(*args):
+    model = all_models["distilBert"](64)
+    tokenizer = all_tokenizers['distilBertBigram']()
+    model.resize_token_embeddings(len(tokenizer))
+    return model
+
 
 all_models = {
     "T5": lambda _: T5ForConditionalGeneration.from_pretrained(
@@ -23,6 +31,8 @@ all_models = {
     "distilBert": lambda _: DistilBertForSequenceClassification.from_pretrained(
         "distilbert-base-uncased", num_labels=10
     ),
+    "distilBertBigram": getDistilBertBigram,
     "lstm": lambda bs: newsLSTM(bs),
     "lstmAttention": lambda bs: lstmAttention(bs),
+    "lstmBigram": lambda bs: newsLSTM(bs, useBigram=True)
 }
