@@ -19,7 +19,8 @@ DL_BIGRAM_GLOVE_EMBEDDINGS = os.path.join(
     ".vector_cache", "glove.6B.50d.bigram.pkl")
 BIGRAM_VOCAB_EMBEDDINGS = os.path.join(
     VOCAB_DIR, "mitten_bigram_dict_50d_515_10000.pkl")
-
+DISTILBERT_BIGRAM_TOKENIZER = os.path.join(
+    ".vector_cache", "distilbert")
 BIGRAM_TRIGRAM_VOCAB = os.path.join(VOCAB_DIR, "bigram_trigram_vocab_PMI.csv")
 
 # SEED

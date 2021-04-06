@@ -28,6 +28,19 @@ def representUnknown():
                 gloveSize += 1
 
 
+def getUnknownTokens(tokenizer, ds):
+    # Tokenizer should be the distilBerttokenizer
+    # ds should be using the bigram tokenizer
+    unknownTokens = []
+    for text in dfs[0]['headline']:
+        tokens = ds.tokenize(text)
+        for t in tokens:
+            if tokenizer.convert_tokens_to_ids(t) == 100:
+                unknownTokens.append(t)
+                tokenizer.add_tokens(t)
+    return unknownTokens
+
+
 if __name__ == "__main__":
     global glove, tokenizer, dfs
     subset_df = pd.read_csv(os.path.join(
