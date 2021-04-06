@@ -3,12 +3,16 @@ import torch
 import numpy as np
 import os
 import pandas as pd
+import re
+import pickle
+from sklearn.feature_extraction.text import CountVectorizer
+from nltk.stem.wordnet import WordNetLemmatizer
 
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
-from ..constants import JSON_FILE, TRAIN_TEST_SPLIT_FILE, CATEGORY_SUBSET, BIGRAM_TRIGRAM_VOCAB
+from ..constants import JSON_FILE, TRAIN_TEST_SPLIT_FILE, CATEGORY_SUBSET, BIGRAM_TRIGRAM_VOCAB, BIGRAM_VOCAB_EMBEDDINGS
 
 # DATASET
 # =========================================================================
@@ -168,11 +172,8 @@ def get_stopwords(dataset=None, include_common_unigram=False, uninclude_certain_
         stopwords_to_keep = ['ever', 'll', 'best', 'third', 'your', 'against',
                              'had', 'former', 'he', 'her', 'his', 'video', 'found', 'after']
         for s in stopwords_to_keep:
-        try:
-            STOPWORDS.remove(s)
-        except:
-            continue
-
+            if s in STOPWORDS:
+                STOPWORDS.remove(s)
     return STOPWORDS
 
 # TOKENIZATION
@@ -240,30 +241,29 @@ class Bigram_Trigram_Tokenizer:
 
         def helper(left_start, right_end):
             if left_start >= right_end:
-            return ''
-
-        max_bigram_arg = np.argmax(
-            bigrams_pmi[left_start:right_end]) + left_start
-        if bigrams_pmi[max_bigram_arg] > 0:
-            left = helper(left_start, max_bigram_arg)
-            right = helper(max_bigram_arg+2, right_end)
-            bi_unigram = '_'.join(bigrams[max_bigram_arg].split(' '))
-            return ' '.join([left, bi_unigram, right])
-        else:
-            return ' '.join(unigrams[left_start:right_end])
+                return ''
+            max_bigram_arg = np.argmax(
+                bigrams_pmi[left_start:right_end]) + left_start
+            if bigrams_pmi[max_bigram_arg] > 0:
+                left = helper(left_start, max_bigram_arg)
+                right = helper(max_bigram_arg+2, right_end)
+                bi_unigram = '_'.join(bigrams[max_bigram_arg].split(' '))
+                return ' '.join([left, bi_unigram, right])
+            else:
+                return ' '.join(unigrams[left_start:right_end])
 
         ret = helper(0, len(unigrams))
         return nltk.word_tokenize(ret)
 
     def get_bigram_trigram_token_list(self):
         return self.bigram_trigram_vocab['token'].values
-        
+
     def get_bigram_token_list(self):
         df = self.bigram_trigram_vocab.copy()
         df['len'] = df['ngram'].apply(lambda x: len(x.split(' ')))
-        bigrams = df[df['len']==2]
+        bigrams = df[df['len'] == 2]
         return bigrams['token'].values
-        
+
     def get_bigram_glove_embeddings(self):
         embeddings = pickle.load(open(BIGRAM_VOCAB_EMBEDDINGS, 'rb'))
         return embeddings
