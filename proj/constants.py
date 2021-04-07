@@ -23,6 +23,11 @@ DISTILBERT_BIGRAM_TOKENIZER = os.path.join(
     ".vector_cache", "distilbert")
 BIGRAM_TRIGRAM_VOCAB = os.path.join(VOCAB_DIR, "bigram_trigram_vocab_PMI.csv")
 
+
+def BIGRAM_VOCAB_EMBEDDINGS_FN(n): return os.path.join(
+    VOCAB_DIR, f"mitten_bigram_dict_{n}d_515_10000.pkl")
+
+
 # SEED
 SEED = 42
 

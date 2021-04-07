@@ -188,6 +188,9 @@ class Trainer:
     def _write_hp(self, metrics):
         self.writer.add_hparams(self.hp, metrics)
 
+    def setLR(self, lr):
+        self.opt.param_groups[0]['lr'] = lr
+
     def load_weights(self, pkl_name, num_classes=None, family=None):
         weights_path = os.path.join(WEIGHTS_DIR, self.exp_name, pkl_name)
         sd = torch.load(weights_path)
