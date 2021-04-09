@@ -4,6 +4,7 @@ import numpy as np
 import os
 import pandas as pd
 import re
+import random
 import pickle
 from sklearn.feature_extraction.text import CountVectorizer
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -14,6 +15,13 @@ from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from nltk.corpus import wordnet as wn
 
 from ..constants import JSON_FILE, TRAIN_TEST_SPLIT_FILE, CATEGORY_SUBSET, BIGRAM_TRIGRAM_VOCAB, BIGRAM_VOCAB_EMBEDDINGS
+
+STOPWORDS = stopwords.words("english")
+
+
+def randEle(lst):
+    return lst[random.randint(0, len(lst)-1)]
+
 
 # DATASET
 # =========================================================================
@@ -221,35 +229,83 @@ def tokenize(text, with_stopwords=False):
     # return [lem.lemmatize(t) for t in tokens]
     return [t for t in tokens]
 
+
+# def tokenize_synonyms(text):
+#     synsets = []
+#     tokens = tokenize(text)
+#     for token in tokens:
+#         synsetss = wn.synsets(token)
+#         s_set = []
+#         for s in synsetss:
+#             s_set.append(s.lemmas()[0].name().lower())
+#         s_set.sort()
+#         if len(s_set) > 0:
+#             synsets += s_set[0].split("_")
+
+#     return synsets
+
+
 def tokenize_synonyms(text):
     synsets = []
     tokens = tokenize(text)
     for token in tokens:
         synsetss = wn.synsets(token)
         s_set = []
+        if token in STOPWORDS or "_" in token:
+            synsets.append(token)
+            continue
         for s in synsetss:
-            s_set.append(s.lemmas()[0].name().lower())
-        s_set.sort()
-        if len(s_set) > 0:
-            synsets += s_set[0].split("_")
-
+            allSyns = [new.name().lower()
+                       for new in s.lemmas() if new.name().lower() != token]
+            if len(allSyns) > 0:
+                s_set.append(randEle(allSyns))
+        if len(s_set) > 1:
+            synsets.extend(s_set[0].split("_"))
+        else:
+            synsets.append(token)
     return synsets
+
+
+# def tokenize_hypernyms(text):
+#     synsets = []
+#     tokens = tokenize(text)
+#     for token in tokens:
+#         synsetss = wn.synsets(token)
+#         h_set = []
+#         for s in synsetss:
+#             for h in s.hypernyms():
+#                 h_set.append(h.lemmas()[0].name().lower())
+
+#         h_set.sort()
+#         if len(h_set) > 0:
+#             synsets += h_set[0].split("_")
+
+#     return synsets
 
 def tokenize_hypernyms(text):
-    synsets = []
+    hynsets = []
     tokens = tokenize(text)
     for token in tokens:
-        synsetss = wn.synsets(token)
+        synsets = wn.synsets(token)
+        if token in STOPWORDS or "_" in token or len(synsets) == 0:
+            hynsets.append(token)
+            continue
+        synset = synsets[0]
         h_set = []
-        for s in synsetss:
-            for h in s.hypernyms():
-                h_set.append(h.lemmas()[0].name().lower())
 
-        h_set.sort()
-        if len(h_set) > 0:
-            synsets += h_set[0].split("_")
-            
-    return synsets
+        for h in synset.hypernyms():
+            allHyns = [new.name().lower()
+                       for new in h.lemmas() if new.name().lower() != token]
+            if len(allHyns) > 0:
+                h_set.append(randEle(allHyns))
+
+        if len(h_set) > 1:
+            hynsets.extend(h_set[0].split("_"))
+        else:
+            hynsets.append(token)
+
+    return hynsets
+
 
 class Bigram_Trigram_Tokenizer:
     def __init__(self):
