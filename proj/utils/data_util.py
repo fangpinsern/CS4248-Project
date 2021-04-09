@@ -230,24 +230,26 @@ def tokenize(text, with_stopwords=False):
     return [t for t in tokens]
 
 
-# def tokenize_synonyms(text):
-#     synsets = []
-#     tokens = tokenize(text)
-#     for token in tokens:
-#         synsetss = wn.synsets(token)
-#         s_set = []
-#         for s in synsetss:
-#             s_set.append(s.lemmas()[0].name().lower())
-#         s_set.sort()
-#         if len(s_set) > 0:
-#             synsets += s_set[0].split("_")
-
-#     return synsets
-
-
 def tokenize_synonyms(text):
     synsets = []
     tokens = tokenize(text)
+    for token in tokens:
+        synsetss = wn.synsets(token)
+        s_set = []
+        for s in synsetss:
+            s_set.append(s.lemmas()[0].name().lower())
+        s_set.sort()
+        if len(s_set) > 0:
+            synsets += s_set[0].split("_")
+
+    return synsets
+
+
+def augment_synonyms(text):
+    synsets = []
+    tokens = text
+    if type(text) != list:
+        tokens = tokenize(text)
     for token in tokens:
         synsetss = wn.synsets(token)
         s_set = []
@@ -266,25 +268,28 @@ def tokenize_synonyms(text):
     return synsets
 
 
-# def tokenize_hypernyms(text):
-#     synsets = []
-#     tokens = tokenize(text)
-#     for token in tokens:
-#         synsetss = wn.synsets(token)
-#         h_set = []
-#         for s in synsetss:
-#             for h in s.hypernyms():
-#                 h_set.append(h.lemmas()[0].name().lower())
-
-#         h_set.sort()
-#         if len(h_set) > 0:
-#             synsets += h_set[0].split("_")
-
-#     return synsets
-
 def tokenize_hypernyms(text):
-    hynsets = []
+    synsets = []
     tokens = tokenize(text)
+    for token in tokens:
+        synsetss = wn.synsets(token)
+        h_set = []
+        for s in synsetss:
+            for h in s.hypernyms():
+                h_set.append(h.lemmas()[0].name().lower())
+
+        h_set.sort()
+        if len(h_set) > 0:
+            synsets += h_set[0].split("_")
+
+    return synsets
+
+
+def augment_hypernyms(text):
+    hynsets = []
+    tokens = text
+    if type(text) != list:
+        tokens = tokenize(text)
     for token in tokens:
         synsets = wn.synsets(token)
         if token in STOPWORDS or "_" in token or len(synsets) == 0:
