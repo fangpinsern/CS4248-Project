@@ -4,13 +4,15 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import re
-from ..constants import X_COL, Y_COL, CATEGORY_SUBSET, MAX_INPUT_LENGTH, DL_BIGRAM_GLOVE_EMBEDDINGS
+from ..constants import (X_COL, Y_COL, CATEGORY_SUBSET,
+                         MAX_INPUT_LENGTH, DL_BIGRAM_GLOVE_EMBEDDINGS)
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 import torchtext
-from proj.utils.data_util import Bigram_Trigram_Tokenizer
+from proj.utils.data_util import (
+    Bigram_Trigram_Tokenizer, tokenize_synonyms, tokenize_hypernyms, augment_synonyms)
 import pickle
 
-nltk.download("wordnet")
+# nltk.download("wordnet")
 lem = WordNetLemmatizer()
 bigramTokenizer = Bigram_Trigram_Tokenizer()
 STOPWORDS = stopwords.words("english")
@@ -47,16 +49,20 @@ def to_dataloader(ds, bs=64, sampler=None, drop_last=True):
 
 
 class NewsDataset(Dataset):
-    def __init__(self, df, tokenizer=None, useBigram=False):
+    def __init__(self, df, tokenizer=None, useBigram=False, synonyms=False, hypernyms=False, stopwords=True, augment=False):
         self.df = df
         if useBigram:
             with open(DL_BIGRAM_GLOVE_EMBEDDINGS, "rb") as infile:
                 self.glove = pickle.load(infile)
         else:
             self.glove = torchtext.vocab.GloVe(name="6B", dim=50)
+        self.synonyms = synonyms
+        self.hypernyms = hypernyms
+        self.stopwords = stopwords
         self.tokenizer = tokenizer
         self.maxLength = MAX_INPUT_LENGTH
         self.useBigram = useBigram
+        self.augment = augment
 
     def getDF(self):
         return self.df.copy()
@@ -65,13 +71,20 @@ class NewsDataset(Dataset):
         return len(self.df)
 
     def tokenize(self, text):
+        if self.synonyms:
+            return tokenize_synonyms(tokens)
+        if self.hypernyms:
+            return tokenize_hypernyms(tokens)
         if self.useBigram:
             tokens = bigramTokenizer.tokenize_with_bigrams(text)
         else:
             tokens = nltk.word_tokenize(text)
             tokens = [t.lower() for t in tokens if re.match(r"\w+", t)]
+        if not self.stopwords:
+            tokens = [t for t in tokens if t not in STOPWORDS]
+        if self.augment:
+            tokens = augment_synonyms(tokens)
         # tokens = [t.lower() for t in tokens]
-        # remove punctuations and stop words
         # lem.lemmatize(t)
         # tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
         return tokens

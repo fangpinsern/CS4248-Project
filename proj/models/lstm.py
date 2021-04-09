@@ -105,8 +105,6 @@ class lstmAttention(nn.Module):
         self.batch_size = batch_size
 
     def forward(self, input):
-        if isinstance(input, torch.FloatTensor):
-            print(input)
         embeddings = self.embedding(input)
         input_lengths = [MAX_INPUT_LENGTH] * self.batch_size
         # Pack padded batch of sequences for RNN module

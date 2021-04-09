@@ -34,5 +34,6 @@ all_models = {
     "distilBertBigram": getDistilBertBigram,
     "lstm": lambda bs: newsLSTM(bs),
     "lstmAttention": lambda bs: lstmAttention(bs),
+    "lstmAttentionBigram": lambda bs: lstmAttention(bs, useBigram=True),
     "lstmBigram": lambda bs: newsLSTM(bs, useBigram=True)
 }

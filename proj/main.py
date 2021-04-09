@@ -151,6 +151,7 @@ class Trainer:
                 self.anEpoch(1)
             self.scheduler.step()
             self._save_weights()
+        self.load_weights(self.model_name + ".pkl")
         if len(self.dls) > 2 and len(self.dls[2]) > 0:
             with torch.no_grad():
                 self.model.eval()
