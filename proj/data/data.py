@@ -72,9 +72,10 @@ class NewsDataset(Dataset):
 
     def tokenize(self, text):
         if self.synonyms:
-            return tokenize_synonyms(tokens)
+            return tokenize_synonyms(text)
         if self.hypernyms:
-            return tokenize_hypernyms(tokens)
+            return tokenize_hypernyms(text)
+
         if self.useBigram:
             tokens = bigramTokenizer.tokenize_with_bigrams(text)
         else:
@@ -105,6 +106,7 @@ class NewsDataset(Dataset):
                 max_length=self.maxLength,
                 truncation=True,
                 padding="max_length",
+                add_special_tokens=True
             )
             tokens = (tokenDict["input_ids"][0],
                       tokenDict["attention_mask"][0])

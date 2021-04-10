@@ -4,6 +4,7 @@ import torch
 from tensorboardX import SummaryWriter
 from tqdm.auto import tqdm  # auto adjust to notebook and terminal
 import sklearn.metrics as skMetrics
+from torch.nn.functional import cross_entropy
 
 import numpy as np
 import random
@@ -139,6 +140,34 @@ class Trainer:
             )
         )
         return allPreds, allLabels
+
+    def topKLoss(self, phaseIndex, k):
+        lossValues = []
+        # we use tqdm to provide visual feedback on training stage
+        with torch.no_grad():
+            for xb, yb in tqdm(self.dls[phaseIndex], total=len(self.dls[phaseIndex])):
+                if self.isTransformer:
+                    inputIds, mask = xb
+                    yb = yb.to(self.device)
+                    outputs = self.model(
+                        inputIds.to(self.device),
+                        attention_mask=mask.to(self.device),
+                        labels=yb,
+                    )
+                    output = outputs[1]
+                    inputIds.detach().cpu()
+                    mask.detach().cpu()
+                    yb.detach().cpu()
+                else:
+                    xb = xb.to(self.device)  # BATCH_SIZE, 3, 224, 224
+                    yb = yb.to(self.device)  # BATCH_SIZE, 1
+                    output = self.model(xb)  # BATCH_SIZE, 3
+                    xb.detach().cpu()
+                    yb.detach().cpu()
+                lossValues.append(cross_entropy(
+                    output, yb, reduction='none').cpu())
+        lossValues = torch.cat(lossValues)
+        return torch.topk(lossValues, k=k)
 
     def one_cycle(self):
         # self.freeze()
