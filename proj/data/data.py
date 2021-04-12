@@ -128,6 +128,12 @@ class NewsDataset(Dataset):
         return wordIdx[:MAX_INPUT_LENGTH], label
 
 
+def split_col(df):
+    train = df[df['phase'] == 'train']
+    val = df[df['phase'] == 'dev']
+    test = df[df['phase'] == 'test']
+    return train, val, test
+
 def split(df, val_pct=0.2, test_pct=0.2):
     torch.manual_seed(0)
     rand_indices = torch.randperm(len(df))

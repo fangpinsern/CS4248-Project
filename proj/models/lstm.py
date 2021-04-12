@@ -11,6 +11,17 @@ from proj.constants import MAX_INPUT_LENGTH, DL_BIGRAM_GLOVE_EMBEDDINGS
 IS_CUDA = torch.cuda.is_available()
 
 
+def lstmBigramTransferWeights(src, dest):
+    """
+    transfers weights from src to dest
+    src and dest are pickle file locations relative to model_weights
+    """
+    embed_weight = torch.load("proj/model_weights/" + src)
+    sd = torch.load("proj/model_weights/" + dest)
+    sd['embedding.weight'] = embed_weight['embedding.weight']
+    return sd
+
+
 def create_emb_layer(non_trainable=False, embedDims=50, useBigram=False):
     np.random.seed(0)
     if useBigram:
