@@ -246,26 +246,29 @@ def tokenize_synonyms(text):
 
 
 def augment_synonyms(text):
-    synsets = []
+    augmented = []
     tokens = text
     if type(text) != list:
         tokens = tokenize(text)
     for token in tokens:
-        synsetss = wn.synsets(token)
-        s_set = []
+        tokenSynset = wn.synsets(token)
         if token in STOPWORDS or "_" in token:
-            synsets.append(token)
+            augmented.append(token)
             continue
-        for s in synsetss:
+        token, tag = nltk.pos_tag([token])
+        tag = tag[0].lower()
+        validSynset = list(filter(lambda d: d.pos() == tag, tokenSynset))
+        allSynonyms = []
+        for s in validSynset:
             allSyns = [new.name().lower()
                        for new in s.lemmas() if new.name().lower() != token]
             if len(allSyns) > 0:
-                s_set.append(randEle(allSyns))
-        if len(s_set) > 1:
-            synsets.extend(s_set[0].split("_"))
+                allSynonyms.append(randEle(allSyns))
+        if len(allSynonyms) > 1:
+            augmented.extend(allSynonyms[0].split("_"))
         else:
-            synsets.append(token)
-    return synsets
+            augmented.append(token)
+    return augmented
 
 
 def tokenize_hypernyms(text):

@@ -49,7 +49,7 @@ def to_dataloader(ds, bs=64, sampler=None, drop_last=True):
 
 
 class NewsDataset(Dataset):
-    def __init__(self, df, tokenizer=None, useBigram=False, synonyms=False, hypernyms=False, stopwords=True, augment=False):
+    def __init__(self, df, tokenizer=None, useBigram=False, synonyms=False, hypernyms=False, stopwords=True, augment=False, tag=False):
         self.df = df
         if useBigram:
             with open(DL_BIGRAM_GLOVE_EMBEDDINGS, "rb") as infile:
@@ -60,9 +60,10 @@ class NewsDataset(Dataset):
         self.hypernyms = hypernyms
         self.stopwords = stopwords
         self.tokenizer = tokenizer
-        self.maxLength = MAX_INPUT_LENGTH
+        self.maxLength = MAX_INPUT_LENGTH * 2
         self.useBigram = useBigram
         self.augment = augment
+        self.tag = tag
 
     def getDF(self):
         return self.df.copy()
@@ -85,6 +86,11 @@ class NewsDataset(Dataset):
             tokens = [t for t in tokens if t not in STOPWORDS]
         if self.augment:
             tokens = augment_synonyms(tokens)
+        if self.tag:
+            taggedTokens = nltk.pos_tag(tokens)
+            # flatten
+            tokens = [t if i == 0 else '<' + t.lower() +
+                      '>' for tpl in taggedTokens for i, t in enumerate(tpl)]
         # tokens = [t.lower() for t in tokens]
         # lem.lemmatize(t)
         # tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
@@ -100,6 +106,15 @@ class NewsDataset(Dataset):
         text = self.df.iloc[idx][X_COL]
 
         if self.tokenizer is not None:
+            if self.useBigram or self.tag:
+                text = self.tokenize(text)
+            # if self.tag:
+            #     tokens = self.tokenizer.tokenize(text)
+            #     taggedTokens = nltk.pos_tag(tokens)
+            #     # flatten
+            #     tokens = [t if i == 0 else '<' + t.lower() +
+            #               '>' for tpl in taggedTokens for i, t in enumerate(tpl)]
+            #     text = " ".join(tokens)
             tokenDict = self.tokenizer.encode_plus(
                 text,
                 return_tensors="pt",
@@ -134,7 +149,8 @@ def split_col(df):
     test = df[df['phase'] == 'test']
     return train, val, test
 
-def split(df, val_pct=0.2, test_pct=0.2):
+
+def split(df, val_pct=0.2, test_pct=0.1):
     torch.manual_seed(0)
     rand_indices = torch.randperm(len(df))
     num_val = int(val_pct * len(df))

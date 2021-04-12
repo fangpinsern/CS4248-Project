@@ -41,6 +41,16 @@ def getUnknownTokens(tokenizer, ds):
     return unknownTokens
 
 
+def addPOSEmbeds(tokenizer):
+    from proj.constants import UPENN_TAGSET
+    unknownTokens = []
+    for tag in UPENN_TAGSET:
+        if tokenizer.convert_tokens_to_ids(tag) == 100:
+            unknownTokens.append(tag)
+            tokenizer.add_tokens(tag)
+    return unknownTokens
+
+
 if __name__ == "__main__":
     global glove, tokenizer, dfs
     subset_df = pd.read_csv(os.path.join(
