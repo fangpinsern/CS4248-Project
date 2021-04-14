@@ -91,7 +91,7 @@ class newsLSTM(nn.Module):
 
 class lstmAttention(nn.Module):
     def __init__(
-        self, batch_size, hidden_dims=128, num_classes=10, num_layers=1, dropout=0.2, useBigram=False
+        self, batch_size, hidden_dims=128, num_classes=10, num_layers=1, dropout=0.2, useBigram=False, attentionOutput=False
     ):
         super().__init__()
         self.embedding, embed_dims = create_emb_layer(
@@ -114,6 +114,7 @@ class lstmAttention(nn.Module):
             (num_layers, batch_size, hidden_dims), device=self.device)
         self.hidden = (hidden, cell)
         self.batch_size = batch_size
+        self.attentionOutput = attentionOutput
 
     def forward(self, input):
         embeddings = self.embedding(input)
@@ -136,4 +137,7 @@ class lstmAttention(nn.Module):
         # get LSTM's block 1's hidden state
         # label = self.fc(hidden[0][-1, :, :])
         label = self.fc(attnOutput.squeeze(1))
-        return F.softmax(label, 1)
+        result = F.softmax(label, 1)
+        if self.attentionOutput:
+            return result, weights
+        return result

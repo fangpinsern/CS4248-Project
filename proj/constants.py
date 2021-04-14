@@ -24,6 +24,7 @@ DISTILBERT_BIGRAM_TOKENIZER = os.path.join(
     ".vector_cache", "distilbert")
 DISTILBERT_POS_TOKENIZER = os.path.join(
     ".vector_cache", "distilbertPOS")
+DISTILBERT_EMBED_TOKENIZER = os.path.join(".vector_cache", "distilbertEmbed")
 
 BIGRAM_TRIGRAM_VOCAB = os.path.join(VOCAB_DIR, "bigram_trigram_vocab_PMI.csv")
 

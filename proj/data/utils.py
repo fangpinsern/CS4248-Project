@@ -28,15 +28,15 @@ def representUnknown():
                 gloveSize += 1
 
 
-def getUnknownTokens(tokenizer, ds):
+def getUnknownTokens(tokenizer, ds, dfs):
     # Tokenizer should be the distilBerttokenizer
     # ds should be using the bigram tokenizer
-    unknownTokens = []
+    unknownTokens = {}
     for text in dfs[0]['headline']:
         tokens = ds.tokenize(text)
         for t in tokens:
             if tokenizer.convert_tokens_to_ids(t) == 100:
-                unknownTokens.append(t)
+                unknownTokens[t] = unknownTokens.get(t, 0) + 1
                 tokenizer.add_tokens(t)
     return unknownTokens
 

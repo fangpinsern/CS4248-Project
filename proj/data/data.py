@@ -49,7 +49,7 @@ def to_dataloader(ds, bs=64, sampler=None, drop_last=True):
 
 
 class NewsDataset(Dataset):
-    def __init__(self, df, tokenizer=None, useBigram=False, synonyms=False, hypernyms=False, stopwords=True, augment=False, tag=False):
+    def __init__(self, df, tokenizer=None, useBigram=False, synonyms=False, hypernyms=False, stopwords=True, augment=False, tag=False, embed=False):
         self.df = df
         if useBigram:
             with open(DL_BIGRAM_GLOVE_EMBEDDINGS, "rb") as infile:
@@ -64,6 +64,7 @@ class NewsDataset(Dataset):
         self.useBigram = useBigram
         self.augment = augment
         self.tag = tag
+        self.embed = embed
 
     def getDF(self):
         return self.df.copy()
@@ -106,7 +107,7 @@ class NewsDataset(Dataset):
         text = self.df.iloc[idx][X_COL]
 
         if self.tokenizer is not None:
-            if self.useBigram or self.tag:
+            if self.useBigram or self.tag or self.embed:
                 text = self.tokenize(text)
             # if self.tag:
             #     tokens = self.tokenizer.tokenize(text)
@@ -114,7 +115,6 @@ class NewsDataset(Dataset):
             #     # flatten
             #     tokens = [t if i == 0 else '<' + t.lower() +
             #               '>' for tpl in taggedTokens for i, t in enumerate(tpl)]
-            #     text = " ".join(tokens)
             tokenDict = self.tokenizer.encode_plus(
                 text,
                 return_tensors="pt",
