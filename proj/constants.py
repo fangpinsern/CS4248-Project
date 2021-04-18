@@ -67,7 +67,7 @@ CATEGORY_SUBSET = [
     "ENTERTAINMENT",
 ]
 
-MAX_INPUT_LENGTH = 16
+MAX_INPUT_LENGTH = 26
 
 UPENN_TAGSET = ['LS', 'TO', 'VBN', 'WP', 'UH', 'VBG', 'JJ', 'VBZ', 'VBP', 'NN', 'DT', 'PRP', 'WP$', 'NNPS', 'PRP$', 'WDT',
                 'RB', 'RBR', 'RBS', 'VBD', 'IN', 'FW', 'RP', 'JJR', 'JJS', 'PDT', 'MD', 'VB', 'WRB', 'NNP', 'EX', 'NNS', 'SYM', 'CC', 'CD', 'POS']

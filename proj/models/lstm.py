@@ -52,7 +52,7 @@ class newsLSTM(nn.Module):
     ):
         super().__init__()
         self.embedding, embed_dims = create_emb_layer(
-            non_trainable=not useBigram, useBigram=useBigram)
+            non_trainable=False, useBigram=useBigram)
         kwargs = {
             "input_size": embed_dims,
             "hidden_size": hidden_dims,
@@ -93,7 +93,7 @@ class lstmAttention(nn.Module):
     ):
         super().__init__()
         self.embedding, embed_dims = create_emb_layer(
-            non_trainable=not useBigram, useBigram=useBigram)
+            non_trainable=False, useBigram=useBigram)
         kwargs = {
             "input_size": embed_dims,
             "hidden_size": hidden_dims,

@@ -140,7 +140,7 @@ class NewsDataset(Dataset):
         padding = torch.tensor(
             [stoi_len + 1] * number_to_pad, dtype=torch.long)
         wordIdx = torch.cat([wordIdx, padding])
-        seqLen = torch.tensor(len(tokens))
+        seqLen = torch.tensor(min(MAX_INPUT_LENGTH, len(tokens)))
 
         return (wordIdx[:MAX_INPUT_LENGTH], seqLen), label
 
