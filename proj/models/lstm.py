@@ -115,25 +115,17 @@ class lstmAttention(nn.Module):
         self.attentionOutput = attentionOutput
 
     def forward(self, input):
-        embeddings = self.embedding(input)
-        input_lengths = [MAX_INPUT_LENGTH] * self.batch_size
+        vector, lengths = input
+        embeddings = self.embedding(vector)
         # Pack padded batch of sequences for RNN module
-        # packed = nn.utils.rnn.pack_padded_sequence(
-        #     embeddings, torch.tensor(input_lengths), batch_first=True
-        # )
+        packed = nn.utils.rnn.pack_padded_sequence(
+            embeddings, lengths, batch_first=True, enforce_sorted=False
+        )
         # Forward pass through LSTM
-        outputs, hidden = self.lstm(embeddings, self.hidden)
+        outputs, hidden = self.lstm(packed, self.hidden)
         query = outputs[:, -1:, :]
         context = outputs
-        # print(query.shape, context.shape)
-        # TODO make attention ignore padded tokens
         attnOutput, weights = self.attention(query, context)
-        # return attnOutput
-        # print(attnOutput.shape)
-        # Unpack padding
-        # outputs, _ = nn.utils.rnn.pad_packed_sequence(outputs)
-        # get LSTM's block 1's hidden state
-        # label = self.fc(hidden[0][-1, :, :])
         label = self.fc(attnOutput.squeeze(1))
         result = F.softmax(label, 1)
         if self.attentionOutput:
