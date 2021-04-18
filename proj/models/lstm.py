@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import torchtext
 import torch.nn.functional as F
 import numpy as np
@@ -77,9 +78,8 @@ class newsLSTM(nn.Module):
         vector, lengths = input
         embeddings = self.embedding(vector)
         # Pack padded batch of sequences for RNN module
-        packed = nn.utils.rnn.pack_padded_sequence(
-            embeddings, lengths, batch_first=True, enforce_sorted=False
-        )
+        packed = pack_padded_sequence(
+            embeddings, lengths, batch_first=True, enforce_sorted=False)
         # Forward pass through LSTM
         outputs, hidden = self.lstm(packed, self.hidden)
         # get LSTM's block 1's hidden state
@@ -118,13 +118,13 @@ class lstmAttention(nn.Module):
         vector, lengths = input
         embeddings = self.embedding(vector)
         # Pack padded batch of sequences for RNN module
-        packed = nn.utils.rnn.pack_padded_sequence(
-            embeddings, lengths, batch_first=True, enforce_sorted=False
-        )
+        packed = pack_padded_sequence(
+            embeddings, lengths, batch_first=True, enforce_sorted=False)
         # Forward pass through LSTM
         outputs, hidden = self.lstm(packed, self.hidden)
-        query = outputs[:, -1:, :]
-        context = outputs
+        padded = pad_packed_sequence(outputs, batch_first=True)[0]
+        query = padded[:, -1:, :]
+        context = padded
         attnOutput, weights = self.attention(query, context)
         label = self.fc(attnOutput.squeeze(1))
         result = F.softmax(label, 1)
