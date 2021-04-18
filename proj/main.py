@@ -104,11 +104,12 @@ class Trainer:
                 mask.detach().cpu()
                 yb.detach().cpu()
             else:
-                xb = xb.to(self.device)  # BATCH_SIZE, 3, 224, 224
+                # BATCH_SIZE, 3, 224, 224
+                xb = (xb[0].to(self.device), xb[1].cpu())
                 yb = yb.to(self.device)  # BATCH_SIZE, 1
                 output = self.model(xb)  # BATCH_SIZE, 3
                 loss = self.loss(output, yb)
-                xb.detach().cpu()
+                xb[0].detach().cpu()
                 yb.detach().cpu()
             allPreds.append(torch.argmax(output, dim=1).cpu())
             allLabels.append(yb.cpu())

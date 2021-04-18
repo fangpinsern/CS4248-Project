@@ -11,6 +11,7 @@ import torchtext
 from proj.utils.data_util import (
     Bigram_Trigram_Tokenizer, tokenize_synonyms, tokenize_hypernyms, augment_synonyms)
 import pickle
+from torch.nn.utils.rnn import pad_sequence
 
 # nltk.download("wordnet")
 lem = WordNetLemmatizer()
@@ -136,11 +137,12 @@ class NewsDataset(Dataset):
             [self.glove.stoi[t] if t in self.glove.stoi else stoi_len for t in tokens],
             dtype=torch.long,
         )
-        # print(wordIdx)
         padding = torch.tensor(
             [stoi_len + 1] * number_to_pad, dtype=torch.long)
         wordIdx = torch.cat([wordIdx, padding])
-        return wordIdx[:MAX_INPUT_LENGTH], label
+        seqLen = torch.tensor(len(tokens))
+
+        return (wordIdx[:MAX_INPUT_LENGTH], seqLen), label
 
 
 def split_col(df):
