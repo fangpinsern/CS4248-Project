@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 import torchtext
 import torch.nn.functional as F
 import numpy as np
@@ -9,6 +10,17 @@ import pickle
 from proj.constants import MAX_INPUT_LENGTH, DL_BIGRAM_GLOVE_EMBEDDINGS
 
 IS_CUDA = torch.cuda.is_available()
+
+
+def lstmBigramTransferWeights(src, dest):
+    """
+    transfers weights from src to dest
+    src and dest are pickle file locations relative to model_weights
+    """
+    embed_weight = torch.load("proj/model_weights/" + src)
+    sd = torch.load("proj/model_weights/" + dest)
+    sd['embedding.weight'] = embed_weight['embedding.weight']
+    return sd
 
 
 def create_emb_layer(non_trainable=False, embedDims=50, useBigram=False):
@@ -41,7 +53,7 @@ class newsLSTM(nn.Module):
     ):
         super().__init__()
         self.embedding, embed_dims = create_emb_layer(
-            non_trainable=not useBigram, useBigram=useBigram)
+            non_trainable=False, useBigram=useBigram)
         kwargs = {
             "input_size": embed_dims,
             "hidden_size": hidden_dims,
@@ -63,16 +75,13 @@ class newsLSTM(nn.Module):
     def forward(self, input):
         if isinstance(input, torch.FloatTensor):
             print(input)
-        embeddings = self.embedding(input)
-        input_lengths = [MAX_INPUT_LENGTH] * self.batch_size
+        vector, lengths = input
+        embeddings = self.embedding(vector)
         # Pack padded batch of sequences for RNN module
-        # packed = nn.utils.rnn.pack_padded_sequence(
-        #     embeddings, torch.tensor(input_lengths), batch_first=True
-        # )
+        packed = pack_padded_sequence(
+            embeddings, lengths, batch_first=True, enforce_sorted=False)
         # Forward pass through LSTM
-        outputs, hidden = self.lstm(embeddings, self.hidden)
-        # Unpack padding
-        # outputs, _ = nn.utils.rnn.pad_packed_sequence(outputs)
+        outputs, hidden = self.lstm(packed, self.hidden)
         # get LSTM's block 1's hidden state
         label = self.fc(hidden[0][-1, :, :])
         return F.softmax(label, 1)
@@ -80,11 +89,11 @@ class newsLSTM(nn.Module):
 
 class lstmAttention(nn.Module):
     def __init__(
-        self, batch_size, hidden_dims=128, num_classes=10, num_layers=1, dropout=0.2, useBigram=False
+        self, batch_size, hidden_dims=128, num_classes=10, num_layers=1, dropout=0.2, useBigram=False, attentionOutput=False
     ):
         super().__init__()
         self.embedding, embed_dims = create_emb_layer(
-            non_trainable=not useBigram, useBigram=useBigram)
+            non_trainable=False, useBigram=useBigram)
         kwargs = {
             "input_size": embed_dims,
             "hidden_size": hidden_dims,
@@ -103,28 +112,22 @@ class lstmAttention(nn.Module):
             (num_layers, batch_size, hidden_dims), device=self.device)
         self.hidden = (hidden, cell)
         self.batch_size = batch_size
+        self.attentionOutput = attentionOutput
 
     def forward(self, input):
-        if isinstance(input, torch.FloatTensor):
-            print(input)
-        embeddings = self.embedding(input)
-        input_lengths = [MAX_INPUT_LENGTH] * self.batch_size
+        vector, lengths = input
+        embeddings = self.embedding(vector)
         # Pack padded batch of sequences for RNN module
-        # packed = nn.utils.rnn.pack_padded_sequence(
-        #     embeddings, torch.tensor(input_lengths), batch_first=True
-        # )
+        packed = pack_padded_sequence(
+            embeddings, lengths, batch_first=True, enforce_sorted=False)
         # Forward pass through LSTM
-        outputs, hidden = self.lstm(embeddings, self.hidden)
-        query = outputs[:, -1:, :]
-        context = outputs
-        # print(query.shape, context.shape)
-        # TODO make attention ignore padded tokens
+        outputs, hidden = self.lstm(packed, self.hidden)
+        padded = pad_packed_sequence(outputs, batch_first=True)[0]
+        query = padded[:, -1:, :]
+        context = padded
         attnOutput, weights = self.attention(query, context)
-        # return attnOutput
-        # print(attnOutput.shape)
-        # Unpack padding
-        # outputs, _ = nn.utils.rnn.pad_packed_sequence(outputs)
-        # get LSTM's block 1's hidden state
-        # label = self.fc(hidden[0][-1, :, :])
         label = self.fc(attnOutput.squeeze(1))
-        return F.softmax(label, 1)
+        result = F.softmax(label, 1)
+        if self.attentionOutput:
+            return result, weights
+        return result

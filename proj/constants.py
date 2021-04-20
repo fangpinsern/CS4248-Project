@@ -22,8 +22,16 @@ BIGRAM_VOCAB_EMBEDDINGS = os.path.join(
     VOCAB_DIR, "mitten_bigram_dict_50d_515_10000.pkl")
 DISTILBERT_BIGRAM_TOKENIZER = os.path.join(
     ".vector_cache", "distilbert")
+DISTILBERT_POS_TOKENIZER = os.path.join(
+    ".vector_cache", "distilbertPOS")
+DISTILBERT_EMBED_TOKENIZER = os.path.join(".vector_cache", "distilbertEmbed")
 
 BIGRAM_TRIGRAM_VOCAB = os.path.join(VOCAB_DIR, "bigram_trigram_vocab_PMI.csv")
+
+
+def BIGRAM_VOCAB_EMBEDDINGS_FN(n): return os.path.join(
+    VOCAB_DIR, f"mitten_bigram_dict_{n}d_515_10000.pkl")
+
 
 # SEED
 SEED = 42
@@ -59,4 +67,9 @@ CATEGORY_SUBSET = [
     "ENTERTAINMENT",
 ]
 
-MAX_INPUT_LENGTH = 16
+MAX_INPUT_LENGTH = 26
+
+UPENN_TAGSET = ['LS', 'TO', 'VBN', 'WP', 'UH', 'VBG', 'JJ', 'VBZ', 'VBP', 'NN', 'DT', 'PRP', 'WP$', 'NNPS', 'PRP$', 'WDT',
+                'RB', 'RBR', 'RBS', 'VBD', 'IN', 'FW', 'RP', 'JJR', 'JJS', 'PDT', 'MD', 'VB', 'WRB', 'NNP', 'EX', 'NNS', 'SYM', 'CC', 'CD', 'POS']
+
+UPENN_TAGSET = ['<' + t.lower() + '>' for t in UPENN_TAGSET]

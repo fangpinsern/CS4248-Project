@@ -4,13 +4,16 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import re
-from ..constants import X_COL, Y_COL, CATEGORY_SUBSET, MAX_INPUT_LENGTH, DL_BIGRAM_GLOVE_EMBEDDINGS
+from ..constants import (X_COL, Y_COL, CATEGORY_SUBSET,
+                         MAX_INPUT_LENGTH, DL_BIGRAM_GLOVE_EMBEDDINGS)
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 import torchtext
-from proj.utils.data_util import Bigram_Trigram_Tokenizer
+from proj.utils.data_util import (
+    Bigram_Trigram_Tokenizer, tokenize_synonyms, tokenize_hypernyms, augment_synonyms)
 import pickle
+from torch.nn.utils.rnn import pad_sequence
 
-nltk.download("wordnet")
+# nltk.download("wordnet")
 lem = WordNetLemmatizer()
 bigramTokenizer = Bigram_Trigram_Tokenizer()
 STOPWORDS = stopwords.words("english")
@@ -47,16 +50,22 @@ def to_dataloader(ds, bs=64, sampler=None, drop_last=True):
 
 
 class NewsDataset(Dataset):
-    def __init__(self, df, tokenizer=None, useBigram=False):
+    def __init__(self, df, tokenizer=None, useBigram=False, synonyms=False, hypernyms=False, stopwords=True, augment=False, tag=False, embed=False):
         self.df = df
         if useBigram:
             with open(DL_BIGRAM_GLOVE_EMBEDDINGS, "rb") as infile:
                 self.glove = pickle.load(infile)
         else:
             self.glove = torchtext.vocab.GloVe(name="6B", dim=50)
+        self.synonyms = synonyms
+        self.hypernyms = hypernyms
+        self.stopwords = stopwords
         self.tokenizer = tokenizer
-        self.maxLength = MAX_INPUT_LENGTH
+        self.maxLength = MAX_INPUT_LENGTH * 2
         self.useBigram = useBigram
+        self.augment = augment
+        self.tag = tag
+        self.embed = embed
 
     def getDF(self):
         return self.df.copy()
@@ -65,13 +74,26 @@ class NewsDataset(Dataset):
         return len(self.df)
 
     def tokenize(self, text):
+        if self.synonyms:
+            return tokenize_synonyms(text)
+        if self.hypernyms:
+            return tokenize_hypernyms(text)
+
         if self.useBigram:
             tokens = bigramTokenizer.tokenize_with_bigrams(text)
         else:
             tokens = nltk.word_tokenize(text)
             tokens = [t.lower() for t in tokens if re.match(r"\w+", t)]
+        if not self.stopwords:
+            tokens = [t for t in tokens if t not in STOPWORDS]
+        if self.augment:
+            tokens = augment_synonyms(tokens)
+        if self.tag:
+            taggedTokens = nltk.pos_tag(tokens)
+            # flatten
+            tokens = [t if i == 0 else '<' + t.lower() +
+                      '>' for tpl in taggedTokens for i, t in enumerate(tpl)]
         # tokens = [t.lower() for t in tokens]
-        # remove punctuations and stop words
         # lem.lemmatize(t)
         # tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
         return tokens
@@ -86,12 +108,21 @@ class NewsDataset(Dataset):
         text = self.df.iloc[idx][X_COL]
 
         if self.tokenizer is not None:
+            if self.useBigram or self.tag or self.embed:
+                text = self.tokenize(text)
+            # if self.tag:
+            #     tokens = self.tokenizer.tokenize(text)
+            #     taggedTokens = nltk.pos_tag(tokens)
+            #     # flatten
+            #     tokens = [t if i == 0 else '<' + t.lower() +
+            #               '>' for tpl in taggedTokens for i, t in enumerate(tpl)]
             tokenDict = self.tokenizer.encode_plus(
                 text,
                 return_tensors="pt",
                 max_length=self.maxLength,
                 truncation=True,
                 padding="max_length",
+                add_special_tokens=True
             )
             tokens = (tokenDict["input_ids"][0],
                       tokenDict["attention_mask"][0])
@@ -106,14 +137,22 @@ class NewsDataset(Dataset):
             [self.glove.stoi[t] if t in self.glove.stoi else stoi_len for t in tokens],
             dtype=torch.long,
         )
-        # print(wordIdx)
         padding = torch.tensor(
             [stoi_len + 1] * number_to_pad, dtype=torch.long)
         wordIdx = torch.cat([wordIdx, padding])
-        return wordIdx[:MAX_INPUT_LENGTH], label
+        seqLen = torch.tensor(min(MAX_INPUT_LENGTH, len(tokens)))
+
+        return (wordIdx[:MAX_INPUT_LENGTH], seqLen), label
 
 
-def split(df, val_pct=0.2, test_pct=0.2):
+def split_col(df):
+    train = df[df['phase'] == 'train']
+    val = df[df['phase'] == 'dev']
+    test = df[df['phase'] == 'test']
+    return train, val, test
+
+
+def split(df, val_pct=0.2, test_pct=0.1):
     torch.manual_seed(0)
     rand_indices = torch.randperm(len(df))
     num_val = int(val_pct * len(df))

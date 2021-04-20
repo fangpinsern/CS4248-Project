@@ -4,6 +4,7 @@ import torch
 from tensorboardX import SummaryWriter
 from tqdm.auto import tqdm  # auto adjust to notebook and terminal
 import sklearn.metrics as skMetrics
+from torch.nn.functional import cross_entropy
 
 import numpy as np
 import random
@@ -103,11 +104,12 @@ class Trainer:
                 mask.detach().cpu()
                 yb.detach().cpu()
             else:
-                xb = xb.to(self.device)  # BATCH_SIZE, 3, 224, 224
+                # BATCH_SIZE, 3, 224, 224
+                xb = (xb[0].to(self.device), xb[1].cpu())
                 yb = yb.to(self.device)  # BATCH_SIZE, 1
                 output = self.model(xb)  # BATCH_SIZE, 3
                 loss = self.loss(output, yb)
-                xb.detach().cpu()
+                xb[0].detach().cpu()
                 yb.detach().cpu()
             allPreds.append(torch.argmax(output, dim=1).cpu())
             allLabels.append(yb.cpu())
@@ -140,6 +142,34 @@ class Trainer:
         )
         return allPreds, allLabels
 
+    def topKLoss(self, phaseIndex, k):
+        lossValues = []
+        # we use tqdm to provide visual feedback on training stage
+        with torch.no_grad():
+            for xb, yb in tqdm(self.dls[phaseIndex], total=len(self.dls[phaseIndex])):
+                if self.isTransformer:
+                    inputIds, mask = xb
+                    yb = yb.to(self.device)
+                    outputs = self.model(
+                        inputIds.to(self.device),
+                        attention_mask=mask.to(self.device),
+                        labels=yb,
+                    )
+                    output = outputs[1]
+                    inputIds.detach().cpu()
+                    mask.detach().cpu()
+                    yb.detach().cpu()
+                else:
+                    xb = xb.to(self.device)  # BATCH_SIZE, 3, 224, 224
+                    yb = yb.to(self.device)  # BATCH_SIZE, 1
+                    output = self.model(xb)  # BATCH_SIZE, 3
+                    xb.detach().cpu()
+                    yb.detach().cpu()
+                lossValues.append(cross_entropy(
+                    output, yb, reduction='none').cpu())
+        lossValues = torch.cat(lossValues)
+        return torch.topk(lossValues, k=k)
+
     def one_cycle(self):
         # self.freeze()
         for i in range(self.epochs):
@@ -151,6 +181,7 @@ class Trainer:
                 self.anEpoch(1)
             self.scheduler.step()
             self._save_weights()
+        self.load_weights(self.model_name + ".pkl")
         if len(self.dls) > 2 and len(self.dls[2]) > 0:
             with torch.no_grad():
                 self.model.eval()
@@ -187,6 +218,9 @@ class Trainer:
 
     def _write_hp(self, metrics):
         self.writer.add_hparams(self.hp, metrics)
+
+    def setLR(self, lr):
+        self.opt.param_groups[0]['lr'] = lr
 
     def load_weights(self, pkl_name, num_classes=None, family=None):
         weights_path = os.path.join(WEIGHTS_DIR, self.exp_name, pkl_name)
