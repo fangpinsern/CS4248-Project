@@ -12,6 +12,7 @@ all_tokenizers = {
     "T5": lambda: T5Tokenizer.from_pretrained("t5-small"),
     "distilBert": lambda: DistilBertTokenizer.from_pretrained("distilbert-base-uncased"),
     "distilBertSmall": lambda: DistilBertTokenizer.from_pretrained("distilbert-base-uncased"),
+    "distilBertBig": lambda: DistilBertTokenizer.from_pretrained("distilbert-base-uncased"),
     "distilBertBigram": lambda: DistilBertTokenizer.from_pretrained(DISTILBERT_BIGRAM_TOKENIZER, is_split_into_words=True),
     "distilBertPOS": lambda: DistilBertTokenizer.from_pretrained(DISTILBERT_POS_TOKENIZER, is_split_into_words=True),
     "distilBertEmbed": lambda: DistilBertTokenizer.from_pretrained(DISTILBERT_EMBED_TOKENIZER,  is_split_into_words=True)
@@ -32,6 +33,7 @@ all_models = {
     "distilBert": lambda _: DistilBertForSequenceClassification.from_pretrained(
         "distilbert-base-uncased", num_labels=10,
     ),
+    "distilBertBig": lambda _: DistilBertForSequenceClassification.from_pretrained("distilbert-base-uncased", num_labels=10, n_layers=8),
     "distilBertSmall": lambda _: DistilBertForSequenceClassification.from_pretrained("distilbert-base-uncased", num_labels=10, n_layers=2, output_attentions=True, n_heads=4),
     "distilBertEmbed": lambda _: getDistilbertEmbeds("distilBertEmbed"),
     "distilBertBigram": lambda _: getDistilbertEmbeds("distilBertBigram"),

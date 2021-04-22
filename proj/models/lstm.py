@@ -94,6 +94,7 @@ class lstmAttention(nn.Module):
         super().__init__()
         self.embedding, embed_dims = create_emb_layer(
             non_trainable=False, useBigram=useBigram)
+        self.embed_dims = embed_dims
         kwargs = {
             "input_size": embed_dims,
             "hidden_size": hidden_dims,
@@ -122,7 +123,8 @@ class lstmAttention(nn.Module):
             embeddings, lengths, batch_first=True, enforce_sorted=False)
         # Forward pass through LSTM
         outputs, hidden = self.lstm(packed, self.hidden)
-        padded = pad_packed_sequence(outputs, batch_first=True)[0]
+        padded = pad_packed_sequence(
+            outputs, batch_first=True, total_length=MAX_INPUT_LENGTH)[0]
         query = padded[:, -1:, :]
         context = padded
         attnOutput, weights = self.attention(query, context)
