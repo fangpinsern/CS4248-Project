@@ -27,4 +27,15 @@ This notebook contains the code to run a logistic regression model on a dataset 
 
 With the dataset in the correct directory, change the datapath variable to point to the dataset. Run the notebook as usual and it will give an F1-score as well as an accuracy score.
 
-The output of the predicted categoreis will be stored in the file "RESULT.csv".
+The output of the predicted categories will be stored in the file "RESULT.csv".
+
+Feed-forward Neural Network
+
+Notebook: [simpleNNnews.ipynb](https://github.com/fangpinsern/CS4248-Project/blob/master/simpleNNnews.ipynb)
+
+This notebook contains the code to run the model. Specific library requirements are given in the notebook itself.
+
+The output of the predicted categories will be stored in the file "simpleNN.csv" and "simpleNN_balanced.csv".
+
+- Download glove 840B 300d embedding vectors from https://nlp.stanford.edu/projects/glove/ and place it in the same directory as this README and simpleNNnews.ipynb
+
