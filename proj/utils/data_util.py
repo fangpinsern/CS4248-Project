@@ -81,8 +81,8 @@ def balanced_train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0
 
     if os.path.exists(TRAIN_TEST_SPLIT_FILE):
         data = pd.read_csv(TRAIN_TEST_SPLIT_FILE)
-        train_data = data[data['phase'] == 'train']
-        other_data = data[data['phase'] != 'train']
+        train_data = data[data['phase']=='train']
+        other_data = data[data['phase']!='train']
         train_data = balance_train_data(train_data, count)
         data = pd.concat([train_data, other_data], axis=0)
         return data
@@ -112,10 +112,66 @@ def balanced_train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0
 
     data.to_csv(TRAIN_TEST_SPLIT_FILE, index=False)
 
-    train_data = data[data['phase'] == 'train']
-    other_data = data[data['phase'] != 'train']
+    train_data = data[data['phase']=='train']
+    other_data = data[data['phase']!='train']
     train_data = balance_train_data(train_data, count)
     data = pd.concat([train_data, other_data], axis=0)
+
+    return data
+
+def new_balanced_train_test_split(percent_train=0.7, percent_dev=0.1, percent_test=0.2, count=4000):
+    def balance_train_data(train_data, count):
+        ret = None
+        for cat in CATEGORY_SUBSET:
+            data_of_cat = train_data[train_data['category'] == cat]
+            data_of_cat = data_of_cat.sample(count, replace=True)
+            if ret is None:
+                ret = data_of_cat
+            else:
+                ret = pd.concat([ret, data_of_cat], axis=0)
+        return ret
+
+    if os.path.exists(TRAIN_TEST_SPLIT_FILE):
+        data = pd.read_csv(TRAIN_TEST_SPLIT_FILE)
+        train_data = data[data['phase']=='train']
+        test_data = data[data['phase']=='test']
+        dev_data = data[data['phase']=='dev']
+        train_data = balance_train_data(train_data, count)
+        test_data = balance_train_data(test_data, int(count / 10))
+        data = pd.concat([train_data, dev_data, test_data], axis=0)
+        return data
+
+    data = get_dataset()
+    l = len(data)
+    train_num = int(l*0.7)
+    dev_num = int(l*0.1)
+    rnd_ind = np.arange(l)
+    np.random.shuffle(rnd_ind)
+    train_ind = rnd_ind[:train_num]
+    dev_ind = rnd_ind[train_num:train_num+dev_num]
+    test_ind = rnd_ind[train_num+dev_num:]
+    data = data.reset_index()
+    data['ind'] = data.index
+
+    def change_phase(ind):
+        if ind in train_ind:
+            return 'train'
+        elif ind in dev_ind:
+            return 'dev'
+        else:
+            return 'test'
+
+    data['phase'] = data['ind'].apply(change_phase)
+    data = data.drop(columns=['ind'])
+
+    data.to_csv(TRAIN_TEST_SPLIT_FILE, index=False)
+
+    train_data = data[data['phase']=='train']
+    test_data = data[data['phase']=='test']
+    dev_data = data[data['phase']=='dev']
+    train_data = balance_train_data(train_data, count)
+    test_data = balance_train_data(test_data, int(count / 10))
+    data = pd.concat([train_data, dev_data, test_data], axis=0)
 
     return data
 
