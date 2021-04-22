@@ -5,13 +5,26 @@ News is published at a very fast pace these days. With these large amounts of ne
 The dataset we are working on is the [News Category Dataset](https://www.kaggle.com/rmisra/news-category-dataset). We extract headlines of 10 categories (CRIME, ENTERTAINMENT, FOOD & DRINK, MONEY, RELIGION, SPORTS, STYLE, TECH, TRAVEL and WOMEN) and try to classify the headlines into their corresponding categories.
 
 ### Approach
-We explored the classification of headlines using logistic regression, feed-forward neural network, LSTM, LSTM + Attention, and transformer with various text preprocessing techniques applied. We found out that the transformer model (distilBert) with POS tagging to the word tokens on top of 50d Glove vector embeddings gives the best classification performance of 0.82 in F1 score, while the human classification benchmark is 0.84 in F1 score. 
+
+We explored the classification of headlines using logistic regression, feed-forward neural network, LSTM, LSTM + Attention, and transformer with various text preprocessing techniques applied. We found out that the transformer model (distilBert) with POS tagging to the word tokens on top of 50d Glove vector embeddings gives the best classification performance of 0.82 in F1 score, while the human classification benchmark is 0.84 in F1 score.
 
 The report for this project can be found [here](https://github.com/fangpinsern/CS4248-Project/blob/master/CS4248_Group_Report.pdf)
 
 Details of data analysis and derivation of the general text preprocessing techniques can be found [here](https://github.com/fangpinsern/CS4248-Project/blob/master/data_util_methods_and_analysis.ipynb)
 
-
 ### Set Up
-+ Download glove 6B 50d embedding vectors from: https://drive.google.com/file/d/1C5htxKX_Nk9OuyiQWhRjyD1GX2LMWAM2/view?usp=sharing , and place it into the folder `/data/embeddings`
-+ Download the dataset from: https://www.kaggle.com/rmisra/news-category-dataset , and place it into the folder `/data`
+
+- Download glove 6B 50d embedding vectors from: https://drive.google.com/file/d/1C5htxKX_Nk9OuyiQWhRjyD1GX2LMWAM2/view?usp=sharing , and place it into the folder `/data/embeddings`
+- Download the dataset from: https://www.kaggle.com/rmisra/news-category-dataset , and place it into the folder `/data`
+
+### User Guide
+
+Logistic Regression
+
+Notebook: [Full_Logistic_Regression_Code.ipynb](https://github.com/fangpinsern/CS4248-Project/blob/master/Full_Logistic_Regression_Code.ipynb)
+
+This notebook contains the code to run a logistic regression model on a dataset given. In our use case it is used to classify headlines into different categories. Details on the results and methods can be found in Section XX and YY of the [project report](https://github.com/fangpinsern/CS4248-Project/blob/master/CS4248_Group_Report.pdf).
+
+With the dataset in the correct directory, change the datapath variable to point to the dataset. Run the notebook as usual and it will give an F1-score as well as an accuracy score.
+
+The output of the predicted categoreis will be stored in the file "RESULT.csv".
