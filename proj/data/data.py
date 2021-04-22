@@ -78,21 +78,21 @@ class NewsDataset(Dataset):
             return tokenize_synonyms(text)
         if self.hypernyms:
             return tokenize_hypernyms(text)
-
         if self.useBigram:
             tokens = bigramTokenizer.tokenize_with_bigrams(text)
         else:
             tokens = nltk.word_tokenize(text)
-            tokens = [t.lower() for t in tokens if re.match(r"\w+", t)]
+            if self.tag:
+                taggedTokens = nltk.pos_tag(tokens)
+                # flatten
+                tokens = [t.lower() if i == 0 else '<' + t.lower() +
+                          '>' for tpl in taggedTokens for i, t in enumerate(tpl) if re.match(r"\w+", tpl[0])]
+            else:
+                tokens = [t.lower() for t in tokens if re.match(r"\w+", t)]
         if not self.stopwords:
             tokens = [t for t in tokens if t not in STOPWORDS]
         if self.augment:
             tokens = augment_synonyms(tokens)
-        if self.tag:
-            taggedTokens = nltk.pos_tag(tokens)
-            # flatten
-            tokens = [t if i == 0 else '<' + t.lower() +
-                      '>' for tpl in taggedTokens for i, t in enumerate(tpl)]
         # tokens = [t.lower() for t in tokens]
         # lem.lemmatize(t)
         # tokens = [t for t in tokens if re.match(r"\w+", t) and t not in STOPWORDS]
