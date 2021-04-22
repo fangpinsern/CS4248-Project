@@ -250,17 +250,19 @@ def augment_synonyms(text):
     tokens = text
     if type(text) != list:
         tokens = tokenize(text)
-    for token in tokens:
+    tokens = nltk.pos_tag(tokens)
+    for token, tag in tokens:
+        notAugment = random.random() < 0.7
         tokenSynset = wn.synsets(token)
-        if token in STOPWORDS or "_":
+        if token in STOPWORDS or "_" in token or notAugment or "<" in token:
             augmented.append(token)
             continue
-        token, tag = nltk.pos_tag([token])[0]
+
         # if tag[0] == "N":
         #     augmented.append(token)
         #     continue
-        tag = tag[0].lower()
-        validSynset = list(filter(lambda d: d.pos() == tag, tokenSynset))
+        validSynset = list(
+            filter(lambda d: d.pos() == tag[0].lower(), tokenSynset))
         allSynonyms = []
         for s in validSynset:
             allSyns = [new.name().lower()
