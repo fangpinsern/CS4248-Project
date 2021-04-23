@@ -19,7 +19,7 @@ Details of data analysis and derivation of the general text preprocessing techni
 
 ### User Guide
 
-Logistic Regression
+#### Logistic Regression
 
 Notebook: [Full_Logistic_Regression_Code.ipynb](https://github.com/fangpinsern/CS4248-Project/blob/master/Full_Logistic_Regression_Code.ipynb)
 
@@ -29,7 +29,7 @@ With the dataset in the correct directory, change the datapath variable to point
 
 The output of the predicted categories will be stored in the file "RESULT.csv".
 
-Feed-forward Neural Network
+#### Feed-forward Neural Network
 
 Notebook: [simpleNNnews.ipynb](https://github.com/fangpinsern/CS4248-Project/blob/master/simpleNNnews.ipynb)
 
