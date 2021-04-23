@@ -10,8 +10,6 @@ We explored the classification of headlines using logistic regression, feed-forw
 
 The report for this project can be found [here](https://github.com/fangpinsern/CS4248-Project/blob/master/CS4248_Group_Report.pdf)
 
-Details of data analysis and derivation of the general text preprocessing techniques can be found [here](https://github.com/fangpinsern/CS4248-Project/blob/master/data_util_methods_and_analysis.ipynb)
-
 ### Set Up
 
 - Download glove 6B 50d embedding vectors from: https://drive.google.com/file/d/1C5htxKX_Nk9OuyiQWhRjyD1GX2LMWAM2/view?usp=sharing , and place it into the folder `/data/embeddings`
@@ -20,6 +18,12 @@ Details of data analysis and derivation of the general text preprocessing techni
 - run `python -m proj.models.utils` to generate the embeddings and tokenizers for varied vocabulary (e.g. unknown tokens, POS tags)
 
 ### User Guide
+
+#### Data Anlysis and General Text Preprocessing Techniques
+
+Notebook: [data_util_methods_and_analysis.ipynb](https://github.com/fangpinsern/CS4248-Project/blob/master/data_util_methods_and_analysis.ipynb)
+
+This notebook is self-contained. Follow the instructions in the notebook to run.
 
 #### Logistic Regression
 
