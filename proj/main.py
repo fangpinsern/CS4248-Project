@@ -12,7 +12,7 @@ import random
 from proj.models import all_models
 from proj.utils import all_loss, all_opt, accuracy
 from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR, CATEGORY_SUBSET, PREDS_DIR, Y_COL, PRED_COL
-from proj.data.data import NewsDataset, split, to_dataloader
+from proj.data.data import NewsDataset, to_dataloader, split_col
 
 
 DEVICE_COUNT = torch.cuda.device_count()
@@ -26,17 +26,11 @@ DEFAULT_HP = {
     "epochs": 5,  # number of times we're training on entire dataset
     "loss": "cross_entropy",
     "opt": "ADAM",
-    "wd": 0.00001,
-    "lr": 1e-3,
+    "wd": 0.001,
+    "lr": 2e-4,
 }
 
-# TODO
-"""
-- [x] calculate and log f1_score 
-- [ ] generate and log confusion matrix
-- [ ] only set non bias and norm weights to trainable
-- [x] add getPreds method for all rows in dataframe
-"""
+
 PHASES = ["train", "val", "test", "train"]
 
 
@@ -59,12 +53,7 @@ class Trainer:
         self.model_name = model_name
         opt = all_opt[hp["opt"]]
         parameters = filter(lambda p: p.requires_grad, self.model.parameters())
-        # no_decay = ['bias', 'LayerNorm.weight']
-        # optimizer_grouped_parameters = [
-        #     {'params': [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)], 'weight_decay': 0.01},
-        #     {'params': [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
-        # ]
-        # optimizer = AdamW(optimizer_grouped_parameters, lr=hp["lr"])
+
         if hp["opt"] == "ADAM":
             self.opt = opt(params=parameters, lr=hp["lr"])
         else:
@@ -78,10 +67,6 @@ class Trainer:
             self.opt, step_size=2, gamma=0.1 if sched else 1
         )
         self.isTransformer = dls[0].dataset.tokenizer is not None
-        # self.class_names = dls[0].dataset.class_names
-        # self.cms = {0: None, 1: None, 2: None}
-        # self.auc = {0: None, 1: None, 2: 0}
-        # self.recall = {0: None, 1: None, 2: [0 for i in (self.class_names)]}
 
     def anEpoch(self, phaseIndex, toLog=True):
         phaseName = PHASES[phaseIndex]
@@ -261,16 +246,26 @@ class Trainer:
 
 if __name__ == "__main__":
     import pandas as pd
-
+    from proj.models import all_tokenizers
+    from proj.data.data import get_weighted_sampler
     subset_df = pd.read_csv(os.path.join(DATA_DIR, "subsetNews.csv"))
-    dfs = split(subset_df)
+    dfs = split_col(subset_df)
     dls = []
-    bs = 1
-    for d in dfs:
-        ds = NewsDataset(d)
-        dl = to_dataloader(ds, bs)
+    bs = 256
+    model = "distilBert"
+    tokenizer = None
+    sampler = None
+
+    if model in all_tokenizers:
+        tokenizer = all_tokenizers[model]()
+
+    for i, d in enumerate(dfs):
+        ds = NewsDataset(d, tokenizer=tokenizer)
+        sampler = get_weighted_sampler(ds.labels()) if i == 0 else None
+        dl = to_dataloader(ds, bs, sampler=sampler, drop_last=False)
         dls.append(dl)
-    model = "lstm"
+    model_name = "distilBert_0"
     hp = {**DEFAULT_HP, "model": model}
-    trainer = Trainer("deep learning", dls, hp, bs)
+
+    trainer = Trainer("sample", model_name, dls, hp, bs)
     trainer.one_cycle()

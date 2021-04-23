@@ -28,29 +28,6 @@ def representUnknown():
                 gloveSize += 1
 
 
-def getUnknownTokens(tokenizer, ds, dfs):
-    # Tokenizer should be the distilBerttokenizer
-    # ds should be using the bigram tokenizer
-    unknownTokens = {}
-    for text in dfs[0]['headline']:
-        tokens = ds.tokenize(text)
-        for t in tokens:
-            if tokenizer.convert_tokens_to_ids(t) == 100:
-                unknownTokens[t] = unknownTokens.get(t, 0) + 1
-                tokenizer.add_tokens(t)
-    return unknownTokens
-
-
-def addPOSEmbeds(tokenizer):
-    from proj.constants import UPENN_TAGSET
-    unknownTokens = []
-    for tag in UPENN_TAGSET:
-        if tokenizer.convert_tokens_to_ids(tag) == 100:
-            unknownTokens.append(tag)
-            tokenizer.add_tokens(tag)
-    return unknownTokens
-
-
 if __name__ == "__main__":
     global glove, tokenizer, dfs
     subset_df = pd.read_csv(os.path.join(
