@@ -16,6 +16,8 @@ Details of data analysis and derivation of the general text preprocessing techni
 
 - Download glove 6B 50d embedding vectors from: https://drive.google.com/file/d/1C5htxKX_Nk9OuyiQWhRjyD1GX2LMWAM2/view?usp=sharing , and place it into the folder `/data/embeddings`
 - Download the dataset from: https://www.kaggle.com/rmisra/news-category-dataset , and place it into the folder `/data`
+- run `pip install -r requirements.txt`
+- run `python -m proj.models.utils` to generate the embeddings and tokenizers for varied vocabulary (e.g. unknown tokens, POS tags)
 
 ### User Guide
 
@@ -39,3 +41,13 @@ The output of the predicted categories will be stored in the file "simpleNN.csv"
 
 - Download glove 840B 300d embedding vectors from https://nlp.stanford.edu/projects/glove/ and place it in the same directory as this README and simpleNNnews.ipynb
 
+
+#### RNN + Transformers
+
+For an introduction, do run `python -m proj.main` to run the sample training on a DistilBert with weighted sampler, Augmentation and POS tagging
+
+Notebook: [RNN_Transformers.ipynb](https://github.com/fangpinsern/CS4248-Project/blob/master/RNN_Transformers.ipynb)
+
+This notebook contains blocks that train variations of the LSTM and DistilBert.
+
+Using variations would require changes to both the model and tokenizer loaded. Also changes would need to be made also with respect to the arguments given to the dataset to provide different experiment variations.
