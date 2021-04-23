@@ -13,3 +13,6 @@ nlp
 rouge_score
 pytorch-nlp
 bertviz
+keras
+sklearn
+nltk
