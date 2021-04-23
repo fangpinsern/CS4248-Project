@@ -29,7 +29,7 @@ This notebook is self-contained. Follow the instructions in the notebook to run.
 
 Notebook: [Full_Logistic_Regression_Code.ipynb](https://github.com/fangpinsern/CS4248-Project/blob/master/Full_Logistic_Regression_Code.ipynb)
 
-This notebook contains the code to run a logistic regression model on a dataset given. In our use case it is used to classify headlines into different categories. Details on the results and methods can be found in Section XX and YY of the [project report](https://github.com/fangpinsern/CS4248-Project/blob/master/CS4248_Group_Report.pdf).
+This notebook contains the code to run a logistic regression model on a dataset given. In our use case it is used to classify headlines into different categories. Details on the results and methods can be found in Section III-B and V-B of the [project report](https://github.com/fangpinsern/CS4248-Project/blob/master/CS4248_Group_Report.pdf).
 
 With the dataset in the correct directory, change the datapath variable to point to the dataset. Run the notebook as usual and it will give an F1-score as well as an accuracy score.
 
@@ -44,7 +44,6 @@ This notebook contains the code to run the model. Specific library requirements 
 The output of the predicted categories will be stored in the file "simpleNN.csv" and "simpleNN_balanced.csv".
 
 - Download glove 840B 300d embedding vectors from https://nlp.stanford.edu/projects/glove/ and place it in the same directory as this README and simpleNNnews.ipynb
-
 
 #### RNN + Transformers
 
