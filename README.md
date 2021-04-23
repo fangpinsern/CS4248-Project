@@ -46,8 +46,16 @@ The output of the predicted categories will be stored in the file "simpleNN.csv"
 
 For an introduction, do run `python -m proj.main` to run the sample training on a DistilBert with weighted sampler, Augmentation and POS tagging
 
+For Hyperparameter tuning, edit the hp passed to trainer
+
 Notebook: [RNN_Transformers.ipynb](https://github.com/fangpinsern/CS4248-Project/blob/master/RNN_Transformers.ipynb)
 
 This notebook contains blocks that train variations of the LSTM and DistilBert.
 
 Using variations would require changes to both the model and tokenizer loaded. Also changes would need to be made also with respect to the arguments given to the dataset to provide different experiment variations.
+
+#### Visualizations for DistilBert
+
+Notebook: [visualizeBert.ipynb](https://github.com/fangpinsern/CS4248-Project/blob/master/visualizeBert.ipynb)
+
+> Note: this notebook can only be runned after we've trained some weights, you would also need to update the weight loading sections of the notebook to see some kind of reasonable result

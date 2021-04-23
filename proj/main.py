@@ -24,7 +24,7 @@ torch.manual_seed(SEED)
 random.seed(SEED)
 
 DEFAULT_HP = {
-    "epochs": 5,  # number of times we're training on entire dataset
+    "epochs": 1,  # number of times we're training on entire dataset
     "loss": "cross_entropy",
     "opt": "ADAM",
     "wd": 0.001,
