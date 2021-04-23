@@ -11,7 +11,8 @@ import random
 
 from proj.models import all_models
 from proj.utils import all_loss, all_opt, accuracy
-from proj.constants import WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR, CATEGORY_SUBSET, PREDS_DIR, Y_COL, PRED_COL
+from proj.constants import (WEIGHTS_DIR, LOG_DIR, SEED, DATA_DIR,
+                            CATEGORY_SUBSET, PREDS_DIR, Y_COL, PRED_COL, TRAIN_TEST_SPLIT_FILE)
 from proj.data.data import NewsDataset, to_dataloader, split_col
 
 
@@ -248,7 +249,7 @@ if __name__ == "__main__":
     import pandas as pd
     from proj.models import all_tokenizers
     from proj.data.data import get_weighted_sampler
-    subset_df = pd.read_csv(os.path.join(DATA_DIR, "subsetNews.csv"))
+    subset_df = pd.read_csv(TRAIN_TEST_SPLIT_FILE)
     dfs = split_col(subset_df)
     dls = []
     bs = 256

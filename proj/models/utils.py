@@ -69,6 +69,10 @@ def addPOSEmbeds():
 
 
 def representUnknown():
+    glove = torchtext.vocab.GloVe(name="6B", dim=50)
+    subset_df = pd.read_csv(TRAIN_TEST_SPLIT_FILE)
+    dfs = split_col(subset_df)
+    tokenizer = NewsDataset(dfs[0])
     gloveSize = glove.vectors.shape[0]
     for text in dfs[0]['headline']:
         tokens = tokenizer.tokenize(text)
