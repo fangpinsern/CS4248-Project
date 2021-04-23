@@ -252,7 +252,7 @@ if __name__ == "__main__":
     dfs = split_col(subset_df)
     dls = []
     bs = 256
-    model = "distilBert"
+    model = "distilBertPOS"
     tokenizer = None
     sampler = None
 
@@ -260,11 +260,11 @@ if __name__ == "__main__":
         tokenizer = all_tokenizers[model]()
 
     for i, d in enumerate(dfs):
-        ds = NewsDataset(d, tokenizer=tokenizer)
+        ds = NewsDataset(d, tokenizer=tokenizer, tag=True, augment=(i == 0))
         sampler = get_weighted_sampler(ds.labels()) if i == 0 else None
         dl = to_dataloader(ds, bs, sampler=sampler, drop_last=False)
         dls.append(dl)
-    model_name = "distilBert_0"
+    model_name = "distilBertPOS_aug"
     hp = {**DEFAULT_HP, "model": model}
 
     trainer = Trainer("sample", model_name, dls, hp, bs)

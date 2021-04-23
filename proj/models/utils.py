@@ -4,9 +4,8 @@ import torchtext
 import pandas as pd
 from proj.constants import DL_BIGRAM_GLOVE_EMBEDDINGS, DISTILBERT_BIGRAM_TOKENIZER, TRAIN_TEST_SPLIT_FILE, DISTILBERT_EMBED_TOKENIZER, DISTILBERT_POS_TOKENIZER
 from proj.utils.data_util import Bigram_Trigram_Tokenizer
-from proj.data.utils import split_col
 from proj.models import all_tokenizers
-from proj.data.data import NewsDataset
+from proj.data.data import NewsDataset, split_col
 
 
 def addBigramEmbedsTokenizer():
@@ -67,6 +66,21 @@ def addPOSEmbeds():
             unknownTokens.append(tag)
             tokenizer.add_tokens(tag)
     tokenizer.save_pretrained(DISTILBERT_POS_TOKENIZER)
+
+
+def representUnknown():
+    gloveSize = glove.vectors.shape[0]
+    for text in dfs[0]['headline']:
+        tokens = tokenizer.tokenize(text)
+        for t in tokens:
+            if t not in glove.stoi:
+                glove.stoi[t] = gloveSize
+                glove.itos.append(t)
+                glove.vectors = torch.cat(
+                    [glove.vectors, torch.zeros(1, glove.dim)])
+                torch.nn.init.normal_(
+                    glove.vectors[gloveSize], mean=0, std=0.05)
+                gloveSize += 1
 
 
 if __name__ == "__main__":
