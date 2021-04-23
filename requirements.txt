@@ -1,4 +1,5 @@
 torch # tensors, optimizers, modules 
+torchtext
 numpy
 pandas
 tqdm
