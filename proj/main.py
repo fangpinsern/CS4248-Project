@@ -245,10 +245,40 @@ class Trainer:
         return preds
 
 
-if __name__ == "__main__":
+def runLSTM(withAttn=False):
     import pandas as pd
     from proj.models import all_tokenizers
     from proj.data.data import get_weighted_sampler
+
+    subset_df = pd.read_csv(TRAIN_TEST_SPLIT_FILE)
+    dfs = split_col(subset_df)
+    dls = []
+    bs = 256
+    model = "lstmAttention" if withAttn else "lstm"
+    tokenizer = None
+    sampler = None
+
+    if model in all_tokenizers:
+        tokenizer = all_tokenizers[model]()
+
+    for i, d in enumerate(dfs):
+        ds = NewsDataset(d, tokenizer=tokenizer, augment=(i == 0))
+        sampler = get_weighted_sampler(ds.labels()) if i == 0 else None
+        dl = to_dataloader(ds, bs, sampler=sampler, drop_last=False)
+        dls.append(dl)
+
+    model_name = "lstm_0"
+    hp = {**DEFAULT_HP, "model": model}
+
+    trainer = Trainer("sample", model_name, dls, hp, bs)
+    trainer.one_cycle()
+
+
+def distilBertPOSAugment():
+    import pandas as pd
+    from proj.models import all_tokenizers
+    from proj.data.data import get_weighted_sampler
+
     subset_df = pd.read_csv(TRAIN_TEST_SPLIT_FILE)
     dfs = split_col(subset_df)
     dls = []
@@ -270,3 +300,14 @@ if __name__ == "__main__":
 
     trainer = Trainer("sample", model_name, dls, hp, bs)
     trainer.one_cycle()
+
+
+if __name__ == "__main__":
+    # LSTM
+    # runLSTM()
+    # LSTM Attention
+    # runLSTM(True)
+
+    # DistilBert with POS and augmented example
+    distilBertPOSAugment()
+    pass
